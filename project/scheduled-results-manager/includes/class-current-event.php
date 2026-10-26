@@ -2,6 +2,10 @@
 /** Calendar-aware schedule service. Times are informational, not result promises. */
 defined( 'ABSPATH' ) || exit;
 class SRM_Current_Event {
+    public static function get_game_status(object $game): string {
+        $r=SRM_Results::get_result((int)$game->id,SRM_Results::get_site_date(),true);return $r?$r->result_status:'pending';
+    }
+
     public static function occurrences( ?DateTimeImmutable $now = null ): array {
         $now = $now ? $now->setTimezone( wp_timezone() ) : current_datetime();
         $next = null; $previous = null;
@@ -22,7 +26,7 @@ class SRM_Current_Event {
     public static function build_live_status_data(): array {
         $data = array( 'timezone' => wp_timezone_string(), 'today_date' => wp_date( 'Y-m-d' ), 'server_ts' => time() );
         foreach ( self::occurrences() as $key => $item ) {
-            $data[ $key . '_game' ] = $item ? array( 'id' => (int) $item['game']->id, 'name' => $item['game']->event_name, 'time' => SRM_Games::format_time( $item['game']->scheduled_time ), 'date' => $item['at']->format( 'Y-m-d' ), 'timestamp' => $item['at']->getTimestamp() ) : null;
+            $data[ $key . '_game' ] = $item ? array( 'id' => (int) $item['game']->id, 'name' => $item['game']->event_name, 'name_secondary'=>$item['game']->event_name_secondary??'', 'time' => SRM_Games::format_time( $item['game']->scheduled_time ), 'date' => $item['at']->format( 'Y-m-d' ), 'timestamp' => $item['at']->getTimestamp() ) : null;
         }
         $previous = self::occurrences()['previous'];
         $data['current_game'] = $data['previous_game'];

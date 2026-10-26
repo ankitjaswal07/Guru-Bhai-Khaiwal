@@ -1,3 +1,5 @@
+> Historical 2.0 plan. The user subsequently confirmed licensed ACF PRO and requested the original backend/reference layout. The active 2.1 revision follows `docs/ACF-RESTORATION-PLAN.md`; see the current README and test report.
+
 # Implementation plan — written before code changes
 
 Date: 2026-10-26. Inputs: satta20.zip and scheduled-results-manager.zip. Both originals remain untouched; extracted read-only inspection copies are under originals/ (not release files).

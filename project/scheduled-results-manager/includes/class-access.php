@@ -10,6 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class SRM_Access {
+    public static function can_edit_game(int $id): bool {
+        return self::current_user_has_full_access() || (current_user_can(self::capability()) && in_array($id,self::get_user_allowed_game_ids(),true));
+    }
+
 
     /**
      * Capability used for users with game-specific access.

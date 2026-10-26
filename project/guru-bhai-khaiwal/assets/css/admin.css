@@ -1,0 +1,4 @@
+/* Guru Bhai Khaiwal options pages – small readability tweaks */
+.s20-shortcode-field textarea { font-family: Menlo, Consolas, monospace; font-size: 13px; background: #fffbea; }
+.acf-field .acf-label label { font-weight: 600; }
+.toplevel_page_s20-settings .acf-tab-wrap.-left .acf-tab-group li a { font-weight: 500; }

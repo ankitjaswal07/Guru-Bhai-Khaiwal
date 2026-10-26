@@ -28,12 +28,12 @@ for(const width of [1440,768,390]){
  ok(await page.locator('.gbk-game').count()===14,'14 schedule cards at '+width);
  ok(await page.evaluate(()=>Array.from(document.images).every(img=>img.complete&&img.naturalWidth>0)),'no broken image/emoji assets at '+width);
  ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no viewport overflow at '+width);
- await page.screenshot({path:'.runtime/home-'+width+'.png',fullPage:true});
+ await page.screenshot({path:'.runtime/reference-home-'+width+'.png',fullPage:true});
  const axe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
  fs.writeFileSync('.runtime/axe-'+width+'.json',JSON.stringify(axe.violations,null,2));
  ok(axe.violations.length===0,'zero axe violations at '+width);
  console.log('AXE '+width+': '+axe.violations.length+' violations',axe.violations.map(v=>({id:v.id,nodes:v.nodes.length})));
- if(width===390){await page.getByRole('button',{name:'Menu'}).click();ok(await page.locator('#primary-nav').isVisible(),'mobile menu opens');await page.keyboard.press('Escape');ok(!(await page.locator('#primary-nav').isVisible()),'Escape closes menu');}
+ if(width===390){await page.getByRole('button',{name:'Menu'}).click();ok(await page.locator('#s20-menu').isVisible(),'mobile menu opens');await page.keyboard.press('Escape');ok(!(await page.locator('#s20-menu').isVisible()),'Escape closes menu');}
 }
 await page.goto(access.siteUrl+'/archives/',{waitUntil:'networkidle'});ok(await page.locator('.gbk-filters').count()===1,'archive page renders');
 await page.locator('input[name=gbk_date]').fill('2026-08-26');await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Find records'}).click()]);
@@ -42,20 +42,40 @@ ok(await page.locator('link[rel=canonical]').count()===1,'singular canonical not
 const missing=await page.goto(access.siteUrl+'/nonexistent-test-path/',{waitUntil:'networkidle'});ok(missing.status()===404,'404 template keeps 404 status');
 await page.goto(access.siteUrl+'/wp-login.php',{waitUntil:'networkidle'});await page.locator('#user_login').fill(access.user);await page.locator('#user_pass').fill(access.password);await Promise.all([page.waitForURL('**/wp-admin/**'),page.locator('#wp-submit').click()]);await page.waitForLoadState('networkidle');
 console.log('LOGIN URL',page.url(),'ERROR',await page.locator('#login_error').allTextContents());ok(page.url().includes('wp-admin'),'WordPress login works');
-for(const tab of ['srm-results','srm-events','srm-import-export','srm-settings']){const r=await page.goto(access.siteUrl+'/wp-admin/admin.php?page='+tab,{waitUntil:'networkidle'});ok(r.status()===200 && await page.locator('h1').textContent()==='Guru Bhai Khaiwal · Records desk','admin screen '+tab);}
-await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-events',{waitUntil:'networkidle'});
-await page.locator('input[name=event_name]').fill('UI test game');await page.locator('input[name=event_name_secondary]').fill('परीक्षण');await page.locator('input[name=scheduled_time]').fill('00:15');await page.locator('input[name=display_order]').fill('99');await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Add game'}).click()]);
+for(const tab of ['srm-dashboard','srm-results','srm-events','srm-monthly','srm-import-export','srm-settings','srm-review']){const r=await page.goto(access.siteUrl+'/wp-admin/admin.php?page='+tab,{waitUntil:'networkidle'});ok(r.status()===200 && await page.locator('h1').count()===1,'restored admin screen '+tab);}
+await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-events&action=add',{waitUntil:'networkidle'});
+await page.locator('input[name=event_name]').fill('UI test game');await page.locator('input[name=event_name_secondary]').fill('परीक्षण');await page.locator('input[name=scheduled_time]').fill('00:15');await page.locator('input[name=display_order]').fill('99');await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Add Game'}).click()]);
 ok(await page.locator('td').filter({hasText:/^UI test game$/}).count()===1,'schedule creation from real admin form');
-const row=page.locator('tr').filter({has:page.locator('td').filter({hasText:/^UI test game$/})});await row.getByRole('link',{name:'Edit',exact:true}).click();await page.locator('input[name=status]').uncheck();await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Save schedule'}).click()]);
+const row=page.locator('tr').filter({has:page.locator('td').filter({hasText:/^UI test game$/})});await row.getByRole('link',{name:'Edit',exact:true}).click();await page.locator('input[name=status]').uncheck();await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Update Game'}).click()]);
 await page.goto(access.siteUrl+'/',{waitUntil:'networkidle'});ok(await page.locator('.gbk-game').count()===14,'deactivated game hidden publicly');
-await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-results',{waitUntil:'networkidle'});
+await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-review',{waitUntil:'networkidle'});
 await page.locator('select[name=event_id]').selectOption({label:'Model Town'});await page.locator('input[name=result_date]').fill('2026-08-26');await page.locator('input[name=result_value]').fill('07');await page.locator('input[name=original_game_name]').fill('UI TEST FIXTURE');await page.locator('input[name=source_url]').fill('https://example.com/test-fixture');await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Save record',exact:true}).click()]);ok(await page.locator('.notice-success').count()>0,'draft save via nonce-protected form');
 await page.getByRole('link',{name:'Review / edit',exact:true}).first().click();await page.locator('select[name=verification_status]').selectOption('verified');await page.locator('select[name=result_status]').selectOption('published');await page.locator('input[name=confirm_review]').check();await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Save record',exact:true}).click()]);
 await page.goto(access.siteUrl+'/archives/?gbk_date=2026-08-26',{waitUntil:'networkidle'});ok(await page.locator('.gbk-result').textContent()==='07','reviewed record visible on archive');
 await page.setViewportSize({width:390,height:844});ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'published table scrolls inside mobile region');
-const archiveAxe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();console.log('AXE populated archive:',archiveAxe.violations.map(v=>v.id));ok(archiveAxe.violations.length===0,'zero axe violations on populated archive');
-await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-results',{waitUntil:'networkidle'});await page.getByRole('link',{name:'Review / edit',exact:true}).first().click();await page.locator('select[name=result_status]').selectOption('pending');await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Save record',exact:true}).click()]);
+const archiveAxe=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();fs.writeFileSync('.runtime/axe-restored-archive.json',JSON.stringify(archiveAxe.violations,null,2));console.log('AXE populated archive:',archiveAxe.violations.map(v=>v.id));ok(archiveAxe.violations.length===0,'zero axe violations on populated archive');
+await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-review',{waitUntil:'networkidle'});await page.getByRole('link',{name:'Review / edit',exact:true}).first().click();await page.locator('select[name=result_status]').selectOption('pending');await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Save record',exact:true}).click()]);
 await page.goto(access.siteUrl+'/archives/?gbk_date=2026-08-26',{waitUntil:'networkidle'});ok(await page.locator('.gbk-result').count()===0,'unpublish removes fixture from public page');
+// Original daily-results row workflow, backed by the same reviewed repository.
+await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-results&date=2026-08-27',{waitUntil:'networkidle'});
+const daily=page.locator('.srm-daily-table tbody tr').filter({hasText:'Model Town'});
+await daily.locator('[name=result_value]').fill('09');await daily.locator('[name=original_game_name]').fill('DAILY UI TEST FIXTURE');await daily.locator('[name=source_url]').fill('https://example.com/daily-fixture');
+async function saveDaily(){const response=page.waitForResponse(r=>r.url().includes('admin-ajax.php')&&r.request().postData()?.includes('srm_save_result'));await daily.getByRole('button',{name:'Save',exact:true}).click();return (await response).json();}
+ok((await saveDaily()).success,'daily row saves draft with source');
+await daily.locator('[name=result_status]').selectOption('published');ok(!(await saveDaily()).success,'daily publication rejected without review');
+await daily.locator('[name=verification_status]').selectOption('verified');await daily.locator('[name=confirm_review]').check();ok((await saveDaily()).success,'daily row publishes only with verified source and review');
+await daily.locator('[name=result_status]').selectOption('pending');ok((await saveDaily()).success,'daily row can unpublish without deleting history');
+const ajaxDenied=await page.evaluate(async()=>{const r=await fetch('/wp-admin/admin-ajax.php',{method:'POST',body:new URLSearchParams({action:'srm_save_result',nonce:'invalid',event_id:'1'})});return r.status;});ok(ajaxDenied===403,'restored AJAX rejects invalid nonce');
+const ajaxGet=await page.evaluate(async()=>{const r=await fetch('/wp-admin/admin-ajax.php?action=srm_save_result');return r.status;});ok(ajaxGet===405,'restored AJAX mutations reject GET');
+await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-settings',{waitUntil:'networkidle'});
+await page.locator('[name=srm_card_bg]').fill('#17304a');await page.locator('[name=srm_next_game_enabled]').uncheck();
+await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Save Settings',exact:true}).click()]);
+await page.goto(access.siteUrl+'/',{waitUntil:'networkidle'});
+ok(await page.locator('.gbk-game').first().evaluate(el=>getComputedStyle(el).backgroundColor)==='rgb(23, 48, 74)','original plugin color option changes rendered cards');
+ok(await page.locator('[data-srm-panel=next_game]').count()===0,'original next-game option hides next panel');
+await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-settings',{waitUntil:'networkidle'});
+await page.locator('[name=srm_card_bg]').fill('#1e293b');await page.locator('[name=srm_next_game_enabled]').check();
+await Promise.all([page.waitForNavigation({waitUntil:'networkidle'}),page.getByRole('button',{name:'Save Settings',exact:true}).click()]);
 // Actual HTTP permission/nonce and CSV handlers, not just direct model calls.
 const badNonce=await page.evaluate(async()=>{const r=await fetch('/wp-admin/admin-post.php',{method:'POST',body:new URLSearchParams({action:'gbk_manage',task:'record',_wpnonce:'invalid'})});return r.status;});
 ok(badNonce===403,'invalid admin nonce returns HTTP 403');
@@ -70,7 +90,7 @@ ok(csv.status===200&&csv.type.includes('text/csv')&&csv.body.includes('original_
 ok(csv.body.includes('model-town,07,pending'),'actual export preserves leading-zero draft value');
 await page.goto(access.siteUrl+'/archives/',{waitUntil:'networkidle'});ok(await page.locator('.gbk-result').count()===0,'HTTP-imported records remain private');
 await page.setViewportSize({width:1440,height:1000});
-await page.goto(access.siteUrl+'/wp-admin/customize.php',{waitUntil:'networkidle'});
-ok(await page.locator('#accordion-panel-gbk').count()===1,'native branding/homepage Customizer panel available');
+await page.goto(access.siteUrl+'/wp-admin/admin.php?page=srm-settings',{waitUntil:'networkidle'});
+ok((await page.locator('.notice-warning').allTextContents()).some(t=>t.includes('ACF PRO')),'honest missing-ACF-PRO notice (licensed editor not simulated)');
 console.log('Browser JS errors:',errors);ok(errors.length===0,'no browser JS errors');
 await browser.close();

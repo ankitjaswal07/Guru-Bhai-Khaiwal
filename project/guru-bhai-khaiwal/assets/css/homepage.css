@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Homepage sections: hero, games + payment
+   ========================================================================== */
+
+/* Hero – cream section, dark card */
+.s20-hero { background-color: var(--s20-cream); padding: 30px; }
+.s20-hero .s20-container { display: flex; justify-content: center; }
+.s20-hero-card { width: 100%; max-width:1100px;}
+.s20-clock-box {
+  display: inline-block;
+  padding: 10px 30px;
+  border: 1px solid var(--s20-gold);
+  border-radius: 15px;
+  box-shadow: 0 0 10px 0 var(--s20-gold-shadow);
+  font-family: var(--s20-font-accent); font-size: 16px; font-weight: 500; color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.s20-hero-image img { border-radius: 10px; }
+.s20-hero-desc { font-size: 16px; color: #fff; letter-spacing: .5px; }
+.s20-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  max-width: 100%;
+  padding: 5px 20px;
+  border: 1px solid var(--s20-gold); border-radius: 25px;
+  color: #fff; font-size: 16px; font-weight: 400;
+}
+a.s20-pill:hover { background: rgba(245, 198, 47, .1); color: #fff; }
+.s20-pill-icon { display: inline-flex; color: var(--s20-gold); font-size: 25px; line-height: 1; }
+.s20-pill-icon .s20-icon { width: 1em; height: 1em; }
+.s20-pill-img { width: 25px; height: 25px; object-fit: contain; }
+.s20-pill-text { text-align: left; }
+.s20-hero-actions { display: flex; flex-wrap: wrap; gap: var(--s20-gap); justify-content: center; }
+.s20-live-status { width: 100%; display: flex; justify-content: center; }
+.s20-live-status > * { width: 100%; }
+
+/* Games section – cream */
+.s20-games { background-color: var(--s20-cream); }
+.s20-games-inner { display: flex; flex-direction: column; align-items: center; gap: var(--s20-gap); text-align: center; }
+.s20-games-heading { font-family: var(--s20-font-heading); font-size: 30px; font-weight: 600; letter-spacing: 1px; color: #000; }
+.s20-games-subheading { font-family: var(--s20-font-body); font-size: 22px; font-weight: 600; letter-spacing: 1px; color: var(--s20-amber); margin: 0; }
+.s20-games-desc { color: #000; }
+.s20-games-timing { font-family: var(--s20-font-body); font-size: 19px; font-weight: 600; letter-spacing: 1px; color: #000; }
+.s20-games-table { width: 100%; display: flex; justify-content: center; }
+.s20-games-table > * { max-width: 100%; width:100%;}
+
+/* Payment block */
+.s20-payment { display: flex; flex-direction: column; align-items: center; gap: var(--s20-gap); width: 100%; }
+.s20-payment-heading { font-family: var(--s20-font-body); font-size: 22px; font-weight: 600; letter-spacing: 1px; color: var(--s20-amber); margin: 0; }
+.s20-payment-methods { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 30px; }
+.s20-payment-method { display: inline-flex; align-items: center; gap: 8px; }
+.s20-payment-method-img img { width: 39px; height: 39px; object-fit: contain; }
+.s20-payment-method-name { font-family: var(--s20-font-accent); font-size: 16px; font-weight: 500; color: #000; }
+.s20-payment-method-desc { font-size: 13px; color: #333; }
+.s20-payment-image img { max-width: 260px; border-radius: 10px; }
+.s20-payment-text { font-family: var(--s20-font-body); font-size: 18px; font-weight: 500; letter-spacing: 1px; color: #000; margin: 0; }
+.s20-payment-tagline { font-family: var(--s20-font-body); font-size: 18px; font-weight: 600; letter-spacing: 1px; color: #000; margin: 0; }
+.s20-payment-closing { font-family: var(--s20-font-body); font-size: 19px; font-weight: 600; letter-spacing: 1px; color: #000; }

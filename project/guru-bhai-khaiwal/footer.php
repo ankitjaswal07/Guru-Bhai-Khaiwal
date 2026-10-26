@@ -1,3 +1,19 @@
-<?php defined( 'ABSPATH' ) || exit; ?></main>
-<footer class="site-footer"><div class="container footer-grid"><div><div class="footer-brand"><?php echo esc_html( gbk_brand() ); ?><span class="gold-dot">.</span></div><p><?php echo esc_html( gbk_option( 'footer_text' ) ); ?></p></div><div><h2><?php echo esc_html( gbk_option( 'footer_explore' ) ); ?></h2><?php wp_nav_menu( array( 'theme_location' => 'footer', 'container' => false, 'fallback_cb' => 'gbk_nav_fallback', 'depth' => 1 ) ); ?></div><div><h2><?php echo esc_html( gbk_option( 'footer_contact' ) ); ?></h2><?php gbk_contact_links(); ?><p><?php echo esc_html( gbk_option( 'footer_source_text' ) ); ?></p></div></div><div class="container footer-bottom"><span>© <?php echo esc_html( wp_date( 'Y' ) . ' ' . gbk_brand() ); ?></span><span><?php echo esc_html( gbk_option( 'footer_tagline' ) ); ?></span><?php if ( get_privacy_policy_url() ) : ?><a href="<?php echo esc_url( get_privacy_policy_url() ); ?>">Privacy policy</a><?php endif; ?><a href="#main">Back to top ↑</a></div></footer>
-<?php wp_footer(); ?></body></html>
+<?php
+/**
+ * Site footer.
+ *
+ * @package Guru Bhai Khaiwal
+ */
+
+defined( 'ABSPATH' ) || exit;
+?>
+	</main><!-- #s20-main -->
+
+	<footer class="s20-footer" id="s20-footer">
+		<?php get_template_part( 'template-parts/footer/footer-widgets' ); ?>
+		<?php get_template_part( 'template-parts/footer/copyright' ); ?>
+	</footer>
+</div><!-- #s20-site -->
+<?php wp_footer(); ?>
+</body>
+</html>

@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.1.0 — 2026-10-27
+
+- Replaced the simplified native theme configuration with the supplied Satta20 ACF PRO groups/options, original field and flexible-layout identities, front-page editing and reference templates/assets, rebranded to Guru Bhai Khaiwal. Licensed PRO confirmed installed remotely; not redistributed or claimed tested locally.
+- Restored General, Header, Results, Contact, Payment (protected), FAQ, Footer, Social and Shortcodes; added direct Homepage and Theme Styles pages. Typed style controls affect real frontend CSS and include table-style precedence.
+- Added safe saved-value/cleared-repeater fallbacks, legacy homepage-option binding, native FAQ/settings fallbacks, local Hindi font, neutral defaults, working default footer links, timezone-aware clock and reduced motion. Removed stale third-party/local-host image URLs and inherited contrast/layout defects.
+- Restored plugin Dashboard, Games, Daily Results, Monthly Results, Settings, Import/Export and scoped user assignments. Kept an additional historical source-review desk.
+- Added daily provenance/review controls, safe bulk-save reporting, POST-only nonce/capability-checked AJAX, protected destructive controls, original date/time/result/style settings, countdown and schedule-panel polling.
+- Kept data-preserving migration, draft-only duplicate-safe CSV, public source gate, private-note filtering, original IDs/slugs and all 14 client schedules. Assigned operators can manage only assigned drafts; publication remains a full-manager action.
+- Added original-schema ACF contract comparisons (including flexible layouts), plugin-view/settings/permission tests and updated browser workflows. Real PRO editor, MySQL hosting and backup/mail/cache acceptance remain staging gates.
+- Historical CSV remains unchanged: partial 523 source-checked draft rows, not complete or independently certified.
+
 ## 2.0.0 — 2026-10-26
 
 ### Inspection and provenance

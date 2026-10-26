@@ -1,0 +1,10 @@
+# 2.1 restoration plan — 27 October 2026
+
+User confirmed a licensed ACF PRO installation on their website. The proprietary plugin ZIP and a staging connection are not available here. Restore the backend definitions from the supplied ZIP, not an invented private-dashboard replica. Never bundle ACF PRO or a license key.
+
+1. Restore the supplied classic Satta20 theme templates/assets and ACF field groups, retaining field keys, names and option/page storage for compatibility; rebrand to Guru Bhai Khaiwal and neutralize third-party contact/promotional defaults. Keep original options pages, with explicit informational-only restrictions on the legacy Payment section.
+2. Add Homepage access from the theme menu and a comprehensive ACF Theme Styles page (palette, typography, widths, spacing, cards, buttons, header/footer, tables, responsive settings), with validation and matching frontend CSS. Keep source SEO/privacy protections and local fonts.
+3. Restore original plugin Dashboard, Games, Daily Results, Monthly Results, Settings and Import/Export views/assets. Connect them to the source-reviewed repository; add per-row provenance/review controls and preserve draft-only imports/public privacy. Restore scoped user assignments with explicit per-game authorization. Expose any deliberately restricted destructive/legacy controls honestly.
+4. Preserve 2.0 native settings as fallback data where practical; do not erase ACF options, game IDs, historical values or import logs. No new historical seeding.
+5. Test original field-registration parity with a labelled test-only ACF API capture (not a replacement for licensed ACF); test PHP, frontend rendering, admin pages, settings, permissions, forms, imports and public privacy under actual WordPress. Document that real ACF PRO repeaters/media/save UX require staging acceptance.
+6. Update documentation, version 2.1.0, ZIPs and checksums. Preserve previous QA evidence as historical, not evidence for the restored UI. Update the existing PR on this fixed branch after validation.

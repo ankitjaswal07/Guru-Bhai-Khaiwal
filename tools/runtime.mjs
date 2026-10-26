@@ -31,10 +31,11 @@ if(fromZips){
 for(const [host,vfs] of [['project/guru-bhai-khaiwal','/wordpress/wp-content/themes/guru-bhai-khaiwal'],['project/scheduled-results-manager','/wordpress/wp-content/plugins/scheduled-results-manager'],['tests','/gbk-tests']].slice(fromZips?2:0)) {
   php.mkdir(vfs); await php.mount(vfs,createNodeFsMountHandler(path.join(root,host)));
 }
-async function run(code){const r=await php.run({code});if(r.errors)console.error(r.errors);if(r.exitCode)throw new Error(r.text+'\n'+r.errors);return r;}
+async function run(code){let r;try{r=await php.run({code});}catch(e){if(php.fileExists('/wordpress/wp-content/debug.log'))console.error(php.readFileAsText('/wordpress/wp-content/debug.log'));throw e;}if(r.errors)console.error(r.errors);if(r.exitCode)throw new Error(r.text+'\n'+r.errors);return r;}
 const password=crypto.randomBytes(24).toString('hex');
 fs.mkdirSync('.runtime',{recursive:true});
 if(serve)fs.writeFileSync('.runtime/preview-access.json',JSON.stringify({user:'admin',password,siteUrl}),{mode:0o600});
+php.writeFile('/tmp/original-theme.zip',fs.readFileSync('satta20.zip'));
 if(fs.existsSync('historical-data-import.csv'))php.writeFile('/historical-data-import.csv',fs.readFileSync('historical-data-import.csv'));
 const setup=await run(`<?php require '/wordpress/wp-load.php'; require_once ABSPATH.'wp-admin/includes/plugin.php';
 wp_set_current_user(1); wp_set_password('${password}',1);
@@ -46,13 +47,14 @@ $home=wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=
 $archive=wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>'Historical archives','post_name'=>'archives','post_content'=>'[gbk_archive]']);
 update_option('show_on_front','page');update_option('page_on_front',$home);set_theme_mod('gbk_archive_page',$archive);
 update_option('permalink_structure','/%postname%/');flush_rewrite_rules();
-wp_delete_post(1,true); echo 'Activated clean WordPress '.get_bloginfo('version').' / PHP '.PHP_VERSION;`);
+wp_delete_post(1,true);wp_delete_post(2,true); echo 'Activated clean WordPress '.get_bloginfo('version').' / PHP '.PHP_VERSION;`);
 console.log(setup.text);
 // Load theme's initialization and default FAQs before integration tests.
 await handler.request({url:siteUrl+'/'});
 if(fs.existsSync('tests/integration.php')){
  const result=await run("<?php require '/wordpress/wp-load.php'; require '/gbk-tests/integration.php';");
  console.log(result.text); fs.writeFileSync(`.runtime/tests-php-${version}.txt`,result.text);
+ const restored=await run("<?php require '/wordpress/wp-load.php'; require '/gbk-tests/restoration.php';");console.log(restored.text);
 }
 // Exercise the real WordPress template loader, not standalone PHP includes.
 const fixture=await run(`<?php require '/wordpress/wp-load.php'; wp_set_current_user(1);
@@ -61,11 +63,11 @@ foreach(wp_get_theme()->get_page_templates() as $file=>$label){$id=wp_insert_pos
 $id=wp_insert_post(['post_type'=>'post','post_status'=>'publish','post_title'=>'QA informational article','post_content'=>'Template QA only.']);$ids[]=$id;$urls[]=get_permalink($id);$urls[]=get_category_link(1);$urls[]=home_url('/?s=QA');$urls[]=home_url('/wp-sitemap.xml');echo wp_json_encode(['ids'=>$ids,'urls'=>$urls]);`);
 const fixtures=JSON.parse(fixture.text);
 for(const url of fixtures.urls){const r=await handler.request({url});if(r.httpStatusCode!==200||r.errors||r.text.includes('There has been a critical error'))throw Error('Template failed '+url+' '+r.errors);console.log('PASS template request '+new URL(url).pathname);}
-await run(`<?php require '/wordpress/wp-load.php'; foreach(${JSON.stringify(fixtures.ids).replace('[','array(').replace(']',')')} as $id){wp_delete_post($id,true);} set_theme_mod('gbk_schedule_order',0);set_theme_mod('gbk_latest_enabled',false);`);
+await run(`<?php require '/wordpress/wp-load.php'; foreach(${JSON.stringify(fixtures.ids).replace('[','array(').replace(']',')')} as $id){wp_delete_post($id,true);} update_post_meta((int)get_option('page_on_front'),'homepage_section_order',[['section'=>'games'],['section'=>'hero']]);update_post_meta((int)get_option('page_on_front'),'hero_enabled',0);`);
 let home=await handler.request({url:siteUrl+'/'});
-if(home.text.indexOf('id="schedule"')>home.text.indexOf('id="hero"')||home.text.includes('id="latest"'))throw Error('Homepage section controls failed');
-console.log('PASS native homepage order and visibility controls');
-await run(`<?php require '/wordpress/wp-load.php'; remove_theme_mod('gbk_schedule_order');remove_theme_mod('gbk_latest_enabled');require_once ABSPATH.'wp-admin/includes/plugin.php';deactivate_plugins('scheduled-results-manager/scheduled-results-manager.php');`);
+if(!home.text.includes('id="s20-games"')||home.text.includes('id="s20-hero"'))throw Error('Homepage section controls failed');
+console.log('PASS saved ACF-compatible homepage order and visibility controls (without PRO UI)');
+await run(`<?php require '/wordpress/wp-load.php'; delete_post_meta((int)get_option('page_on_front'),'homepage_section_order');delete_post_meta((int)get_option('page_on_front'),'hero_enabled');require_once ABSPATH.'wp-admin/includes/plugin.php';deactivate_plugins('scheduled-results-manager/scheduled-results-manager.php');`);
 home=await handler.request({url:siteUrl+'/'});if(home.errors||!home.text.includes('informational archive is not available'))throw Error('Plugin-disabled fallback failed');console.log('PASS theme works when results plugin disabled');
 await run(`<?php require '/wordpress/wp-load.php';require_once ABSPATH.'wp-admin/includes/plugin.php';activate_plugin('scheduled-results-manager/scheduled-results-manager.php');`);
 if(php.fileExists('/wordpress/wp-content/debug.log')){const log=php.readFileAsText('/wordpress/wp-content/debug.log');fs.writeFileSync('.runtime/php-debug-'+version+'.log',log);if(log.trim())throw Error('Nonempty WordPress debug log: '+log);}

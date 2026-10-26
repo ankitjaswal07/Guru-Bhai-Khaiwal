@@ -65,7 +65,7 @@ wp_set_current_user( $restricted );
 gbk_assert( is_wp_error( SRM_Results::save_result( $id, $date, $published ) ), 'legacy restricted operator cannot bypass review capability' );
 gbk_assert( is_wp_error( SRM_Games::create_game( array( 'event_name' => 'Unauthorized', 'scheduled_time' => '12:00' ) ) ), 'unauthorized schedule mutation rejected in repository' );
 gbk_assert( ! SRM_Import_Export::import_csv( $path )['success'], 'unauthorized import rejected' );
-gbk_assert( SRM_Results::get_result( $id, $date, true ) === null, 'admin flag cannot expose draft to restricted user' );
+gbk_assert( SRM_Results::get_result( $id, $date, true ) !== null && SRM_Results::get_result( $id+1, $date, true ) === null, 'assigned operator can read only assigned drafts; public getter stays gated' );
 wp_set_current_user( 1 );
 $occurrence = SRM_Current_Event::occurrences()['previous'];
 SRM_Results::save_result( (int) $occurrence['game']->id, $occurrence['at']->format( 'Y-m-d' ), array_merge( $record, array( 'result_value' => '918273645' ) ) );

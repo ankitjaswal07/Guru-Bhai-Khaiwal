@@ -4,10 +4,10 @@ defined( 'ABSPATH' ) || exit;
 class SRM_Shortcodes {
     public static function register(): void {
         $map = array(
-            'schedule' => array( 'srm_active_games', 'srm_active_game_list', 'srm_active_games_list', 'srm_active_game' ),
+            'schedule' => array( 'srm_games_list', 'srm_active_games', 'srm_active_game_list', 'srm_active_games_list', 'srm_active_game' ),
             'daily' => array( 'srm_today_results', 'srm_yesterday_results', 'srm_today_yesterday_results' ),
             'monthly' => array( 'srm_monthly_results', 'srm_full_month_results', 'srm_previous_month_results', 'srm_previous_month_table' ),
-            'archive' => array( 'gbk_archive', 'srm_game_history', 'srm_event_history' ),
+            'archive' => array( 'srm_results_archive', 'gbk_archive', 'srm_game_history', 'srm_event_history' ),
             'latest' => array( 'gbk_latest_records', 'srm_latest_game_result', 'srm_current_result' ),
             'next' => array( 'srm_current_game', 'srm_current_game_name', 'srm_current_game_time', 'srm_next_game', 'srm_live_status' ),
         );
@@ -31,19 +31,21 @@ class SRM_Shortcodes {
         return (string) ob_get_clean();
     }
     public static function next( array $atts = array(), string $tag = '' ): string {
+        if('srm_live_status'===$tag){return '<div class="gbk-live-panels">'.self::next(array(),'srm_current_game').self::next(array(),'srm_next_game').'</div>';}
         $current = in_array( $tag, array( 'srm_current_game', 'srm_current_game_name', 'srm_current_game_time' ), true );
+        if(!get_option($current?'srm_current_game_enabled':'srm_next_game_enabled','1'))return '';
         $next = SRM_Current_Event::occurrences()[ $current ? 'previous' : 'next' ];
         if ( ! $next ) { return '<p>No active schedule entries.</p>'; }
         if ( 'srm_current_game_name' === $tag && $next ) { return esc_html( $next['game']->event_name ); }
         if ( 'srm_current_game_time' === $tag && $next ) { return esc_html( SRM_Games::format_time( $next['game']->scheduled_time ) ); }
-        return '<div class="gbk-next"><span class="eyebrow">' . ( $current ? 'Most recent scheduled entry' : 'Next scheduled entry' ) . '</span><h3>' . esc_html( $next['game']->event_name ) . '</h3><p lang="hi">' . esc_html( $next['game']->event_name_secondary ?? '' ) . '</p><strong>' . esc_html( SRM_Games::format_time( $next['game']->scheduled_time ) ) . '</strong><p>' . esc_html( wp_date( 'D, j M Y', $next['at']->getTimestamp() ) . ' · ' . wp_timezone_string() ) . '</p><small>Schedule information only. Publication times may differ.</small></div>';
+        return '<div class="gbk-next" data-srm-panel="'.($current?'current_game':'next_game').'"><span class="eyebrow">' . ( $current ? 'Most recent scheduled entry' : 'Next scheduled entry' ) . '</span><h3>' . esc_html( $next['game']->event_name ) . '</h3><p lang="hi">' . esc_html( $next['game']->event_name_secondary ?? '' ) . '</p><strong>' . esc_html( SRM_Games::format_time( $next['game']->scheduled_time ) ) . '</strong><p class="srm-occurrence-date">' . esc_html( wp_date( 'D, j M Y', $next['at']->getTimestamp() ) . ' · ' . wp_timezone_string() ) . '</p>' . (!$current && get_option('srm_countdown_enabled','1') ? '<p class="srm-countdown" data-srm-until="'.esc_attr($next['at']->getTimestamp()).'" aria-label="Time until next scheduled entry"></p>' : '') . '<small>Schedule information only. Publication times may differ.</small></div>';
     }
     public static function table( array $rows ): string {
         if ( ! $rows ) { return self::empty_message(); }
         ob_start(); ?>
         <div class="gbk-table-wrap" role="region" aria-label="Historical records" tabindex="0"><table class="gbk-table"><caption>Source-reviewed historical records</caption><thead><tr><th scope="col">Date</th><th scope="col">Game</th><th scope="col">Record</th><th scope="col">Source & update</th></tr></thead><tbody>
         <?php foreach ( $rows as $r ) : ?>
-            <tr><td><time datetime="<?php echo esc_attr( $r->result_date ); ?>"><?php echo esc_html( wp_date( get_option( 'date_format' ), ( new DateTimeImmutable( $r->result_date, wp_timezone() ) )->getTimestamp() ) ); ?></time></td><th scope="row"><?php echo esc_html( $r->event_name ); ?><small lang="hi"><?php echo esc_html( $r->event_name_secondary ?? '' ); ?></small></th><td><strong class="gbk-result"><?php echo esc_html( $r->result_value ); ?></strong></td><td><a href="<?php echo esc_url( $r->source_url ); ?>" rel="nofollow noopener noreferrer" target="_blank">Source record ↗<span class="screen-reader-text"> (opens in new tab)</span></a><small><?php echo esc_html( 'Updated ' . get_date_from_gmt( $r->updated_at, 'Y-m-d H:i:s' ) . ' · ' . wp_timezone_string() ); ?></small></td></tr>
+            <tr><td><time datetime="<?php echo esc_attr( $r->result_date ); ?>"><?php echo esc_html( wp_date( get_option( 'srm_date_format', get_option('date_format') ), ( new DateTimeImmutable( $r->result_date, wp_timezone() ) )->getTimestamp() ) ); ?></time></td><th scope="row"><?php echo esc_html( $r->event_name ); ?><small lang="hi"><?php echo esc_html( $r->event_name_secondary ?? '' ); ?></small></th><td><strong class="gbk-result"><?php echo esc_html( $r->result_value ); ?></strong></td><td><a href="<?php echo esc_url( $r->source_url ); ?>" rel="nofollow noopener noreferrer" target="_blank">Source record ↗<span class="screen-reader-text"> (opens in new tab)</span></a><small><?php echo esc_html( 'Updated ' . get_date_from_gmt( $r->updated_at, 'Y-m-d H:i:s' ) . ' · ' . wp_timezone_string() ); ?></small></td></tr>
         <?php endforeach; ?>
         </tbody></table></div>
         <?php return (string) ob_get_clean();

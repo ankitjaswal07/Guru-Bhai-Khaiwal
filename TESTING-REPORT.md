@@ -1,75 +1,73 @@
-# Testing report — Guru Bhai Khaiwal 2.0.0
+# Testing report — Guru Bhai Khaiwal 2.1.0
 
-Date: 26 October 2026. Scope: supplied-code inspection, revised theme/plugin, partial historical CSV and installation packages.
+**27 October 2026.** Scope: supplied Satta20 ACF/reference-theme restoration, original plugin admin organization/settings, source-review safeguards, unchanged partial CSV and installation packages.
+
+## Important ACF distinction
+
+The owner confirmed licensed ACF PRO is installed **on their website**. No licensed PRO code or staging access is available in this sandbox. We did **not** install an unofficial copy, distribute PRO, simulate an editor for the preview, or test actual PRO repeater/media/save UI.
+
+`tests/restoration.php` uses explicitly labelled, test-request-only **API capture functions** to compare the supplied PHP definitions with the new definitions. This verifies registration contracts, **not ACF PRO behavior**. The live preview truthfully shows the missing-PRO notice; ordinary public rendering and plugin administration work without it. `docs/ACF-ADMIN-GUIDE.md` lists required licensed-site checks.
 
 ## Environment
 
-- Clean **WordPress 6.7.2**, obtained from the official WordPress GitHub mirror; archive SHA256 pinned by the development setup script.
-- **PHP 8.1.34 and 8.3.33** via WordPress Playground / PHP-WASM, with WordPress's SQLite integration adapter.
-- Chromium **138** through Playwright; axe-core **4.10.2** accessibility checks.
-- Browser sizes: **1440, 768 and 390 CSS pixels** wide. Populated historical table also tested at 390px.
-- No native PHP-FPM, MySQL/MariaDB server or actual hosting credentials/environment were available. SQLite compatibility is not a substitute for hosting acceptance.
+- Actual WordPress **6.7.2** in Playground, official archive pinned by `tools/prepare-runtime.mjs`.
+- PHP-WASM **8.1.34 / 8.3.33**, WordPress SQLite integration. No native PHP-FPM/MySQL/MariaDB hosting certification.
+- Chromium 138 / Playwright / axe-core 4.10.2.
+- Viewports: **1440, 768, 390px**, plus a populated historical archive at 390px.
+- No production secrets or license keys in packages. Synthetic records exist only in disposable QA databases and are not seeded or included in the historical CSV.
 
-## Completed tests
+## Completed checks
 
-| Area | Result |
+| Area | Evidence / result |
 |---|---|
-| PHP syntax | All 37 release PHP files parse under PHP 8.1 |
-| Clean activation | Theme/plugin activate together; 14 schedules, zero seeded historical results |
-| Default schedule | All 14 times, bilingual fields and ordering match the client configuration |
-| Midnight logic | Before/after midnight and exact 1:00 AM boundary use the correct next local calendar date; noon/midnight parsing and invalid-time rejection pass |
-| Record lifecycle | Draft save, source validation, explicit review, publication, source-linked display, unpublish and stale-form detection pass |
-| Public privacy | Drafts/unsourced legacy rows are excluded from public getters, current/today/monthly REST routes and tested shortcodes, even with an admin public-page session |
-| Authorization | Unauthorized/scoped legacy user writes/imports rejected; private-read flag cannot bypass capability checks; actual bad admin nonce returns HTTP 403; mutation GET returns HTTP 405 |
-| CSV validation | Impossible/future dates, formula values, unknown game, incomplete provenance header, duplicate rows and blank rows handled as specified |
-| CSV end-to-end | Actual upload handler processes all **523** delivery rows; source fields remain private until approval; actual export includes provenance and preserves leading-zero strings |
-| Duplicate protection | Second full CSV import skips **523 duplicates**, imports zero and does not overwrite |
-| Import log | Per-file hashes, users, UTC timestamps and imported/skipped/duplicate/invalid counts recorded; mixed-row fixture counts verified |
-| Archives | Date/month filtering and pagination work; 523-row fixture gives 18 pages at 30 rows; September filter gives exactly 203 records |
-| Migration | Isolated 1.1.0-schema fixture upgraded with dbDelta; original ID, date, leading-zero value and publication status retained, provenance defaults unverified; existing schedules not reseeded |
-| Repeat activation | Schedule and record values/IDs preserved |
-| Templates | Eight custom page templates, single post, category archive, search and XML sitemap requested successfully through WordPress's actual template loader |
-| Homepage controls | Native section order/visibility changes affect public output; Customizer branding/homepage panel loads without the earlier color-control JS error |
-| Plugin unavailable | Theme renders a truthful fallback, not a fatal error or invented records |
-| Admin browser flows | Login, four management screens, schedule creation/deactivation, draft save, source review/publication and unpublish exercised through real forms |
-| Responsive UI | No page-level horizontal overflow at the three viewport widths; populated tables scroll within their own labelled region |
-| Keyboard navigation | Mobile menu open/close and Escape focus restoration work; filters and scrollable tables expose keyboard controls |
-| Accessibility automation | **Zero detected WCAG 2 A/AA and WCAG 2.1 AA axe violations** on default homepage at all three widths and on the populated archive page; not a full accessibility certification |
-| SEO | One homepage H1, single singular canonical, noindex on filtered archive, 404 status retained, core sitemap responds; source-aware public REST has noindex header |
-| Logs | No PHP warning/fatal/deprecation in the final integration/template run; no browser JS errors in the completed browser workflow |
-| Source data | All 523 rows within requested dates, unique game/date keys, exact string values, 154 cross-source matching cells, one unresolved cell withheld; no invented source data |
-| Original files | Both supplied ZIP hashes still match the pre-development baseline |
-| ZIP activation | Both packaged ZIPs unpacked into a fresh WordPress installation and activated; the same integration/template suite passed on PHP 8.1 and 8.3 |
-| Package structure | One correct WordPress folder per ZIP; no Node modules, runtime DB, test fixtures, credentials or original ZIP nested in releases |
+| PHP syntax | **79 release PHP files** parse on PHP 8.1 |
+| Core repository | **56 assertions**: 14 exact client schedules, empty initial history, midnight/noon boundaries, valid dates/sources, leading zeroes, review requirement, draft privacy, stale edits, CSV limits/duplicates, migration and pagination |
+| Supplied ACF contract | All **278 original field/layout keys** retained with matching name/type, including nested/flexible definitions; original groups and nine option-page slugs retained; Homepage/Styles added |
+| Restoration integration | **319 assertions**, including contract comparisons, Homepage post-ID registration, style validation/output, deliberately empty values and cleared repeaters, six plugin views, settings effects, scoped operator restrictions and editing lock |
+| Styles | Typed colors/fonts/numbers reject injection or clamp; stored values reach CSS. Original plugin card color changed actual computed browser color. Current/next visibility controls affect actual output |
+| Public frontend | Correct reference-theme sections, one default-home H1, 14 bilingual schedule cards, no broken images/emoji assets and no horizontal viewport overflow at tested widths |
+| Accessibility automation | Zero detected tested WCAG 2 A/AA and 2.1 AA axe violations on the default homepage at all three widths and populated mobile archive; not a full accessibility certification |
+| Navigation/SEO | Mobile menu and Escape work; archive filters, noindex, single singular canonical and 404 status verified; core sitemap loads |
+| Plugin administration | Seven screens (six supplied screens plus review desk), real schedule creation/deactivation, review-form draft/publish/unpublish, Daily Results AJAX source save, failed publication without review, verified publication and unpublish |
+| HTTP security | Invalid nonces return 403; mutation GET requests return 405 for both historical admin-post and restored AJAX paths |
+| CSV browser workflow | Actual upload handler accepts **523** source-checked rows; actual export carries provenance and preserves `07`; all HTTP-imported records remain private |
+| Browser run | **55 checks** pass in one uninterrupted workflow; no browser JavaScript errors |
+| Templates | All eight original custom template paths, post, category, search and sitemap return through the real template loader; homepage saved order/visibility works; plugin-disabled fallback works |
+| Logs | No PHP warning/fatal/deprecation in completed integration/template checks |
+| ZIP installation | Both installation ZIPs extracted/activated in fresh WP installations on PHP 8.1 and 8.3; all repository/restoration/template checks passed. The packaged PHP 8.3 preview passed the uninterrupted 55-check browser suite |
+| Preservation | Original supplied ZIP hashes retained; no changes to the historical CSV; game/result IDs, values/statuses retained in migration/re-activation tests |
 
-The integration script contains **56 assertions**, followed by 12 template/sitemap requests and homepage/plugin-disabled/log checks, on both PHP runtimes. Tests create explicitly labelled synthetic fixtures only inside disposable test databases, then remove them. They are not part of the historical CSV or initial plugin data.
+## Release-package verification
 
-## Defects caught and corrected during testing
+The reproducible final acceptance commands are:
 
-- A positioned table-scroll region now contains the visually hidden source-link label, preventing that absolute-positioned label from widening mobile documents.
-- Default muted label/footer colors below AA contrast were darkened/lightened appropriately.
-- WordPress emoji image fallback was disabled for the public theme to avoid remote broken-image arrows in the restricted network environment.
-- The Customizer's native color control class is now used so WordPress enqueues its color-picker dependency.
-- A one-page blog pagination path now casts an empty pagination result to a string, removing a PHP 8.1 deprecation.
-- Browser automation adapters were corrected for redirect interception, multipart file-byte omission in CDP and the DOM `form.action` property being shadowed by the form's action input. These were test-transport issues; the actual upload/export application handlers are exercised after correction.
+```sh
+node tools/lint.mjs
+python tools/package.py
+PHP_VERSION=8.1 node tools/runtime.mjs --from-zips
+node tools/runtime.mjs --from-zips --serve
+node tools/browser-test.mjs
+(cd releases && sha256sum -c SHA256SUMS.txt)
+```
 
-## Reproducibility
+Final package-run evidence is retained under `docs/QA-ACF-*`. ZIPs have a single correct WordPress folder and exclude runtime databases, credentials, tests, node modules and ACF PRO. Earlier `docs/QA-PHP81.txt`, `QA-PHP83.txt` and `QA-BROWSER.txt` belong to **2.0's native design**, not this restored editor, and are retained as historical evidence only.
 
-Source: `tests/integration.php`, `tools/lint.mjs`, `tools/runtime.mjs`, `tools/browser-test.mjs`, `tools/build-history.py`, `tools/package.py`. Follow the README for setup and commands. Run browser tests on a **fresh disposable preview**; they deliberately create/update test content.
+## Defects corrected during this revision
 
-The sandbox browser proxy adapts redirects and reconstructs only the known CSV fixture's omitted file bytes to reach the local server under the externally proxied HTTPS site URL. The production plugin uses ordinary WordPress upload handling; no proxy adapter is shipped. A live native-host upload/export check remains required.
+- Original CSS had stale external/local-site background-image URLs, an oversized global H1 rule, invisible header text against its background, light-section contrast failures, and a flex wrapper incompatible with the reviewed schedule grid.
+- Restored table/card styles now reach actual plugin markup; plugin time-format/visibility/editing settings are effective rather than merely displayed.
+- Historical review links were moved to `srm-review` so they do not accidentally open the restored daily screen.
+- Original mutation-by-GET, broad admin access and review-bypass paths were not restored. Added dedicated nonce/permission/method gates and draft-only assigned operators.
+- Deliberately cleared repeaters are not reseeded by rendering. Homepage option binding preserves existing post metadata and old options.
+- Multi-block result templates use valid nested article/container structure; source/notes remain escaped and public reads stay gated.
 
-## Known limitations / release gates
+## Not certified / launch gates
 
-1. **Actual hosting is untested.** Validate a maintained WordPress/PHP release, mbstring, MySQL/MariaDB dbDelta behavior, permissions, HTTPS, rewrite rules, uploads and opcode/page/CDN caches on staging before launch. PHP 8.1 was tested for compatibility, not recommended as a security-supported production target.
-2. **Historical dataset incomplete.** No checked rows for Model Town/Punjab Matka/HUDA City; four games have only October data. “Verified” means checked against what a public source displayed, not official/independent certification. All imports remain drafts; every publication requires human review. See source documentation and withheld-cell list.
-3. **Existing production database unavailable.** Data retention tested with an original-schema fixture and repeat activation, not a copy of the client's live database. Make and restore-test a full backup first.
-4. **No multisite/network activation support.** Network activation is explicitly blocked. Legacy scoped-game editorial delegation is not restored automatically; full review-desk capability is deliberately restricted.
-5. **ACF content is not auto-migrated.** Legacy options remain intact, but approved copy/images/menu settings must be migrated manually. Promotional, payment and third-party contact defaults were intentionally excluded.
-6. **External integrations need acceptance tests.** Legacy shortcode names/routes remain, but presentation/countdown behavior and some API missing-record semantics changed. Review migration notes. The full Yoast/Rank Math/AIOSEO/SEOPress matrix and custom child themes were not installed/tested.
-7. **Not a full security/accessibility/performance certification.** No exhaustive penetration test, PHPCS/WPCS certification, screen-reader audit, Lighthouse benchmark or Safari/Firefox/physical-device matrix was completed. Keyboard, responsive and automated axe checks are reported narrowly.
-8. **No source scraper or auto-publication.** Reference sites were readable through the research tool; ordinary sandbox HTTP access to them is restricted. Ongoing source availability, permitted reuse and legal/privacy approval remain site-owner responsibilities.
-9. **External caching may delay visible changes.** The plugin avoids its own shared result cache; configure/purge hosting and CDN caches explicitly.
-10. **Development tools only:** Node/npm/PHP-WASM/Chromium are not runtime dependencies and are excluded from installation files. The sandbox used Node 22.22.3 asyncify successfully despite newer declared Playground engine preferences. Prefer supported current Node/npm when reproducing development tests. Final npm audit reported zero known dependency vulnerabilities after a qs override; this is not a security guarantee for WordPress or hosting.
+1. **Real licensed ACF PRO editor**: options-page saves, repeaters, nested repeaters, flexible sections, image return formats/media picker, actual clearing/reordering and the one-time legacy homepage binding. Capture tests are not proof of these editor behaviors.
+2. Actual site's saved theme content and styles: preserve and compare backup values; review any existing third-party phone, payment/promotion copy or old page links. The defaults are neutral but saved content is not automatically rewritten.
+3. Native MySQL/MariaDB upgrade, hosting mail, HTTPS/rewrites, PHP extensions, backup restoration, production caches/CDN and actual role configuration.
+4. Concurrent editing under load, performance/load testing, all assistive technologies/devices, complete Hindi translation, broad SEO/plugin conflict matrix and multisite. Network activation is unsupported.
+5. Contact deliverability and abuse controls on the real host; working `wp_mail()` transport is not verified here.
+6. Source rechecks, editorial sign-off, permitted reuse and applicable legal requirements. **523 rows are partial displayed-source transcription**, not independent official certification; missing data remains missing.
 
-**Conclusion:** working installable code with verified local integration/browser coverage. Production launch approval remains conditional on the hosting, editorial, migration and legal checks above; neither complete historical coverage nor actual-host certification is claimed.
+The theme matches the **supplied** backend definitions/design structure with documented security/informational exceptions. Exact private live-site dashboard parity has not been verified.

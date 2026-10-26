@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Responsive wrapper for plugin-generated tables.
+   The plugin keeps its own styling; the theme only guarantees that wide tables
+   scroll horizontally inside their box instead of breaking the page width.
+   ========================================================================== */
+.s20-table-scroll { width: 100%; max-width: 100%; min-width: 0; }
+.s20-table-scroll table { max-width: 100%; }
+.s20-table-scroll > table,
+.s20-table-scroll > .s20-shortcode-plain { display: block; }
+/* Any direct table (no plugin wrapper) becomes scrollable */
+.s20-table-scroll > table { overflow-x: auto; -webkit-overflow-scrolling: touch; border-collapse: collapse; }
+/* Plugin/generic wrappers that hold a table */
+.s20-table-scroll .s20-table-wrap,
+.s20-table-scroll div:has(> table) { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.s20-table-scroll th, .s20-table-scroll td {}
+.s20-table-scroll img { max-width: none; }
+/* Never allow horizontal page scroll */
+.s20-main { overflow-x: clip; }

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   FAQ accordion (amber summaries, 10px radius, 5px gaps)
+   ========================================================================== */
+.s20-faq-section { background-color: var(--s20-white); padding: 40px 10px; }
+.s20-faq-section .s20-section-desc { font-size: 18px; }
+.s20-faq { display: flex; flex-direction: column; gap: 5px; width: 100%; }
+.s20-faq-item { border-radius: 10px; overflow: hidden; background: #fff; border: 1px solid transparent; transition: border-color .2s; }
+.s20-faq-item[open] { border-color: rgba(255, 184, 36, .5); }
+.s20-faq-question {
+  display: flex; align-items: center; justify-content: space-between; gap: 21px;
+  padding: 8px 10px;
+  background-color: var(--s20-amber);
+  color: #000;
+  font-family: var(--s20-font-body); font-size: 14px; font-weight: 500;
+  cursor: pointer; list-style: none; user-select: none;
+}
+.s20-faq-question::-webkit-details-marker { display: none; }
+.s20-faq-question:hover { background-color: var(--s20-gold); }
+.s20-faq-question:focus-visible { outline: 2px solid #000; outline-offset: -2px; }
+.s20-faq-icon { display: inline-flex; font-size: 15px; color: #000; flex: 0 0 auto; }
+.s20-faq-icon .s20-icon { width: 1em; height: 1em; }
+.s20-faq-item .s20-faq-minus { display: none; }
+.s20-faq-item[open] .s20-faq-minus { display: block; }
+.s20-faq-item[open] .s20-faq-plus { display: none; }
+.s20-faq-answer { padding: 15px; font-family: var(--s20-font-body); font-size: 14px; font-weight: 400; line-height: 1.4em; letter-spacing: 1px; color: #000; }
+.s20-faq-answer p { margin: 0 0 .8em; }
+.s20-faq-answer p:last-child { margin-bottom: 0; }
+.s20-faq-answer a { color: #b8860b; }
+.s20-faq-page .s20-faq { margin-top: 10px; }

@@ -1,77 +1,64 @@
-# Data migration and compatibility
+# Migration and rollback — 2.1.0
 
-## Baseline and upgrade path
+## Before replacing files
 
-Inputs are the supplied Satta20 1.0.0 theme and Scheduled Results Manager 1.1.0, not an assumed copy of the live site. Release source lives in `project/`. Input ZIPs remain untouched; SHA256 and extracted file inventory are included separately.
+Back up the complete database, uploads, themes and plugins; record PHP/WP/database versions and test the backup restoration on staging. Never run both copies of Scheduled Results Manager. **Do not uninstall the original plugin first:** its original destructive option may erase data.
 
-Plugin identity stays `scheduled-results-manager/scheduled-results-manager.php`. The downloadable ZIP and visible name are branded Guru Bhai Khaiwal. Replace the existing plugin in place; never run both copies, which would redeclare `SRM_*` classes.
+Use the ZIP replacement workflow for the same plugin folder/main file. The new theme uses `guru-bhai-khaiwal`, leaving the original Satta20 theme installed for rollback. ACF PRO remains separately licensed and installed by the owner.
 
-`SRM_Database`, event table structure, stable IDs/slugs, `SRM_Games` CRUD foundations and the existing full-access capability are reused. The new repository, review desk and CSV/public rendering paths replace unsafe behavior rather than layer a second database on top of it. There are no theme-owned game/result tables.
+## Results data
 
-## Schema 1.1.0 → 2.0.0
+- Retained identities: WordPress-prefixed `srm_events` and `srm_results`, existing game/result IDs, slugs, names, scheduled times, date labels, values, publication statuses and original records.
+- The 2.0 additive schema introduced provenance (`original_game_name`, `source_url`, `verification_status`, `verification_notes`, `reviewed_by`, `verified_at`), archive indexes and `srm_import_logs`. The 2.1 admin restoration does not rebuild those tables or re-seed populated schedules.
+- A 1.1.0 upgrade preserves existing rows but initializes verification to unverified. Consequently, old `published` values are private until reviewed. Check the **Records & source review** desk; do not assume the data disappeared.
+- Fresh installations seed exactly the 14 client schedules, only into an empty events table; zero historical records are seeded. Source schedules are not substituted for client times.
+- The unique game/date constraint and import-only inserts prevent duplicate overwrites. Import errors/counts are logged. Bounded CSV validation is not a whole-file database transaction.
+- New record/log timestamps use UTC; source date labels remain calendar dates. Existing legacy timestamp strings are not silently reinterpreted. Check their provenance before treating them as UTC evidence.
+- Slugs remain stable when names change. Duplicates receive a new ID/slug and are inactive initially. Deactivate games or unpublish records instead of deletion.
 
-`dbDelta()` applies additive changes using the actual WordPress prefix and charset/collation.
+## ACF compatibility: original Satta20 → 2.1
 
-### Existing `*_srm_events`
+The PHP-registered groups, original field/layout keys and names are retained, including Payment fields. The nine original option-page slugs and `s20-settings` parent remain. ACF values keep their `options_*` storage and existing post metadata. No manual field-group import is required; resolve any duplicate custom ACF JSON/UI groups on staging first.
 
-Retained: `id`, `event_name`, `event_name_secondary`, `slug`, `scheduled_time`, `display_order`, `status`, `created_at`, `updated_at`. Original indexes on slug/time/status/order remain. No existing times, names, IDs or visibility flags are reset. Default client schedules are inserted only into an empty events table.
+Homepage options use the existing static front-page ID. A first administrator visit with PRO copies legacy global homepage values only where that front page has no saved metadata. An explicitly cleared field or zero-row repeater counts as saved and is preserved. The old options are not deleted. The `s20_home_bound_{post_id}` marker makes this binding one-time per front page. Set Reading correctly before configuring Homepage; if no front page exists, options storage is used.
 
-### Existing `*_srm_results`
+Existing source-site content is **not scrubbed or overwritten automatically**. Review owned logos/contact details, old claims, links, footer disclaimers and images before going live. New defaults are neutral, but existing saved promotional content could still render if enabled. Payment rendering is hard-disabled regardless of its old toggle.
 
-Retained without rewriting: `id`, `event_id`, `result_date`, `result_value`, `result_status`, `created_at`, `updated_at`; unique `(event_id,result_date)` and original indexes.
+Additional styles use new `style_*` options/`field_s20_styles_*` keys. Existing plugin style options stay `srm_*`; Theme Styles → Table Source controls precedence for tables.
 
-Added:
+## Native 2.0 theme → 2.1
 
-| Column | Initial value / purpose |
-|---|---|
-| `original_game_name` VARCHAR(191) | Empty; exact original source game label |
-| `source_url` TEXT | NULL; public source URL |
-| `verification_status` VARCHAR(30) | `unverified`; later verified/disputed |
-| `verification_notes` TEXT | NULL; private editorial evidence/context |
-| `reviewed_by` BIGINT | 0 until explicit in-dashboard review |
-| `verified_at` DATETIME | NULL; UTC review timestamp |
-| `public_archive` index | `(result_status,verification_status,result_date)` |
+The 2.0 custom theme panel is replaced by ACF PRO, as requested. Existing theme mods are not deleted. Fallback mappings cover explicitly saved hero title/text/image, announcement, footer disclaimer/tagline, email/phone, SEO description, accent and page background. Custom logo and site icon remain WordPress settings. Saved ACF values take precedence over native fallbacks.
 
-New record saves use UTC timestamps; the public last-updated display converts them to the current WordPress timezone. Original timestamps are not rewritten by migration. A legacy row must be reviewed/saved before it can appear publicly, giving it a fresh UTC update timestamp. Old created-at timestamps remain untouched on edits. REST source-aware update timestamps are labelled UTC.
+Published `gbk_faq` posts provide initial FAQ repeater rows only if ACF FAQ data is unset; old posts remain in the database. If ACF FAQ data already exists, migrate selected FAQ entries manually rather than overwriting it.
 
-Legacy `published` statuses are preserved, **but are insufficient for public display**. Publication gates require verified status, source URL, nonempty value, reviewer ID and review timestamp, with an active game and a non-future date. This prevents the supplied unsourced seed values from being silently treated as verified. Drafts remain `pending` at the database layer for compatibility.
+The eight existing `page-templates/...` paths are preserved. Single-game pages retain the `_gbk_game_id` fallback when a page-specific shortcode is absent. The original ACF page editor now exposes that shortcode explicitly.
 
-### New `*_srm_import_logs`
+The reference homepage has a different section structure. Native-only About/Archive/Latest sections and their numeric order settings are retained in theme mods but **not all automatically converted**. Recreate desired extra content with Page Sections, use plugin shortcodes for archives/latest records, and configure Homepage Section Order. Review this intentional layout change on staging.
 
-`id`, `user_id`, `created_at` (UTC), `file_hash` (SHA256), `summary` (JSON with total/imported/skipped/duplicate/invalid and bounded error details). Indexed by creation time. This is import auditing, not a duplicate copy of result data. There is no retention purge or destructive admin control; establish a backup/retention policy for large installations.
+## Permissions and UI changes
 
-The schema version option remains `srm_db_version`. Version 2.0.0 is recorded only after the required result/log columns exist. Failure leaves an administrator notice and a retryable version. No old table/column is dropped. Multisite migration is not implemented.
+Original plugin menus return: Dashboard, Games, Daily Results, Monthly Results, Settings, Import/Export. The reviewed historical desk is an additional page. Old links to `srm-results` now open Daily Results; historical review links use `srm-review`.
 
-## Preserved and intentionally changed behavior
+Admin/user `srm_allowed_games` assignments are retained. Assigned operators may read/edit assigned drafts only. They cannot publish, alter published records, manage games/settings, or import/export. Administrator-only profile saves require capability and nonce checks. Full managers retain `manage_scheduled_results`; do not grant it merely to provide draft entry access.
 
-- **Preserved:** original table names, result IDs/values/dates/statuses, game IDs/slugs/names/times, all stored old options/user metadata, shortcode names, original theme custom page-template file paths, REST namespace/route names.
-- **Changed for safety:** no July/August historical seeder, no auto-publication from CSV, no upsert overwrite during import, strict ISO/calendar/future-date validation, source/review required, public repository reads always gated, no old shared monthly transient data, no destructive uninstall.
-- **Capabilities:** administrators receive the full `manage_scheduled_results` capability. The old `srm_manage_game_results` capability and `srm_allowed_games` user metadata are retained but do not authorize the new desk. Full management must be granted deliberately; game-scoped editorial delegation is a documented outstanding compatibility boundary, not an implicit privilege escalation.
-- **Old AJAX writers:** no longer registered. Old admin JS/forms must not be used to bypass the new nonce-protected review workflow. The new admin forms use `admin-post.php` with action `gbk_manage`, POST, capability checks and nonce verification.
-- **CSV:** old files lacking source/verification columns are rejected with a current-template instruction. `event` remains accepted as a header alias for `game`. `published` is accepted as a file value but stored as pending. Exact source labels are retained separately from normalized game resolution.
-- **Shortcodes:** all original tags remain registered. Active-game aliases show cards; today/yesterday show verified record groups; monthly aliases show source-linked grids. `srm_current_game_name` and `_time` show the most recent scheduled entry. `srm_live_status` shows the next informational schedule entry without live polling; `srm_current_result` / `srm_latest_game_result` show latest published records. Legacy CSS class names, custom wrapper/display attributes and countdown animation are not preserved. Use `[gbk_archive]` for current filter controls rather than old `show_filter` UI attributes. Game history supports game/event IDs and optional month/year attributes; legacy `srm_*` filter query names are recognized by archive filtering.
-- **REST:** `/srm/v1/games` and `/events` keep the named game fields. `/monthly` keeps month/year/games/rows, with nulls for unavailable values, and adds source-aware results. `/today` returns published rows only (no speculative pending values). `/current` keeps current/latest/next schedule concepts with source-gated current values and calendar-correct dates. External integrations must re-test their assumptions about missing rows, status and markup.
-- **Formatting:** public date/time display now follows WordPress General settings. Old `srm_*` style/countdown/date-format options remain stored but are not the active source of presentation settings.
-- **Caching:** legacy transient keys are neither read nor reused. Old transient rows may expire normally. Host/plugin/CDN full-page caches remain the site owner's responsibility.
-- **Deactivation:** visibility changes do not delete records. Public views omit inactive games; historical data remains accessible to administrators.
+Default Published is a selection preference, not a publication bypass. Every published save requires a valid source, verified state and explicit review. Protected deletion/uninstall controls remain visible but inactive. Old bare CSV files require the new provenance columns and always import as pending drafts.
 
-## Theme and ACF content
+## Public components and external services
 
-The classic section dispatcher, separate presentation/data responsibilities, WordPress template hierarchy and eight page-template paths follow the supplied architecture. The presentation and settings implementation were substantially revised because the source depended on unconfirmed ACF PRO licensing and embedded promotional/third-party defaults.
+Shortcode aliases, REST namespace/routes and original classic templates remain. Draft/private-note filtering applies consistently to public reads. The previous unreviewed result cache is not used. Current/next panels refresh from the read-only public endpoint at the saved interval; history tables refresh on navigation. Source data is never fetched/imported automatically from third-party sites.
 
-No ACF option or post metadata is erased. The new theme does **not** automatically migrate proprietary repeater values or promotional/payment copy. Before switching:
+Google Fonts are opt-in. Check privacy/consent requirements if enabled. Built-in contact mail is nonce/honeypot/rate-limited but requires actual mail-delivery and abuse testing on hosting. Prefer a maintained form plugin where appropriate.
 
-1. Export/screenshot old theme settings and record page-template assignments.
-2. Review which content is appropriate for an independent informational site.
-3. Copy approved title/hero/about/contact/footer/SEO copy into native Customizer settings.
-4. Reassign menus, logo and favicon; check new page-template behavior.
-5. Recreate appropriate FAQs as native FAQ entries and choose games in the native page dropdown.
-6. Use Posts/Pages for real editorial content. Source-site phone numbers, guarantees, payment offers and prediction copy must not be blindly imported.
+## Required upgrade verification
 
-FAQ content is stored as normal WordPress posts of type `gbk_faq`. Switching themes does not erase it, though its editing menu is supplied by this theme and will disappear until it is registered again.
+Compare backups against post-upgrade IDs/counts/values/schedules, ACF option names/values, zero-row repeaters and page metadata. Test front-page binding, licensed PRO media/repeaters/flexible layouts, styles, forms, assigned users, daily publication, duplicate imports and public privacy. Test native MySQL/MariaDB and a full backup restore; Playground SQLite is not certification. Purge/exclude CDN caches where required.
 
-## Retention and rollback
+## Rollback
 
-New uninstall is intentionally a no-op for data. It does not honor the old destructive `srm_delete_on_uninstall` option. Keep original ZIPs plus a **matching complete database/files backup**, not only CSV exports. Restore both on staging/maintenance when rolling back. A downgrade does not automatically remove additive columns; do not manually drop them unless deliberately restoring the whole old database backup. Original-plugin security problems would return with a downgrade.
+1. Restrict writes and take a fresh recovery snapshot of any new data.
+2. Restore **database and files together** from the chosen pre-upgrade backup; retain separately any new provenance/import records needed for reconciliation.
+3. Restore the previous theme/plugin versions and ACF installation; verify permalinks/cache behavior.
+4. Re-audit public API/shortcode draft exposure before restoring the original unsafe publication behavior. A rollback is not automatically safer.
 
-Tested: clean install, repeat activation and an isolated original-schema fixture upgraded through `dbDelta()`, preserving a legacy result's ID, date, leading-zero value and published status while adding unverified provenance. Tests used WordPress's SQLite adapter, so real MySQL/MariaDB and hosting acceptance remain mandatory.
+2.1 uninstall intentionally retains plugin data, settings and user assignments. Any final erasure must be a separately authorized, backed-up database operation.

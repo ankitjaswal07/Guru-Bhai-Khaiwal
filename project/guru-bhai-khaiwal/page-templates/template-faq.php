@@ -1,5 +1,27 @@
 <?php
-/** Template Name: Frequently Asked Questions */
+/**
+ * Template Name: FAQ Page
+ * Template Post Type: page
+ *
+ * @package Guru Bhai Khaiwal
+ */
+
 defined( 'ABSPATH' ) || exit;
-get_header(); ?>
-<div class="container content-area"><?php gbk_breadcrumb(); while ( have_posts() ) : the_post(); ?><h1><?php the_title(); ?></h1><div class="entry-content"><?php the_content(); gbk_faqs(); ?></div><?php endwhile; ?></div><?php get_footer(); ?>
+
+get_header();
+
+while ( have_posts() ) :
+	the_post();
+	?>
+	<?php s20_page_title( s20_get_option( 'faq_heading', get_the_title() ) ); ?>
+	<article id="post-<?php the_ID(); ?>" <?php post_class( 's20-section s20-page-section s20-faq-page' ); ?>>
+		<div class="s20-container">
+			<p style="text-align: center;margin-bottom: 40px; font-size:18px;"><?php echo s20_get_option( 'faq_description', '' ); ?></p>
+			<?php get_template_part( 'template-parts/faq/faq-list' ); ?>
+			<?php s20_page_notice(); ?>
+		</div>
+	</article>
+	<?php
+endwhile;
+
+get_footer();

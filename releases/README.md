@@ -1,100 +1,81 @@
-# Guru Bhai Khaiwal
+# Guru Bhai Khaiwal — ACF PRO edition
 
-A redesigned classic WordPress theme and a compatible **data-preserving upgrade** of the supplied Scheduled Results Manager. Informational schedules and source-reviewed historical archives only—no wagering, payments, predictions or payout functions.
+**Version 2.1.0 · 27 October 2026**
 
-**Release:** 2.0.0 · 26 October 2026  
-**Readiness:** installable and integration-tested in WordPress Playground. Complete the hosting acceptance checklist below before a production launch. This is not a claim of validation on an unknown hosting environment.
+An installable classic WordPress theme based on the **supplied Satta20 templates, styles and ACF definitions**, with the supplied Scheduled Results Manager's admin organization restored. Guru Bhai Khaiwal branding, the client schedule, and source-reviewed informational records remain in place.
+
+This revision supersedes the native-Customizer design in 2.0. **Licensed ACF PRO is required for theme content administration; the owner has confirmed it is installed on their website.** ACF PRO and license keys are not bundled. The private live Satta20 dashboard has not been inspected: compatibility refers to the supplied ZIP, not a claim of pixel-identical live-site parity.
 
 ## Deliverables
 
-| File | Purpose |
+- `releases/guru-bhai-khaiwal-theme.zip` — theme directory `guru-bhai-khaiwal`.
+- `releases/guru-bhai-khaiwal-results-manager.zip` — retains `scheduled-results-manager/scheduled-results-manager.php` for replacement upgrades.
+- `historical-data-import.csv` — **partial**, 523 source-checked draft rows for 2026-08-26–2026-10-26, across 11 games.
+- `CHANGELOG.md`, `TESTING-REPORT.md`, `docs/MIGRATION.md`, `docs/ACF-ADMIN-GUIDE.md`, `docs/HISTORICAL-SOURCES.md`.
+- `releases/SHA256SUMS.txt` — release checksums.
+
+The original `satta20.zip` and `scheduled-results-manager.zip` remain unchanged. `docs/INPUT-SHA256.txt` records their hashes. Development sources live under `project/`.
+
+## Requirements and installation
+
+1. Back up the entire database and `wp-content`; use staging first.
+2. Use WordPress **6.7+**, PHP **8.1+ with mbstring**, HTTPS, UTF-8/utf8mb4 and a supported WordPress database. Prefer a currently security-supported PHP version. Tests use WP 6.7.2 with PHP-WASM/SQLite, not production MySQL certification.
+3. Keep your licensed **ACF PRO** active. Do not install unofficial copies. PHP-registered field groups load automatically; no JSON import is needed.
+4. Upload and activate the results-manager plugin ZIP, then the theme ZIP. For upgrades, choose **Replace current with uploaded**. Never activate two plugin copies; never delete the old plugin first, because its original uninstall option may erase data.
+5. Set the site timezone in **Settings → General** (normally `Asia/Kolkata`). Set a published Home page as the static front page in **Settings → Reading**, before configuring Homepage options.
+6. Create an Archives page containing `[gbk_archive]`, or use the **Results: Result Chart** template. Optional templates cover Today, Yesterday, Monthly, Single Game, FAQ, Contact and Blog. Set a single-game page's shortcode explicitly, for example `[srm_game_history game_id="1"]` using a real game ID.
+7. Assign menus under **Appearance → Menus**. Configure the site icon in Site Identity. Save permalinks and check your hosting rewrite rules.
+8. Open **Guru Bhai Khaiwal** to edit ACF content; open **Scheduled Results** to manage schedules, entries and plugin settings. The plugin menu label can be renamed in its Settings.
+9. Complete `docs/ACF-ADMIN-GUIDE.md` and the staging acceptance checklist before launch.
+
+No build tools are required on hosting. Single-site only; network activation is blocked. ACF deactivation does not delete content: the frontend keeps neutral defaults and reads supported saved values, but the content editor is unavailable until PRO returns.
+
+## Theme management — original ACF organization
+
+The original `s20-settings` parent and nine option-page slugs remain:
+
+| Menu | Controls |
 |---|---|
-| `releases/guru-bhai-khaiwal-theme.zip` | Uploadable theme; folder `guru-bhai-khaiwal` |
-| `releases/guru-bhai-khaiwal-results-manager.zip` | Uploadable plugin; **folder and entry point remain `scheduled-results-manager/scheduled-results-manager.php`** for in-place upgrades |
-| `historical-data-import.csv` | **Partial** dataset: 523 source-checked records across 11 games, 2026-08-26–2026-10-26; imports as drafts |
-| `CHANGELOG.md` | Changes relative to the supplied code |
-| `TESTING-REPORT.md` | Tests, limitations and production acceptance gates |
-| `docs/MIGRATION.md` | Schema, compatibility boundaries and rollback |
-| `docs/HISTORICAL-SOURCES.md` | Evidence, mappings, verification meaning and missing coverage |
-| `releases/SHA256SUMS.txt` | Checksums of the installation ZIPs and companion delivery files |
+| General | Site title, logo/width/link, contact numbers, optional Google Fonts, notices, default SEO description, plugin shortcut |
+| Header | Announcement, social/login links, sticky header, date badge, scrolling notice |
+| Results | Headings, descriptions, container width and mobile table-scroll hints |
+| Contact | Contact-detail repeater, form shortcode, optional built-in form, email recipient and messages |
+| Payment | Original fields retained for compatibility, **disabled and never rendered** in this informational edition |
+| FAQ | Editable questions/answers, order, visibility and accordion behavior |
+| Footer | Branding/background, nested link columns, social visibility, disclaimer and copyright |
+| Social | Editable links, icons/custom images and header visibility |
+| Shortcodes | Plugin shortcode assignments and fallback behavior; no result data stored in the theme |
 
-Original `satta20.zip` and `scheduled-results-manager.zip` are retained unchanged at the repository root. Their hashes are in `docs/INPUT-SHA256.txt`. Development source is in `project/`; original extracted inspection copies are excluded from releases.
+Two additional pages:
 
-## Requirements
+- **Homepage**: edits the existing front-page post's ACF fields—hero, images, schedule, daily/monthly blocks, editorial cards, contacts, blog, FAQ and drag-to-reorder section list. **Page Sections** flexible content supports full content, image-left and image-right layouts. Add these to the homepage order list. The same fields remain available in the page editor. If no static front page is configured, Homepage uses options storage; configure Reading before editing for predictable storage.
+- **Theme Styles**: palette/light surfaces, body and heading font/size/line height, content width, gutters, section spacing, grid gap, header/footer/nav colors and spacing, card color/padding/radius/shadow, button colors/padding/radius, tables and mobile typography/gutters. Values are allowlisted/clamped on save and output. Changes apply after saving; no arbitrary CSS or JavaScript injection field is provided.
 
-- WordPress **6.7 or newer**. Use a currently maintained WordPress release for production. Functional compatibility was tested on 6.7.2, not every later release.
-- PHP **8.1+ with mbstring**, a supported WordPress database, UTF-8/utf8mb4 and database CREATE/ALTER permissions for activation/upgrades. Prefer a currently security-supported PHP release such as 8.3+; the 8.1 test is compatibility evidence, not a deployment recommendation.
-- HTTPS, ordinary WordPress upload permissions and adequate disk/database backup space.
-- **No ACF or ACF PRO license required.** No Elementor, Composer, Node, external font service, API key or third-party runtime dependency is required on the hosting server.
-- Single-site deployment tested. **Multisite/network activation is not supported by this release**; do not network-activate it.
+**Style precedence:** Theme Styles → Table Source selects theme table styling or plugin table styling. Plugin card colors remain under Scheduled Results → Settings. The default fonts include a locally hosted Devanagari font; Google Fonts are off unless enabled in General. System/serif choices work without external requests. Recheck contrast after customization.
 
-## Clean installation
+No third-party phones, guarantees or prediction promotions are seeded. Editorial cards and direct-contact blocks start disabled; enable them only with your own appropriate information. Existing saved ACF content is preserved—review it before launch.
 
-1. Back up the database and `wp-content`. Use a staging site first.
-2. **Plugins → Add New → Upload Plugin:** upload `guru-bhai-khaiwal-results-manager.zip`, install and activate.
-3. **Appearance → Themes → Add New → Upload Theme:** upload `guru-bhai-khaiwal-theme.zip`, install and activate.
-4. **Settings → General:** set title to **Guru Bhai Khaiwal**, edit the tagline, set the appropriate timezone (normally `Asia/Kolkata` for this project), and choose date/time formats. The release deliberately does not overwrite an existing site's identity or timezone.
-5. Create a published **Home** page and set it as the static homepage in **Settings → Reading**. The homepage uses the theme's section renderer. Homepage body sections are edited in the Customizer rather than the page body.
-6. Create a published **Historical archives** page with the shortcode `[gbk_archive]`. Add a short editorial explanation of sources and missing records. Choose this page in **Appearance → Customize → Guru Bhai Khaiwal → Brand, contact & SEO → Archive page**.
-7. Optional: create an **Articles** page and assign it as the Posts page under Reading. WordPress supplies normal paginated post archives. Alternatively use the Informational Articles page template.
-8. **Appearance → Menus:** assign header and footer menus. Without a menu, working homepage anchor links are shown. Update menus if you disable their destination sections.
-9. **Settings → Permalinks:** choose a descriptive structure, save once, and confirm `/archives/`, post pages and `/wp-sitemap.xml` work with your hosting rewrite rules.
-10. Review all branding, notices, contacts and FAQs before launch. Add your own contact details; no third-party phone numbers or invented business address are prefilled.
+## Results administration — restored plugin screens
 
-The plugin inserts the 14 requested schedules **only if the games table is empty**. No historical results are seeded. The theme adds four editable informational FAQ entries once, only when no FAQ content exists. It does not generate fake blog posts.
+- **Dashboard**: counts, current/next scheduled entries, countdown and quick links.
+- **Games**: bilingual names, local time, display order, active status, duplication and drag ordering. Slugs remain stable on rename. New duplicates start inactive. Deactivate rather than delete to retain history.
+- **Daily Results**: date selector, one row per active/assigned game, result, original source name, URL, private notes, verification, publication status and explicit review checkbox. Save individually or Save All. **Publish Reviewed Rows never checks review boxes automatically**; unreviewed rows fail validation.
+- **Monthly Results**: month/year navigation, administrative matrix with draft/verification labels, daily review links, print and CSV export. Draft values appear only in authorized admin views.
+- **Settings**: original option names retained—plugin label, date/time/result formats, default status, editing lock, current/next visibility, countdown, AJAX interval, nine colors and five numeric styles. The interval refreshes current/next schedule panels; historical tables refresh on navigation. “Published” as the default does **not** bypass source review. Deletion/uninstall-erasure controls are visibly protected.
+- **Import / Export**: secure CSV upload/template/export and persistent logs in the original two-column organization.
+- **Records & source review**: additional paginated historical desk with game/date/month/status filtering. Preserves the full 2.0 provenance workflow.
 
-## Upgrading an existing installation
+Full results managers (`manage_scheduled_results`) and administrators can publish/manage/import/export. **Users → Edit User → Allowed Games** restores scoped assignments: assigned operators may enter/edit drafts for their games only, cannot change published records or approve publication, and cannot manage schedules/settings/imports/exports. Assignments can be changed only by an administrator who can edit that user.
 
-**Do not activate both old and new copies.** The plugin ZIP intentionally retains its original directory and main PHP filename. Use WordPress's “Replace current with uploaded” workflow on staging, or deactivate the original plugin and replace that directory by SFTP. Do not click Delete on the old plugin: its old uninstall setting may erase data.
+## Publication and time rules
 
-The new theme is a separate theme folder. Activating it does not delete the Satta20 theme, ACF options, pages or posts. Existing custom page-template paths are retained, but branding and homepage settings need a deliberate manual review/migration to native Customizer controls. Old payment/promotional content and third-party contacts are not copied automatically.
+Publication requires **Published + Verified + source URL + original source name + explicit reviewer confirmation**, and records must belong to an active game and a non-future source date. Public tables and REST never reveal draft values or private notes/reviewer identity. Revisions require fresh review; stale forms are rejected. Concurrent writes are not a fully transactional locking system.
 
-**Important publication change:** old result IDs, dates, values and `published`/`pending` statuses are preserved. New provenance columns initially mark legacy rows **unverified**, so those rows are hidden publicly until reviewed. This is intentional, not lost data. Existing schedules are never silently overwritten by the new defaults. See `docs/MIGRATION.md` before upgrading.
+Numeric mode accepts digits and grouped numeric separators (`-`, space, `/`), preserving zeroes. Alphanumeric mode allows a limited letter/digit-led string; formulas and markup are rejected. Values are limited to 50 bytes. Date labels belong to the source's actual calendar date; overnight schedules do not silently move them to yesterday.
 
-## Administration guide
+The plugin seeds the **14 client schedules only into an empty games table**. No historical values are seeded. Disawar remains at 01:00; timezone-aware next/previous occurrences are independent of display order. Schedules are not promises that results will appear at a given time.
 
-### Branding and homepage
-
-Open **Appearance → Customize**:
-
-- **Site Identity:** site title/tagline, uploaded logo and site icon/favicon.
-- **Guru Bhai Khaiwal → Brand, contact & SEO:** colors, system/serif heading style, fallback logo initials, hero text/buttons, informational notices, contact details, two social URLs/labels, archive page, SEO default description, about/contact text and footer copy.
-- **Each numbered homepage section:** show/hide checkbox, numeric display order, heading, description and optional Media Library image. Lower order numbers appear first; equal values retain the default sequence. Use the dedicated Hero title/introduction fields for its H1 and main copy; the Hero section heading is its accessible section label.
-- Image descriptions/alt text are managed in **Media**. No generated reference-site banners are used.
-- **FAQs:** edit questions as titles and answers as content in the WordPress FAQs menu; use page order to rearrange them. Unpublish to remove. Up to 50 published FAQs render; no thin individual FAQ URLs are exposed.
-- **Posts:** publish real informational articles with excerpts and optional featured images. The homepage shows three latest published articles.
-
-Default colors passed automated contrast checks. Re-test contrast after changing colors. English interface text and bilingual game names are supported; a complete Hindi translation of all admin/system labels is not supplied.
-
-### Schedule management
-
-**Guru Bhai Records → Daily schedule**:
-
-- Add/edit primary and Hindi names, local time, display order and Active visibility.
-- The CSV slug is shown in the table. Slugs are stable when a game is renamed.
-- Uncheck Active to deactivate without deleting history. Destructive game/result deletion is intentionally absent from the review desk; unpublish records instead.
-- All 14 defaults, including **Disawar at 1:00 AM**, live only in the plugin's database seed—not scattered through templates.
-- Times use **WordPress Settings → General**. “Next scheduled entry” is computed chronologically, independently of display order, using actual local dates. An entry after midnight belongs to that calendar date, not automatically to yesterday. Historical source date labels are never shifted to match schedule order.
-- These are schedules, not promises that a result has been or will be published at a particular time. There is no automatic result fetch or countdown polling.
-
-### Add, review and publish a record
-
-**Guru Bhai Records → Records & review**:
-
-1. Choose a game and actual source calendar date.
-2. Enter the exact historical value, preserving leading zeroes. Values accept digits with optional numeric group separators (`-`, space or `/`), up to 50 characters; formulas and arbitrary markup are rejected.
-3. Enter the **original game name on the source**, a valid HTTP(S) source URL and optional private verification notes.
-4. Save as Draft/Pending if not yet checked. Source verification and publication are separate states.
-5. Open **Review / edit**, visit the source, verify game/date/value, select **Verified against source**, select **Published**, check the explicit review confirmation and save.
-6. Publication requires the source, verification, reviewer ID and UTC review timestamp. Revising a published record requires renewed confirmation; unpublishing removes it from public components immediately at the application level.
-
-Public tables, shortcodes and REST responses exclude drafts, unverified/disputed records, inactive games and future-dated records. Use the date, month/year, game and status filters in the desk. Lists paginate at 30 rows. Exact date takes precedence over month. A stale edit form is detected and asks you to reload.
-
-Only administrators or explicitly trusted users with `manage_scheduled_results` may use this desk. **Legacy game-scoped operators are not automatically permitted** to publish, import, export, or manage schedules in 2.0. Their user metadata is retained. Do not grant the full management capability to an untrusted user merely to restore old scoped access.
-
-### CSV import and export
-
-**Guru Bhai Records → CSV & import logs** provides the current empty template, file upload, date-range export and paginated import history.
+## CSV workflow
 
 Required UTF-8 header:
 
@@ -102,101 +83,50 @@ Required UTF-8 header:
 date,game,result,status,original_game_name,source_url,verification_status,verification_notes
 ```
 
-Rules:
+- Real ISO dates (`YYYY-MM-DD`), no future dates; exact stored slug, primary name or Hindi name. Unknown or ambiguous games are rejected. Legacy `event` is accepted as the `game` header.
+- Maximum **2 MB / 5,000 rows**. Imports are **always drafts**, even when the file requests publication or claims verification.
+- Existing game/date records are never overwritten. A repeated import counts duplicates instead of adding copies.
+- Logs report successful/imported, skipped blank, duplicate and invalid rows, with UTC time, user ID, file hash and bounded errors. Mixed-validity files are not all-or-nothing transactions.
+- Exports include drafts and provenance; spreadsheet formula prefixes are escaped. Import the result column as **Text** so `00` and `07` are not converted.
+- Uploads are processed from PHP temporary storage, not published to the Media Library. Keep your source evidence privately.
 
-- ISO dates only (`YYYY-MM-DD`), real calendar dates, no future dates. No locale-ambiguous dates.
-- Use a stored slug (recommended), exact primary name or exact Hindi name. Whitespace/case normalization is applied; ambiguous names are rejected. Legacy `event` header is accepted as `game`, but provenance columns are now mandatory.
-- `status`: `draft`, `pending` or `published` accepted in the file; **all imported rows are saved as pending drafts regardless**.
-- `verification_status`: `unverified`, `verified` or `disputed`. A file's `verified` claim does not populate a reviewer or authorize publication.
-- **2 MB / 5,000 rows maximum** per upload. Header, encoding, column count, date, source, game and value validation happen before each row is stored. Oversized row-count files are rejected before writes.
-- A unique `(event_id, result_date)` constraint prevents duplicates. Repeated imports never overwrite an existing row—even if the incoming value differs. Resolve corrections explicitly in the review desk.
-- Log counts distinguish imported, skipped blank, duplicate and invalid rows; each log stores UTC time, user ID, file SHA256 and up to 100 row-level errors. Mixed-validity files import valid rows and log rejected ones; they are **not all-or-nothing transactions**.
-- CSVs are processed from PHP's temporary upload location, not published to the Media Library. Raw uploads are not retained; retain your source file and evidence in your private backup process.
-- Exports include drafts, original source names, source URLs and verification fields. Spreadsheet formula-leading text is prefixed with an apostrophe. Import the result column as **Text** in spreadsheet software so it does not convert `00` or `07` into numbers.
+### Historical coverage is partial
 
-### Delivered historical CSV
+The unchanged delivery CSV contains **523 unique source-checked rows**, including 154 corresponding values corroborated against A1's displayed chart. This verifies transcription of displayed sources, **not official certification of events** or permission to reuse content.
 
-`historical-data-import.csv` contains **523 source-checked rows**, not a complete two-month dataset. The 62-day inclusive window is 26 August–26 October 2026. 154 included cells also match the A1 October chart; others were checked against a single displayed source. This checks what those websites displayed, **not an independent certification of the underlying events**.
+No Model Town, Punjab Matka or HUDA City records are supplied. Four games have October-only coverage. Missing cells and the unresolved 1 October Disawar record remain omitted. Read `docs/HISTORICAL-SOURCES.md` before importing; recheck sources and permitted reuse. Importing does not publish.
 
-No rows are provided for Model Town, Punjab Matka or HUDA City. Four other games have October-only coverage. Missing cells and an unresolved 1 October Disawar entry are omitted. Do not substitute Dwarka for HUDA City, HR Satta for HR Matka, or Delhi Matka for Punjab Matka. Source schedules differ from the client schedule; source times are not imported.
+## Shortcodes and SEO
 
-Import this CSV only after reading `docs/HISTORICAL-SOURCES.md`, checking permitted reuse and rechecking the original sources. Importing it does not publish it. It is not automatically loaded on activation.
+`[srm_active_games]`, `[srm_current_game]`, `[srm_next_game]`, `[srm_live_status]`, `[srm_today_results]`, `[srm_yesterday_results]`, `[srm_today_yesterday_results]`, `[srm_full_month_results]`, `[srm_monthly_results month="10" year="2026"]`, `[srm_previous_month_results]`, `[gbk_latest_records]`, `[gbk_archive]`, `[srm_game_history game_id="1"]`.
 
-## Pages, shortcodes and SEO
+Existing aliases and the read-only `srm/v1` REST namespace are retained. A missing/deactivated plugin produces an informational fallback, not fabricated results. Theme SEO supplies title/meta description, canonical behavior, WebSite JSON-LD and noindex for filtered/search views; recognized SEO plugins take over head metadata. Normal WordPress posts/sitemaps work. No betting, predictions, payment processing or payouts are included.
 
-| Shortcode | Use |
-|---|---|
-| `[srm_active_games]` | Bilingual daily schedule cards |
-| `[srm_next_game]` | Next calendar-aware informational schedule entry |
-| `[gbk_latest_records]` | Six most recently dated published records |
-| `[srm_today_results]`, `[srm_yesterday_results]` | Verified records for the site's local dates |
-| `[srm_today_yesterday_results]` | Both date groups |
-| `[srm_monthly_results month="10" year="2026"]` | Source-linked monthly grid; attributes optional |
-| `[srm_previous_month_results]` | Previous month relative to WordPress's current date |
-| `[gbk_archive]` | Date/month/game filters and paginated history |
-| `[srm_game_history game_id="1"]` | Game-scoped, filtered archive |
+## Upgrades, caching and rollback
 
-The old plural/singular active-game aliases, previous-month aliases and `srm_event_history` remain registered. Legacy countdown/live aliases now render informational components without polling. Some display attributes and markup differ; see migration notes. Multiple independent search forms should not be placed on the same page because they share the same filter query parameters.
+See `docs/MIGRATION.md`. Existing game IDs, result values/statuses, ACF field identities, options, pages and posts are retained. Old published rows without provenance remain stored but hidden until review. Some 2.0 native settings map to fallback ACF values; the changed homepage structure requires visual review rather than silently copying every native-only section.
 
-The original eight custom page-template paths remain available: archives, today, yesterday, monthly, game history, contact, FAQ and blog. The Single Game History template has a native **game dropdown** in the page editor. A page's excerpt can supply its meta description.
+Exclude REST and admin from public caches; purge page/CDN caches after source changes or unpublishing. The application does not reuse stale monthly caches. Use low/appropriate page-cache TTLs for schedule pages. Back up before every upgrade; uninstall retains data. Restore **database and files together** for rollback. Do not restore an old public API without considering draft exposure.
 
-- Native WordPress titles, language attributes, breadcrumbs, canonical handling, descriptions, Open Graph metadata and WebSite JSON-LD.
-- Core XML sitemap compatibility; use native published Pages for indexable, descriptive archive landing URLs. Do not generate hundreds of empty game/month pages.
-- Filtered result URLs and internal search are `noindex`; the unfiltered archive page remains indexable. Core handles admin indexing protections; public plugin REST routes add `X-Robots-Tag: noindex`.
-- Theme head metadata defers to detected Yoast, Rank Math, AIOSEO or SEOPress to avoid duplicates. When using an SEO plugin, explicitly preserve noindex rules for filter/search parameters in that plugin and verify its generated canonicals/robots. These integrations were not all installed in this test environment.
-- Legacy REST namespace `/wp-json/srm/v1/` retains `games`, `events`, `today`, `monthly` and `current`. Monthly legacy `games`/`rows` keys are retained, with an additional source-aware `results` collection. Public results never include private verification notes or reviewer identity. No write REST endpoint is exposed.
-
-## Backups, update and rollback
-
-1. Take a full database export (including `*_srm_events`, `*_srm_results`, `*_srm_import_logs`, options, posts and user metadata), a copy of `wp-content`, and the original ZIPs before any change.
-2. Verify restoration on staging. Database credentials belong in the hosting environment, never in these packages or Git.
-3. Replace the plugin in place, activate the new theme, review legacy records and test all workflows. Deploy only after the hosting acceptance checklist passes.
-4. For rollback, put the site in maintenance mode, restore the matching database **and** file backup, then clear PHP opcode/page/CDN caches and recheck URLs. A CSV export alone is not a full rollback backup and omits some system metadata.
-5. Do not delete the old plugin through WordPress while its original “delete on uninstall” option is enabled. **The new plugin always retains data on deactivation/uninstall**, deliberately ignoring that destructive old option. Permanent data removal requires an intentional, backed-up DBA operation.
-6. Reverting to the original plugin can restore its old draft-disclosure and unsourced-seeding behavior. Prefer fixing forward or rolling back privately; do not assume the original is secure just because it is retained.
-
-## Troubleshooting
-
-- **Empty results after upgrade:** check verification, source, explicit approval, publication status, active game and date. Legacy rows are not lost; they are unverified until reviewed.
-- **Only old schedules appear:** this is preservation by design. Edit retained rows and add missing client games in the desk; do not reset IDs or delete tables.
-- **CSV unknown game:** use the schedule's displayed slug. Add missing games first on an existing install. Original source names belong in `original_game_name`, not an assumed alias mapping.
-- **Database migration warning:** verify CREATE/ALTER privileges and database logs. The plugin does not mark a failed migration complete; restore staging backup if needed. Do not bypass schema checks.
-- **Wrong time/day:** set the named WordPress timezone; do not change the PHP server clock to compensate. Date labels follow the source.
-- **Changes not visible:** clear host page/CDN caches. This plugin intentionally has no shared result transient cache. Exclude frequently changing schedule/archive pages from long-lived full-page caching, or configure your cache plugin's purge policy.
-- **No contact form:** intentional. Publish your actual email/telephone/social channel. A vetted form plugin may be added to a normal Contact page if needed, with your own privacy/spam policy.
-- **Fonts/branding:** Hindi glyphs use a self-hosted Noto Sans Devanagari subset; other text uses system fonts. Logo/site icon override the bundled typographic fallback. Clear browser caches after replacing assets.
-- **404s on clean URLs:** save Permalinks and check Apache/Nginx rewrite configuration.
-
-## Development and reproducible tests
-
-Node/Python tooling is **development only**, never included in either installable ZIP. See `tools/` and `tests/`. Install with `npm ci`. Download WordPress 6.7.2 from the official WordPress GitHub mirror into `.runtime/wordpress.zip` (see `tools/prepare-runtime.mjs`). Then:
+## Development and honest test scope
 
 ```sh
+npm ci
 node tools/prepare-runtime.mjs
-npm test
-npm run test:php81
-npm run preview
-npm run test:browser   # against a fresh disposable preview; see tools/prepare-runtime.mjs for Chromium libraries
-python tools/build-history.py
-npm run package
-PHP_VERSION=8.1 node tools/runtime.mjs --from-zips
+node tools/lint.mjs
+node tools/runtime.mjs
+PHP_VERSION=8.1 node tools/runtime.mjs
+python tools/package.py
+node tools/runtime.mjs --from-zips --serve
+# In another process, against the fresh preview:
+node tools/browser-test.mjs
+(cd releases && sha256sum -c SHA256SUMS.txt)
 ```
 
-The preview/testing database is disposable and in-memory. Tests create and remove clearly labeled fixture records, never put invented data in the release CSV, and must **not** be run against production. Runtime archives, credentials, screenshots and databases are ignored by Git. See the testing report for runtime versions and transport adapters used for sandbox browser tests.
+Tests use disposable WordPress/PHP-WASM databases; synthetic test records are not bundled or seeded. The browser run creates fixtures: restart the preview afterward to clear them.
 
-## Production acceptance checklist
+**ACF limitation:** no licensed PRO package is available in this sandbox. Tests capture PHP field/page registration and inspect saved-option rendering; that is **not** real PRO editor/repeater/media/save testing. Validate these on the owner's licensed staging site, plus MySQL/MariaDB, backups, mail delivery, caches, permissions and legal/editorial requirements. See `TESTING-REPORT.md`.
 
-- [ ] Restore-tested database/files backup and rollback owner assigned.
-- [ ] Install/update on the actual supported PHP + MySQL/MariaDB host; no PHP/SQL errors.
-- [ ] HTTPS, rewrite rules, uploads, security headers and caches verified.
-- [ ] Real title, logo/site icon, contact details, notices and menus approved.
-- [ ] Existing ACF/page content manually reviewed and migrated where appropriate.
-- [ ] Existing-user capability policy approved; no unintended full-manager grants.
-- [ ] CSV provenance/reuse rights checked and each record reviewed before publication.
-- [ ] Real-device/browser and assistive-technology checks, including custom brand colors.
-- [ ] SEO-plugin metadata, sitemap and filtered-page noindex checked if applicable.
-- [ ] Site owner's legal/privacy review completed for the intended jurisdiction and informational use.
+## Licensing
 
-## Attribution and licensing
-
-Derived from the client-supplied Satta20 theme (author credit: Satta20, GPL v2 or later) and Scheduled Results Manager 1.1.0 (GPL-2.0-or-later). The release code is GPL-2.0-or-later; see `LICENSE`. New branding is independent, not an affiliation with any reference site. The self-hosted Noto Sans Devanagari font is under the SIL Open Font License, bundled alongside the font. Historical source excerpts contain factual table cells for traceability; no reference-site advertising text, images, logos or contact details are republished.
+GPL-2.0-or-later for the theme/plugin; see `LICENSE`. The bundled Devanagari font includes its OFL license. ACF PRO has its own license and is not redistributed. Third-party historical source data is not claimed as original or automatically licensed for reuse.

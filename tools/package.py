@@ -10,13 +10,13 @@ for folder,name in [('guru-bhai-khaiwal','guru-bhai-khaiwal-theme.zip'),('schedu
     for document in ['README.md','CHANGELOG.md','TESTING-REPORT.md','LICENSE']:
         shutil.copyfile(root/document,source/document)
     (source/'docs').mkdir(exist_ok=True)
-    for document in ['MIGRATION.md','HISTORICAL-SOURCES.md']:
+    for document in ['MIGRATION.md','HISTORICAL-SOURCES.md','ACF-ADMIN-GUIDE.md']:
         shutil.copyfile(root/'docs'/document,source/'docs'/document)
     with zipfile.ZipFile(release/name,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
         for file in sorted(source.rglob('*')):
             if not file.is_file():continue
             arc=folder+'/'+file.relative_to(source).as_posix()
-            info=zipfile.ZipInfo(arc,(2026,10,26,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o100644<<16
+            info=zipfile.ZipInfo(arc,(2026,10,27,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;info.external_attr=0o100644<<16
             archive.writestr(info,file.read_bytes())
     with zipfile.ZipFile(release/name) as archive:
         assert archive.testzip() is None

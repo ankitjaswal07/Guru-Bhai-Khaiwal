@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.s20-footer {
+    color: #fff;
+}
+
+.s20-footer-main {
+    background-color: var(--s20-black);
+    background-position: center;
+    background-size: cover;
+    padding: 60px 10px 30px;
+}
+
+.s20-footer-grid {
+    display: grid;
+    grid-template-columns: 25% 23% 23% 23%;
+    justify-content: space-between;
+    gap: 30px 2%;
+}
+
+.s20-footer-col {
+    min-width: 0;
+}
+
+.s20-footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+}
+
+.s20-footer-logo {
+    display: block;
+    width: 100%;
+    max-width: 150px;
+}
+
+.s20-footer-logo img {
+    width: 100%;
+}
+
+.s20-footer-tagline {
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #fff;
+    margin: 0;
+}
+
+.s20-footer-desc {
+    font-size: 14px;
+    line-height: 1.3em;
+    letter-spacing: 1px;
+    color: #fff;
+    margin: 0;
+}
+
+.s20-footer-heading {
+    display: block;
+    font-family: var(--s20-font-body);
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--s20-gold);
+    margin-bottom: 14px;
+}
+
+.s20-footer-links {
+    list-style: none;
+    max-width: 160px;
+}
+
+.s20-footer-links li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--s20-border-soft);
+}
+
+.s20-footer-links li:last-child {
+    border-bottom: 0;
+}
+
+.s20-footer-links a,
+.s20-footer-links li>span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+}
+
+.s20-footer-links a:hover {
+    color: var(--s20-gold);
+}
+
+.s20-footer-links .s20-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--s20-gold);
+}
+
+.s20-social {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.s20-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: var(--s20-gold);
+    font-size: 18px;
+}
+
+.s20-social a:hover {
+    background: var(--s20-gold);
+    color: #000;
+}
+
+.s20-social-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+
+/* Disclaimer bar */
+
+.s20-footer-disclaimer-wrap {
+    padding: 0 10px 30px;
+    margin-top: 30px;
+}
+
+.s20-footer-disclaimer {
+    display: grid;
+    grid-template-columns: 20% 1fr 18%;
+    align-items: center;
+    gap: 15px;
+    background-color: var(--s20-pure-black);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.s20-disclaimer-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-right: 1px solid #d8d8d8;
+    padding-right: 15px;
+}
+
+.s20-disclaimer-title .s20-icon {
+    width: 41px;
+    height: 41px;
+    color: var(--s20-gold);
+}
+
+.s20-disclaimer-title h3 {
+    font-family: var(--s20-font-heading);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.4em;
+    letter-spacing: 1px;
+    color: var(--s20-gold);
+}
+
+.s20-disclaimer-text {
+    font-size: 12px;
+    line-height: 1.4em;
+    letter-spacing: 1px;
+    color: #fff;
+    padding-right: 10px;
+    border-right: 1px solid #fff;
+    margin: 0;
+    text-align: center;
+}
+
+.s20-disclaimer-age {
+    text-align: center;
+}
+
+.s20-age-badge {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--s20-gold);
+    margin: 0;
+    line-height: 1.1;
+}
+
+.s20-age-text {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #fff;
+    margin: 0;
+}
+
+
+/* Copyright */
+
+.s20-footer-bottom {
+    background-color: var(--s20-pure-black);
+    padding: 15px 10px;
+    text-align: center;
+}
+
+.s20-copyright,
+.s20-footer-extra {
+    font-size: 14px;
+    line-height: 1.3em;
+    letter-spacing: 1px;
+    color: #fff;
+    margin: 0;
+}
+
+.s20-footer-extra {
+    margin-bottom: 6px;
+}

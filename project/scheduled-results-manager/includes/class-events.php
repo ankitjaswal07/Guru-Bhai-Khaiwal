@@ -117,8 +117,9 @@ class SRM_Games {
         global $wpdb;
 
         $table = SRM_Database::events_table();
-        $now   = current_time( 'mysql' );
+        $now   = current_time( 'mysql', true );
 
+        if(mb_strlen($data['event_name']??'')>150 || mb_strlen($data['event_name_secondary']??'')>150)return new WP_Error('name','Names must be at most 150 characters.');
         // Validate required fields
         if ( empty( $data['event_name'] ) ) {
             return new WP_Error( 'missing_name', __( 'Game name is required.', 'scheduled-results-manager' ) );
@@ -167,11 +168,12 @@ class SRM_Games {
      * @return bool|WP_Error
      */
     public static function update_game( int $id, array $data ): bool|WP_Error {
+        if(mb_strlen($data['event_name']??'')>150||mb_strlen($data['event_name_secondary']??'')>150)return new WP_Error('name','Names must be at most 150 characters.');
         if ( ! SRM_Access::current_user_has_full_access() ) { return new WP_Error( 'forbidden', 'Permission denied.' ); }
         global $wpdb;
 
         $table = SRM_Database::events_table();
-        $now   = current_time( 'mysql' );
+        $now   = current_time( 'mysql', true );
 
         if ( empty( $data['event_name'] ) ) {
             return new WP_Error( 'missing_name', __( 'Game name is required.', 'scheduled-results-manager' ) );
@@ -280,7 +282,7 @@ class SRM_Games {
 
         global $wpdb;
         $table = SRM_Database::events_table();
-        $now   = current_time( 'mysql' );
+        $now   = current_time( 'mysql', true );
 
         foreach ( $order as $position => $event_id ) {
             $wpdb->update(
@@ -324,7 +326,7 @@ class SRM_Games {
      */
     public static function format_time( string $time, string $format = '' ): string {
         if ( empty( $format ) ) {
-            $format = get_option( 'time_format', 'g:i A' );
+            $format = get_option('srm_time_format',get_option( 'time_format', 'g:i A' ));
         }
         $date = DateTimeImmutable::createFromFormat( '!H:i:s', $time, wp_timezone() );
         return $date ? wp_date( $format, $date->getTimestamp(), wp_timezone() ) : $time;
