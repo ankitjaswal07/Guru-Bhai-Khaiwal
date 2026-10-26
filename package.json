@@ -1,0 +1,38 @@
+{
+  "name": "guru-bhai-khaiwal",
+  "version": "2.0.0",
+  "description": "Development and QA tooling for the Guru Bhai Khaiwal WordPress deliverables",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node tools/lint.mjs && node tools/runtime.mjs",
+    "test:php81": "PHP_VERSION=8.1 node tools/runtime.mjs",
+    "test:browser": "node tools/browser-test.mjs",
+    "preview": "node tools/runtime.mjs --serve",
+    "package": "python tools/package.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankitjaswal07/Guru-Bhai-Khaiwal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/ankitjaswal07/Guru-Bhai-Khaiwal/issues"
+  },
+  "homepage": "https://github.com/ankitjaswal07/Guru-Bhai-Khaiwal#readme",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@fontsource-variable/noto-sans-devanagari": "^5.2.8",
+    "@sparticuz/chromium": "^138.0.2",
+    "@wp-playground/cli": "^3.1.61",
+    "playwright": "^1.56.1"
+  },
+  "private": true,
+  "overrides": {
+    "qs": "^6.16.0"
+  }
+}

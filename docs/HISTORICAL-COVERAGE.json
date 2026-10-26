@@ -1,0 +1,27 @@
+{
+  "requested_start": "2026-08-26",
+  "requested_end": "2026-10-26",
+  "checked_on": "2026-10-26",
+  "rows": 523,
+  "cross_checked_rows": 154,
+  "by_game": {
+    "delhi-bazar": 60,
+    "dishavar": 60,
+    "faridabad": 60,
+    "gali": 59,
+    "gaziabad": 60,
+    "hr-matka": 60,
+    "shri-ganesh": 60,
+    "agra": 26,
+    "alwar": 26,
+    "gwalior": 26,
+    "sadar-bazar": 26
+  },
+  "by_month": {
+    "2026-08": 36,
+    "2026-09": 203,
+    "2026-10": 284
+  },
+  "complete": false,
+  "verification_meaning": "Exact value/date/name checked against the publicly displayed source chart; NOT independent official certification. All rows imported as drafts."
+}

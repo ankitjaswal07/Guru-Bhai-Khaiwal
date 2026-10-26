@@ -1,0 +1,58 @@
+PASS: clean activation creates exactly 14 schedules
+PASS: clean activation seeds no results
+PASS: all 14 client times and display order match
+PASS: Hindi stored and retrieved without corruption
+PASS: midnight boundary 2026-10-26 23:50:00
+PASS: midnight boundary 2026-10-26 00:30:00
+PASS: midnight boundary 2026-10-26 01:00:00
+PASS: 12-hour midnight/noon conversion
+PASS: invalid times rejected
+PASS: save draft record
+PASS: draft hidden even from admin public getter
+PASS: admin can review draft; leading zero preserved
+PASS: impossible date rejected
+PASS: future historical date rejected
+PASS: dangerous source scheme rejected
+PASS: formula value rejected
+PASS: publication requires explicit review
+PASS: reviewed record can be published
+PASS: published source-verified record publicly readable
+PASS: monthly repository includes approved record
+PASS: duplicate import cannot overwrite approved value
+PASS: stale form conflict detected
+PASS: unpublishing immediately removes record without stale cache
+PASS: CSV success/duplicate/invalid/blank counts correct
+PASS: CSV cannot publish even when status says published
+PASS: imported verified assertion remains private until editor approval
+PASS: repeated import idempotent
+PASS: export neutralizes formulas and preserves zeroes
+PASS: legacy CSV without provenance rejected with instructions
+PASS: legacy restricted operator cannot bypass review capability
+PASS: unauthorized schedule mutation rejected in repository
+PASS: unauthorized import rejected
+PASS: admin flag cannot expose draft to restricted user
+PASS: anonymous current API hides actual current-game draft
+PASS: anonymous today API hides actual current-game draft
+PASS: renders shortcode srm_today_results
+PASS: renders shortcode srm_yesterday_results
+PASS: renders shortcode srm_today_yesterday_results
+PASS: renders shortcode srm_monthly_results
+PASS: renders shortcode srm_previous_month_results
+PASS: renders shortcode srm_active_games
+PASS: renders shortcode srm_next_game
+PASS: renders shortcode srm_live_status
+PASS: renders shortcode gbk_archive
+PASS: renders shortcode gbk_latest_records
+PASS: anonymous monthly API never returns pending values
+PASS: REST rejects out-of-range month
+PASS: archive does not widen invalid date to all records
+PASS: repeat activation preserves IDs, schedules and complete row content
+PASS: 1.1.0 schema migration preserves legacy values/status/IDs and adds unverified provenance
+PASS: legacy unverified published data hidden; existing schedule not reseeded
+PASS: all 523 source-checked delivery rows import successfully
+PASS: delivery CSV does not automatically publish data
+PASS: delivery CSV repeated import skips all 523 duplicates
+PASS: large archive pagination correct
+PASS: month filter returns exactly 203 September rows
+
+56 assertions passed. Fixture records removed.
