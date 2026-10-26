@@ -1,0 +1,774 @@
+/* ==========================================================================
+   Scheduled Results Manager — Frontend CSS
+   ========================================================================== */
+
+
+/* CSS Variables (overridden by inline style from plugin settings) */
+
+:root {
+    --srm-header-bg: #1e293b;
+    --srm-header-color: #ffffff;
+    --srm-table-bg: #ffffff;
+    --srm-alt-row: #f8fafc;
+    --srm-border-color: #e2e8f0;
+    --srm-text-color: #1e293b;
+    --srm-card-bg: #1e293b;
+    --srm-card-color: #ffffff;
+    --srm-card-accent: #f59e0b;
+    --srm-font-size: 16px;
+    --srm-header-font-size: 16px;
+    --srm-border-width: 1px;
+    --srm-cell-padding: 10px;
+    --srm-mobile-font-size: 14px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Base Wrapper
+   -------------------------------------------------------------------------- */
+
+.srm-wrap {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: var(--srm-font-size);
+    color: var(--srm-text-color);
+    line-height: 1.5;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.srm-wrap *,
+.srm-wrap *::before,
+.srm-wrap *::after {
+    box-sizing: inherit;
+}
+
+
+/* --------------------------------------------------------------------------
+   Table Header
+   -------------------------------------------------------------------------- */
+
+.srm-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
+    text-align: center;
+    display: none;
+}
+
+.srm-table-title {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #000;
+}
+
+.srm-monthly-results .srm-table-header {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    flex-direction: column;
+    padding: 2rem;
+    background: #e8e8e8;
+    border-radius: 10px;
+    max-width: 950px;
+    width: 100%;
+}
+
+.srm-monthly-filter label {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.srm-monthly-filter {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
+    font-size: 0.9em;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .srm-monthly-filter {
+        flex-direction: column;
+    }
+    .srm-monthly-results .srm-table-header {
+        width: 90%;
+    }
+    .srm-monthly-results .srm-table-header {
+        align-items: center;
+    }
+    .srm-monthly-filter button {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+.srm-wrap input[type=number] {
+    min-height: 32px;
+    padding: 4px 8px!important;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px!important;
+    background: #fff!important;
+    color: inherit;
+}
+
+.srm-monthly-filter select,
+.srm-monthly-filter input,
+.srm-monthly-filter button {
+    min-height: 32px;
+    padding: 4px 8px;
+    width: 100%;
+    border: 1px solid #504e4b;
+    border-radius: 8px;
+    background: #fff;
+    color: inherit;
+    box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.srm-table-header button {
+    padding: 4px 20px;
+    border-radius: 8px!important;
+}
+
+.srm-monthly-filter button {
+    cursor: pointer;
+    background: var(--srm-header-bg);
+    color: #fff;
+}
+
+.srm-table-date {
+    font-size: 0.95em;
+    color: #64748b;
+}
+
+
+/* --------------------------------------------------------------------------
+   Responsive Table Wrapper
+   -------------------------------------------------------------------------- */
+
+.srm-table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    border-radius: 10px;
+    border: 2px solid #f9bd07;
+}
+
+.srm-monthly-responsive {
+    border-radius: 10px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Main Table
+   -------------------------------------------------------------------------- */
+
+.srm-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--srm-table-bg);
+    font-size: 16px;
+}
+
+.srm-active-games .srm-table {
+    max-width: 600px;
+}
+
+.srm-active-games {
+    display: flex;
+    justify-content: center;
+}
+
+.srm-active-games .srm-table-responsive {
+    max-width: 600px;
+}
+
+.srm-table thead tr {
+    background: var(--srm-header-bg);
+    color: var(--srm-header-color);
+}
+
+.srm-table thead th {
+    padding: var(--srm-cell-padding);
+    font-size: 16px!important;
+    font-weight: 700;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.srm-table tbody tr {
+    background: var(--srm-table-bg);
+    border-bottom: var(--srm-border-width) solid var(--srm-border-color);
+    transition: background 0.15s;
+}
+
+.srm-table tbody tr:nth-child(even) {
+    background: var(--srm-alt-row);
+}
+
+.srm-table tbody tr:hover {
+    background: #eff6ff;
+}
+
+.srm-table tbody td {
+    padding: var(--srm-cell-padding);
+    vertical-align: middle;
+    text-align: center;
+    font-weight: 600;
+    color: #000;
+}
+
+.srm-table tbody td:last-child {}
+
+
+/* Today row highlight */
+
+.srm-today-row {
+    background: #fefce8 !important;
+}
+
+.srm-today-tag {
+    display: inline-block;
+    font-size: 0.7em;
+    background: #f59e0b;
+    color: #fff;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+
+/* --------------------------------------------------------------------------
+   Monthly Table — Sticky first column
+   -------------------------------------------------------------------------- */
+
+.srm-monthly-table .srm-sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--srm-table-bg);
+    min-width: 100px;
+    font-weight: 700;
+}
+
+.srm-monthly-table thead .srm-sticky-col {
+    background: var(--srm-header-bg);
+    z-index: 3;
+}
+
+.srm-monthly-table .srm-today-row .srm-sticky-col {
+    background: #fefce8;
+}
+
+.srm-event-name-th {
+    display: block;
+    font-size: var(--srm-header-font-size);
+}
+
+.srm-event-time-th {
+    display: block;
+    font-size: 0.8em;
+    opacity: 0.8;
+    font-weight: 700;
+}
+
+
+/* --------------------------------------------------------------------------
+   Result Cell
+   -------------------------------------------------------------------------- */
+
+.srm-result-cell,
+.srm-result-col {
+    text-align: center;
+    font-weight: 600;
+}
+
+.srm-result-published {
+    color: #15803d;
+    font-weight: 800;
+    font-size: 18px!important;
+}
+
+.srm-result-pending {
+    color: #d97706;
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+.srm-result-empty {
+    color: #94a3b8;
+}
+
+
+/* Event name column */
+
+.srm-event-primary {
+    display: block;
+    font-weight: 700!important;
+}
+
+.srm-event-secondary-fe {
+    display: block;
+    font-size: 0.85em;
+    color: #64748b;
+}
+
+.srm-time-col {
+    white-space: nowrap;
+    color: #64748b;
+}
+
+
+/* --------------------------------------------------------------------------
+   Event Cards (current / next / live)
+   -------------------------------------------------------------------------- */
+
+.srm-event-card-wrap {
+    display: inline-block;
+    width: 100%;
+    max-width: 320px;
+}
+
+.srm-event-card-fe {
+    background: var(--srm-card-bg);
+    color: var(--srm-card-color);
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    position: relative;
+    overflow: hidden;
+}
+
+.srm-event-card-fe::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--srm-card-accent);
+}
+
+.srm-card-label {
+    font-size: 0.8em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 12px;
+}
+
+.srm-card-event-name {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.srm-card-event-secondary {
+    font-size: 1em;
+    opacity: 0.75;
+    margin-bottom: 8px;
+}
+
+.srm-card-event-time {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--srm-card-accent);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+}
+
+.srm-card-section-label {
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    margin-bottom: 4px;
+}
+
+.srm-card-status {
+    margin-top: 8px;
+}
+
+.srm-card-status-label {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.srm-status-published {
+    background: rgba(21, 128, 61, 0.2);
+    color: #4ade80;
+}
+
+.srm-status-pending {
+    background: rgba(217, 119, 6, 0.2);
+    color: #fbbf24;
+}
+
+.srm-status-upcoming {
+    background: rgba(59, 130, 246, 0.2);
+    color: #93c5fd;
+}
+
+.srm-card-result {
+    margin-top: 8px;
+}
+
+.srm-card-result-label {
+    display: block;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.6;
+    margin-bottom: 4px;
+}
+
+.srm-card-result-value {
+    display: block;
+    font-size: 2.5em;
+    font-weight: 800;
+    color: var(--srm-card-accent);
+    line-height: 1;
+}
+
+.srm-card-no-event {
+    .srm-live-panel opacity: 0.65;
+    font-style: italic;
+    padding: 12px 0;
+}
+
+.srm-card-tomorrow {
+    font-size: 0.8em;
+    opacity: 0.7;
+    margin-bottom: 8px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Next event card variant
+   -------------------------------------------------------------------------- */
+
+.srm-next-card-fe::before {
+    background: #3b82f6;
+}
+
+
+/* --------------------------------------------------------------------------
+   Countdown
+   -------------------------------------------------------------------------- */
+
+.srm-countdown-wrap {
+    margin-top: 12px;
+}
+
+.srm-countdown-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+    margin-bottom: 4px;
+}
+
+.srm-countdown {
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #38db75;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* --------------------------------------------------------------------------
+   Live Status Grid
+   -------------------------------------------------------------------------- */
+
+.srm-live-status-wrap {
+    width: 100%;
+}
+
+.srm-live-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+.srm-live-panel {
+    /*background: var(--srm-card-bg);*/
+    background: #00000070;
+    color: var(--srm-card-color);
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: inset 0px -1px 2px rgb(245 198 47);
+    position: relative;
+    overflow: hidden;
+}
+
+.srm-live-current::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--srm-card-accent);
+}
+
+.srm-live-next::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #f9bd07;
+}
+
+
+/* --------------------------------------------------------------------------
+   Game History
+   -------------------------------------------------------------------------- */
+
+.srm-event-history .srm-event-meta-info {
+    font-size: 0.9em;
+    color: #64748b;
+    margin-bottom: 12px;
+}
+
+
+/* Badge frontend */
+
+.srm-badge-fe {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+.srm-badge-fe-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.srm-badge-fe-pending {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+
+/* --------------------------------------------------------------------------
+   No data state
+   -------------------------------------------------------------------------- */
+
+.srm-no-data {
+    padding: 20px;
+    text-align: center;
+    color: #64748b;
+    font-style: italic;
+    border: var(--srm-border-width) dashed var(--srm-border-color);
+    border-radius: 8px;
+    background: var(--srm-alt-row);
+}
+
+
+/* --------------------------------------------------------------------------
+   Loading state
+   -------------------------------------------------------------------------- */
+
+.srm-loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   Error
+   -------------------------------------------------------------------------- */
+
+.srm-error {
+    color: #dc2626;
+    padding: 10px;
+    border: 1px solid #fca5a5;
+    background: #fee2e2;
+    border-radius: 6px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Focused Game Shortcodes
+   -------------------------------------------------------------------------- */
+
+.srm-focus-value {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 220px;
+    padding: 16px 20px;
+    border: var(--srm-border-width) solid var(--srm-border-color);
+    border-radius: 10px;
+    background: var(--srm-table-bg);
+    text-align: center;
+}
+
+.srm-focus-label {
+    color: #64748b;
+    font-size: 0.78em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.srm-focus-primary {
+    color: var(--srm-text-color);
+    font-size: 1.35em;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.srm-focus-secondary {
+    color: #64748b;
+    font-size: 0.9em;
+}
+
+.srm-focus-time {
+    color: var(--srm-card-accent);
+    font-size: 1.65em;
+    font-style: normal;
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+}
+
+.srm-latest-game-status {
+    display: inline-block;
+    max-width: 360px;
+    width: 100%;
+}
+
+.srm-latest-game-card {
+    background: var(--srm-card-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    color: var(--srm-card-color);
+    overflow: hidden;
+    padding: 28px 24px;
+    position: relative;
+    text-align: center;
+}
+
+.srm-latest-game-card::before {
+    background: var(--srm-card-accent);
+    content: '';
+    height: 4px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.srm-combined-title {
+    margin-bottom: 25px;
+    text-align: center;
+    display: none;
+}
+
+.srm-daily-results-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.srm-daily-results-panel {
+    min-width: 0;
+}
+
+.srm-daily-results-panel .srm-table {
+    min-width: 430px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Responsive — Mobile
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+    .srm-table {
+        font-size: var(--srm-mobile-font-size);
+    }
+    .srm-table thead th,
+    .srm-table tbody td {
+        padding: 6px 8px;
+        font-size: 16px;
+    }
+    .srm-table thead th {
+        font-size: 16px;
+    }
+    .srm-event-card-wrap {
+        max-width: 100%;
+    }
+    .srm-card-event-name {
+        font-size: 1.1em;
+    }
+    .srm-card-event-time {
+        font-size: 1.3em;
+    }
+    .srm-card-result-value {
+        font-size: 2em;
+    }
+    .srm-countdown {
+        font-size: 1.6em;
+    }
+    .srm-live-grid,
+    .srm-daily-results-grid {
+        grid-template-columns: 1fr;
+    }
+    .srm-focus-value,
+    .srm-latest-game-status {
+        max-width: 100%;
+        width: 100%;
+    }
+    .srm-table-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .srm-table {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .srm-table thead th,
+    .srm-table tbody td {
+        padding: 5px 6px;
+    }
+}/* Accessibility/layout fixes; source table structure and visual treatment retained. */
+.srm-table-responsive{position:relative;display:block}.srm-wrap{width:100%;font-family:inherit}.srm-table{color:var(--srm-text-color);font-size:var(--srm-font-size)}
+.srm-table thead th{font-size:var(--srm-header-font-size)!important}.srm-table tbody th{padding:var(--srm-cell-padding);color:var(--srm-text-color)}.srm-table tbody td{color:var(--srm-text-color)}
+.srm-table th a,.srm-table .srm-event-primary a{color:inherit;text-decoration:none}.srm-table a:hover{text-decoration:underline}
+.srm-combined-results-table th,.srm-combined-results-table td{width:25%;min-width:85px;text-align:center;vertical-align:middle;border:1px solid #cdcdcd}
+.srm-combined-results-table .srm-event-col{text-align:center}.srm-date-label{display:block;font-size:11px;font-weight:400}
+.srm-result-empty{color:#64748b}.srm-today-tag{color:#1e293b}.srm-table-responsive:focus-visible{outline:3px solid #8a5d0b;outline-offset:3px}
+.srm-monthly-filter{flex-wrap:wrap}.srm-monthly-filter select{min-width:100px;width:auto}.srm-monthly-filter input{max-width:100px}.srm-monthly-filter button{width:auto}
+.srm-monthly-results .srm-table-header{display:flex}.home .srm-table-header:has(.srm-monthly-filter){display:flex}
+@media(max-width:767px){.srm-table thead th,.srm-table tbody th,.srm-table tbody td{font-size:var(--srm-mobile-font-size)!important}.srm-combined-results-table{min-width:360px}.srm-active-games .srm-table{min-width:0}.srm-monthly-filter{flex-direction:row;justify-content:flex-start}.srm-monthly-results .srm-table-header{padding:18px;width:100%}.srm-monthly-table thead th{min-width:100px}}

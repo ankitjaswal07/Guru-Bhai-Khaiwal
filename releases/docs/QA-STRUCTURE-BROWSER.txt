@@ -1,0 +1,82 @@
+PASS homepage HTTP 200 at 1440
+PASS one H1 at 1440
+PASS 14 schedule table rows at 1440
+PASS no broken image/emoji assets at 1440
+PASS no viewport overflow at 1440
+PASS zero axe violations at 1440
+AXE 1440: 0 violations []
+PASS homepage HTTP 200 at 768
+PASS one H1 at 768
+PASS 14 schedule table rows at 768
+PASS no broken image/emoji assets at 768
+PASS no viewport overflow at 768
+PASS zero axe violations at 768
+AXE 768: 0 violations []
+PASS homepage HTTP 200 at 390
+PASS one H1 at 390
+PASS 14 schedule table rows at 390
+PASS no broken image/emoji assets at 390
+PASS no viewport overflow at 390
+PASS zero axe violations at 390
+AXE 390: 0 violations []
+PASS mobile menu opens
+PASS Escape closes menu
+PASS archive page renders
+PASS filtered archives noindex
+PASS singular canonical not duplicated
+PASS 404 template keeps 404 status
+LOGIN URL https://preview.invalid/wp-admin/ ERROR []
+PASS WordPress login works
+PASS restored admin screen srm-dashboard
+PASS restored admin screen srm-results
+PASS restored admin screen srm-events
+PASS restored admin screen srm-monthly
+PASS restored admin screen srm-import-export
+PASS restored admin screen srm-settings
+PASS restored admin screen srm-review
+PASS schedule creation from real admin form
+PASS deactivated game hidden publicly
+PASS draft save via nonce-protected form
+PASS reviewed record visible on archive
+PASS published table scrolls inside mobile region
+AXE populated archive: []
+PASS zero axe violations on populated archive
+PASS unpublish removes fixture from public page
+PASS daily row saves draft with source
+PASS daily publication rejected without review
+PASS daily row publishes only with verified source and review
+PASS daily row can unpublish without deleting history
+PASS restored AJAX rejects invalid nonce
+PASS restored AJAX mutations reject GET
+PASS setup adds page for newly-created QA game without replacing existing pages
+PASS batch browser approval uses QA-only fixture
+PASS signed batch approval works through real form on QA-only data
+PASS batch QA fixture returned to draft
+PASS gbk_setup_pages rejects invalid nonce
+PASS gbk_setup_pages rejects GET
+PASS srm_history_setup rejects invalid nonce
+PASS srm_history_setup rejects GET
+PASS original plugin color option changes reference table header
+PASS original next-game option hides next panel
+PASS invalid admin nonce returns HTTP 403
+PASS admin mutations require POST
+PASS actual upload handler accepts all 523 source-checked rows
+PASS actual CSV export includes provenance columns
+PASS actual export preserves leading-zero draft value
+PASS direct bundle request reveals no CSV or provenance
+PASS HTTP-imported records remain private
+PASS bundled CSV real action preserves all existing history
+PASS game page URL cannot widen chart
+PASS public monthly chart has no source links
+PASS previous-month filtered requests noindex
+PASS editable Hindi sections on about
+PASS editable Hindi sections on blog
+PASS editable Hindi sections on faq
+PASS editable Hindi sections on results
+PASS editable Hindi sections on chart
+PASS editable Hindi sections on contact
+PASS editable Hindi sections on games
+PASS editable Hindi sections on game-delhi-bazar
+PASS honest missing-ACF-PRO notice (licensed editor not simulated)
+Browser JS errors: []
+PASS no browser JS errors

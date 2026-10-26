@@ -1,0 +1,62 @@
+2.1.0 — ACF restoration. Licensed ACF PRO UI is NOT exercised by the contract capture tests.
+
+PASS homepage HTTP 200 at 1440
+PASS one H1 at 1440
+PASS 14 schedule cards at 1440
+PASS no broken image/emoji assets at 1440
+PASS no viewport overflow at 1440
+PASS zero axe violations at 1440
+AXE 1440: 0 violations []
+PASS homepage HTTP 200 at 768
+PASS one H1 at 768
+PASS 14 schedule cards at 768
+PASS no broken image/emoji assets at 768
+PASS no viewport overflow at 768
+PASS zero axe violations at 768
+AXE 768: 0 violations []
+PASS homepage HTTP 200 at 390
+PASS one H1 at 390
+PASS 14 schedule cards at 390
+PASS no broken image/emoji assets at 390
+PASS no viewport overflow at 390
+PASS zero axe violations at 390
+AXE 390: 0 violations []
+PASS mobile menu opens
+PASS Escape closes menu
+PASS archive page renders
+PASS filtered archives noindex
+PASS singular canonical not duplicated
+PASS 404 template keeps 404 status
+PASS WordPress login works
+PASS restored admin screen srm-dashboard
+PASS restored admin screen srm-results
+PASS restored admin screen srm-events
+PASS restored admin screen srm-monthly
+PASS restored admin screen srm-import-export
+PASS restored admin screen srm-settings
+PASS restored admin screen srm-review
+PASS schedule creation from real admin form
+PASS deactivated game hidden publicly
+PASS draft save via nonce-protected form
+PASS reviewed record visible on archive
+PASS published table scrolls inside mobile region
+AXE populated archive: []
+PASS zero axe violations on populated archive
+PASS unpublish removes fixture from public page
+PASS daily row saves draft with source
+PASS daily publication rejected without review
+PASS daily row publishes only with verified source and review
+PASS daily row can unpublish without deleting history
+PASS restored AJAX rejects invalid nonce
+PASS restored AJAX mutations reject GET
+PASS original plugin color option changes rendered cards
+PASS original next-game option hides next panel
+PASS invalid admin nonce returns HTTP 403
+PASS admin mutations require POST
+PASS actual upload handler accepts all 523 source-checked rows
+PASS actual CSV export includes provenance columns
+PASS actual export preserves leading-zero draft value
+PASS HTTP-imported records remain private
+PASS honest missing-ACF-PRO notice (licensed editor not simulated)
+Browser JS errors: []
+PASS no browser JS errors

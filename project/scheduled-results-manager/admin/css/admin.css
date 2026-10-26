@@ -1,0 +1,630 @@
+/* ==========================================================================
+   Scheduled Results Manager — Admin CSS
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   Page wrapper
+   -------------------------------------------------------------------------- */
+
+.srm-admin-wrap {}
+
+.srm-page-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.6em !important;
+}
+
+.srm-page-title .dashicons {
+    font-size: 1.2em;
+    color: #2563eb;
+}
+
+
+/* --------------------------------------------------------------------------
+   Stats grid
+   -------------------------------------------------------------------------- */
+
+.srm-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.srm-stat-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.srm-stat-number {
+    font-size: 2em;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1;
+}
+
+.srm-stat-number.srm-green {
+    color: #15803d;
+}
+
+.srm-stat-number.srm-amber {
+    color: #d97706;
+}
+
+.srm-stat-number.srm-red {
+    color: #dc2626;
+}
+
+.srm-stat-number.srm-blue {
+    color: #2563eb;
+}
+
+.srm-stat-label {
+    font-size: 0.78em;
+    color: #64748b;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+
+/* --------------------------------------------------------------------------
+   Dashboard event cards
+   -------------------------------------------------------------------------- */
+
+.srm-event-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin: 24px 0;
+}
+
+.srm-event-card {
+    background: #1e293b;
+    color: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+    position: relative;
+    overflow: hidden;
+}
+
+.srm-event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #f59e0b;
+}
+
+.srm-next-card::before {
+    background: #3b82f6;
+}
+
+.srm-event-card h2 {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 12px;
+    font-weight: 600;
+}
+
+.srm-event-name {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.srm-event-secondary {
+    font-size: 0.95em;
+    opacity: 0.7;
+    margin-bottom: 6px;
+}
+
+.srm-event-time {
+    font-size: 1.7em;
+    font-weight: 800;
+    color: #f59e0b;
+    margin-bottom: 14px;
+}
+
+.srm-next-card .srm-event-time {
+    color: #60a5fa;
+}
+
+.srm-event-meta {
+    font-size: 0.8em;
+    opacity: 0.65;
+    margin-bottom: 8px;
+}
+
+.srm-status-label {
+    margin: 8px 0;
+}
+
+.srm-result-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #f59e0b;
+    margin-top: 8px;
+}
+
+.srm-countdown-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+    margin-bottom: 4px;
+}
+
+.srm-countdown {
+    font-size: 2em;
+    font-weight: 800;
+    color: #60a5fa;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+}
+
+.srm-no-event {
+    opacity: 0.65;
+    font-style: italic;
+}
+
+
+/* --------------------------------------------------------------------------
+   Badges
+   -------------------------------------------------------------------------- */
+
+.srm-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.srm-badge-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.srm-badge-warning {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+.srm-badge-inactive {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+
+/* --------------------------------------------------------------------------
+   Quick links / Info
+   -------------------------------------------------------------------------- */
+
+.srm-quick-links {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.srm-quick-links h3 {
+    margin: 0 8px 0 0;
+    font-size: 0.95em;
+}
+
+.srm-system-info {
+    margin: 24px 0;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+}
+
+.srm-system-info h3 {
+    margin-top: 0;
+    font-size: 1em;
+    color: #1e293b;
+}
+
+.srm-info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.srm-info-table th,
+.srm-info-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: left;
+}
+
+.srm-info-table th {
+    color: #64748b;
+    font-weight: 500;
+    width: 200px;
+}
+
+
+/* --------------------------------------------------------------------------
+   Form tables
+   -------------------------------------------------------------------------- */
+
+.srm-form-wrap {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+
+.srm-form-wrap h2 {
+    margin-top: 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 10px;
+}
+
+.srm-form-table .required {
+    color: #dc2626;
+}
+
+.srm-time-picker {
+    font-size: 14px !important;
+    padding: 4px 8px !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   Games table
+   -------------------------------------------------------------------------- */
+
+.srm-table-wrap {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 20px;
+}
+
+.srm-table-wrap h2 {
+    margin-top: 0;
+}
+
+.srm-events-table .srm-drag-col {
+    width: 30px;
+}
+
+.srm-drag-handle {
+    cursor: grab;
+    color: #94a3b8;
+}
+
+.srm-drag-handle:active {
+    cursor: grabbing;
+}
+
+.srm-actions {
+    white-space: nowrap;
+}
+
+.srm-actions a,
+.srm-actions button {
+    margin-right: 4px !important;
+}
+
+.srm-secondary {
+    color: #94a3b8;
+}
+
+
+/* --------------------------------------------------------------------------
+   Daily Results table
+   -------------------------------------------------------------------------- */
+
+.srm-date-selector {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.srm-date-selector form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.srm-selected-date {
+    color: #64748b;
+    font-size: 0.9em;
+}
+
+.srm-bulk-controls {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.srm-results-table .srm-result-input {
+    max-width: 140px;
+}
+
+.srm-row-status {
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.srm-row-status.srm-saved {
+    color: #15803d;
+}
+
+.srm-row-status.srm-error {
+    color: #dc2626;
+}
+
+.srm-ajax-message {
+    margin-bottom: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.srm-ajax-success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.srm-ajax-error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+
+/* --------------------------------------------------------------------------
+   Monthly table
+   -------------------------------------------------------------------------- */
+
+.srm-month-selector {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.srm-month-selector form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.srm-month-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.srm-month-label {
+    font-weight: 700;
+    font-size: 1.05em;
+    color: #1e293b;
+}
+
+.srm-monthly-controls {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.srm-shortcode-hint {
+    font-size: 0.85em;
+    color: #64748b;
+    text-decoration: none;
+}
+
+.srm-shortcode-hint code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.srm-monthly-table-wrap {
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+}
+
+.srm-monthly-table {
+    font-size: 0.88em;
+}
+
+.srm-monthly-table th small {
+    display: block;
+    font-weight: 400;
+    opacity: 0.8;
+    font-size: 0.85em;
+}
+
+.srm-today-row {
+    background: #fefce8 !important;
+}
+
+.srm-today-badge {
+    display: inline-block;
+    font-size: 0.7em;
+    background: #f59e0b;
+    color: #fff;
+    border-radius: 4px;
+    padding: 1px 5px;
+    margin-left: 4px;
+}
+
+.srm-result-value {
+    font-weight: 600;
+    color: #15803d;
+}
+
+.srm-pending-indicator,
+.srm-empty-indicator {
+    color: #94a3b8;
+}
+
+
+/* --------------------------------------------------------------------------
+   Settings
+   -------------------------------------------------------------------------- */
+
+.srm-settings-section {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+}
+
+.srm-settings-section h2 {
+    margin-top: 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 10px;
+}
+
+.srm-danger-zone {
+    border-color: #fca5a5;
+}
+
+.srm-danger-zone h2 {
+    color: #991b1b;
+}
+
+.srm-warning {
+    color: #dc2626 !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   Import / Export
+   -------------------------------------------------------------------------- */
+
+.srm-two-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.srm-box {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+}
+
+.srm-box h2 {
+    margin-top: 0;
+    font-size: 1.1em;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 10px;
+}
+
+.srm-csv-example {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 0.85em;
+    overflow-x: auto;
+    margin: 12px 0;
+}
+
+.srm-import-results {
+    background: #eff6ff;
+    border: 1px solid #93c5fd;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+}
+
+.srm-import-results h4 {
+    margin: 0 0 8px;
+}
+
+.srm-import-errors {
+    margin: 8px 0 0;
+    padding-left: 20px;
+    color: #991b1b;
+    font-size: 0.85em;
+}
+
+.srm-shortcodes-ref .srm-info-table code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+
+/* --------------------------------------------------------------------------
+   Sortable drag indicator
+   -------------------------------------------------------------------------- */
+
+.srm-sortable-placeholder {
+    background: #eff6ff !important;
+    border: 2px dashed #93c5fd !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   Print styles
+   -------------------------------------------------------------------------- */
+
+@media print {
+    .srm-monthly-controls,
+    .srm-month-selector,
+    .srm-quick-links,
+    .srm-bulk-controls,
+    .srm-actions {
+        display: none !important;
+    }
+    .srm-monthly-table-wrap {
+        overflow: visible;
+    }
+}.srm-daily-scroll{overflow:auto;margin-top:20px}.srm-daily-table{min-width:1000px}.srm-daily-table label{display:block;margin-bottom:12px}.srm-daily-table label>input:not([type=checkbox]),.srm-daily-table textarea,.srm-daily-table select{display:block;width:100%;max-width:360px}.srm-daily-table td:nth-child(3){width:34%}.srm-row-message{max-width:180px}.srm-bulk-actions{display:flex;gap:8px;margin-top:16px}.srm-monthly-table td small,.srm-monthly-table td a{display:block;font-size:11px}.srm-actions form{margin:0}

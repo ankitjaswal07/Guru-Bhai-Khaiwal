@@ -1,0 +1,471 @@
+Creating PHP runtime
+Extracting WordPress files
+Defining WordPress constants
+Starting PHP
+Installing SQLite integration
+Checking database prerequisites
+Running WordPress installer
+Validating database connection
+WordPress boot complete
+PASS install archive guru-bhai-khaiwal-theme.zip
+PASS install archive guru-bhai-khaiwal-results-manager.zip
+Activated clean WordPress 6.7.2 / PHP 8.3.33
+PASS: clean activation creates exactly 14 schedules
+PASS: clean activation seeds no results
+PASS: all 14 client times and display order match
+PASS: Hindi stored and retrieved without corruption
+PASS: midnight boundary 2026-10-26 23:50:00
+PASS: midnight boundary 2026-10-26 00:30:00
+PASS: midnight boundary 2026-10-26 01:00:00
+PASS: 12-hour midnight/noon conversion
+PASS: invalid times rejected
+PASS: save draft record
+PASS: draft hidden even from admin public getter
+PASS: admin can review draft; leading zero preserved
+PASS: impossible date rejected
+PASS: future historical date rejected
+PASS: dangerous source scheme rejected
+PASS: formula value rejected
+PASS: publication requires explicit review
+PASS: reviewed record can be published
+PASS: published source-verified record publicly readable
+PASS: monthly repository includes approved record
+PASS: duplicate import cannot overwrite approved value
+PASS: stale form conflict detected
+PASS: unpublishing immediately removes record without stale cache
+PASS: CSV success/duplicate/invalid/blank counts correct
+PASS: CSV cannot publish even when status says published
+PASS: imported verified assertion remains private until editor approval
+PASS: repeated import idempotent
+PASS: export neutralizes formulas and preserves zeroes
+PASS: legacy CSV without provenance rejected with instructions
+PASS: legacy restricted operator cannot bypass review capability
+PASS: unauthorized schedule mutation rejected in repository
+PASS: unauthorized import rejected
+PASS: assigned operator can read only assigned drafts; public getter stays gated
+PASS: anonymous current API hides actual current-game draft
+PASS: anonymous today API hides actual current-game draft
+PASS: renders shortcode srm_today_results
+PASS: renders shortcode srm_yesterday_results
+PASS: renders shortcode srm_today_yesterday_results
+PASS: renders shortcode srm_monthly_results
+PASS: renders shortcode srm_previous_month_results
+PASS: renders shortcode srm_active_games
+PASS: renders shortcode srm_next_game
+PASS: renders shortcode srm_live_status
+PASS: renders shortcode gbk_archive
+PASS: renders shortcode gbk_latest_records
+PASS: anonymous monthly API never returns pending values
+PASS: REST rejects out-of-range month
+PASS: archive does not widen invalid date to all records
+PASS: repeat activation preserves IDs, schedules and complete row content
+PASS: 1.1.0 schema migration preserves legacy values/status/IDs and adds unverified provenance
+PASS: legacy unverified published data hidden; existing schedule not reseeded
+PASS: all 523 source-checked delivery rows import successfully
+PASS: delivery CSV does not automatically publish data
+PASS: delivery CSV repeated import skips all 523 duplicates
+PASS: large archive pagination correct
+PASS: month filter returns exactly 203 September rows
+
+56 assertions passed. Fixture records removed.
+
+PASS all 278 supplied ACF field keys retained
+PASS field name/type compatibility field_s20_general_tab_branding
+PASS field name/type compatibility field_s20_general_site_logo
+PASS field name/type compatibility field_s20_general_site_logo_width
+PASS field name/type compatibility field_s20_general_site_logo_url
+PASS field name/type compatibility field_s20_general_load_google_fonts
+PASS field name/type compatibility field_s20_general_tab_contactnumbers
+PASS field name/type compatibility field_s20_general_site_phone
+PASS field name/type compatibility field_s20_general_site_whatsapp
+PASS field name/type compatibility field_s20_general_site_telegram
+PASS field name/type compatibility field_s20_general_site_email
+PASS field name/type compatibility field_s20_general_site_button_text
+PASS field name/type compatibility field_s20_general_tab_innerpagenotice
+PASS field name/type compatibility field_s20_general_page_notice_enabled
+PASS field name/type compatibility field_s20_general_page_notice_heading
+PASS field name/type compatibility field_s20_general_page_notice_text
+PASS field name/type compatibility field_s20_general_tab_plugin
+PASS field name/type compatibility field_s20_general_plugin_admin_url
+PASS field name/type compatibility field_s20_header_tab_announcementbar
+PASS field name/type compatibility field_s20_header_header_announcement_enabled
+PASS field name/type compatibility field_s20_header_header_announcement
+PASS field name/type compatibility field_s20_header_header_announcement_url
+PASS field name/type compatibility field_s20_header_header_telegram_enabled
+PASS field name/type compatibility field_s20_header_header_telegram_text
+PASS field name/type compatibility field_s20_header_header_telegram_url
+PASS field name/type compatibility field_s20_header_header_whatsapp_enabled
+PASS field name/type compatibility field_s20_header_header_whatsapp_text
+PASS field name/type compatibility field_s20_header_header_whatsapp_url
+PASS field name/type compatibility field_s20_header_header_login_enabled
+PASS field name/type compatibility field_s20_header_header_login_text
+PASS field name/type compatibility field_s20_header_header_login_url
+PASS field name/type compatibility field_s20_header_tab_logonavigation
+PASS field name/type compatibility field_s20_header_header_logo
+PASS field name/type compatibility field_s20_header_nav_msg
+PASS field name/type compatibility field_s20_header_header_sticky
+PASS field name/type compatibility field_s20_header_tab_datebadge
+PASS field name/type compatibility field_s20_header_header_date_enabled
+PASS field name/type compatibility field_s20_header_header_date_format
+PASS field name/type compatibility field_s20_header_header_date_icon
+PASS field name/type compatibility field_s20_header_header_date_text
+PASS field name/type compatibility field_s20_header_header_date_url
+PASS field name/type compatibility field_s20_header_tab_marquee
+PASS field name/type compatibility field_s20_header_header_marquee_enabled
+PASS field name/type compatibility field_s20_header_header_marquee_text
+PASS field name/type compatibility field_s20_header_header_marquee_scroll
+PASS field name/type compatibility field_s20_header_header_marquee_speed
+PASS field name/type compatibility field_s20_home_homepage_section_order
+PASS field name/type compatibility field_s20_homeorder_section
+PASS field name/type compatibility field_s20_home_tab_hero
+PASS field name/type compatibility field_s20_home_hero_enabled
+PASS field name/type compatibility field_s20_home_hero_heading
+PASS field name/type compatibility field_s20_home_hero_strip_image
+PASS field name/type compatibility field_s20_home_hero_description
+PASS field name/type compatibility field_s20_home_hero_image
+PASS field name/type compatibility field_s20_home_hero_show_clock
+PASS field name/type compatibility field_s20_home_hero_pill_enabled
+PASS field name/type compatibility field_s20_home_hero_pill_icon
+PASS field name/type compatibility field_s20_home_hero_pill_icon_image
+PASS field name/type compatibility field_s20_home_hero_pill_text
+PASS field name/type compatibility field_s20_home_hero_pill_url
+PASS field name/type compatibility field_s20_home_hero_button_text
+PASS field name/type compatibility field_s20_home_hero_button_url
+PASS field name/type compatibility field_s20_home_hero_secondary_button_text
+PASS field name/type compatibility field_s20_home_hero_secondary_button_url
+PASS field name/type compatibility field_s20_home_hero_live_status_enabled
+PASS field name/type compatibility field_s20_home_hero_live_status_shortcode
+PASS field name/type compatibility field_s20_home_tab_activegames
+PASS field name/type compatibility field_s20_home_games_enabled
+PASS field name/type compatibility field_s20_home_games_heading
+PASS field name/type compatibility field_s20_home_games_subheading
+PASS field name/type compatibility field_s20_home_games_timing_heading
+PASS field name/type compatibility field_s20_home_games_description
+PASS field name/type compatibility field_s20_home_home_games_shortcode
+PASS field name/type compatibility field_s20_home_games_show_payment
+PASS field name/type compatibility field_s20_home_tab_todayyesterday
+PASS field name/type compatibility field_s20_home_today_yesterday_enabled
+PASS field name/type compatibility field_s20_home_today_yesterday_heading
+PASS field name/type compatibility field_s20_home_today_yesterday_description
+PASS field name/type compatibility field_s20_home_home_today_yesterday_shortcode
+PASS field name/type compatibility field_s20_home_today_shortcode
+PASS field name/type compatibility field_s20_home_yesterday_shortcode
+PASS field name/type compatibility field_s20_home_tab_promotionalcards
+PASS field name/type compatibility field_s20_home_promo_enabled
+PASS field name/type compatibility field_s20_home_promo_cards
+PASS field name/type compatibility field_s20_promo_card_enabled
+PASS field name/type compatibility field_s20_promo_card_heading
+PASS field name/type compatibility field_s20_promo_card_icon
+PASS field name/type compatibility field_s20_promo_card_description
+PASS field name/type compatibility field_s20_promo_card_person_name
+PASS field name/type compatibility field_s20_promo_card_phone_text
+PASS field name/type compatibility field_s20_promo_card_phone
+PASS field name/type compatibility field_s20_promo_card_whatsapp
+PASS field name/type compatibility field_s20_promo_card_image
+PASS field name/type compatibility field_s20_promo_card_button_text
+PASS field name/type compatibility field_s20_promo_card_button_url
+PASS field name/type compatibility field_s20_promo_card_secondary_button_text
+PASS field name/type compatibility field_s20_promo_card_secondary_button_url
+PASS field name/type compatibility field_s20_promo_card_note
+PASS field name/type compatibility field_s20_home_tab_currentmonth
+PASS field name/type compatibility field_s20_home_current_month_enabled
+PASS field name/type compatibility field_s20_home_current_month_heading
+PASS field name/type compatibility field_s20_home_current_month_description
+PASS field name/type compatibility field_s20_home_current_month_shortcode
+PASS field name/type compatibility field_s20_home_tab_previousmonth
+PASS field name/type compatibility field_s20_home_previous_month_enabled
+PASS field name/type compatibility field_s20_home_previous_month_heading
+PASS field name/type compatibility field_s20_home_previous_month_description
+PASS field name/type compatibility field_s20_home_previous_month_shortcode
+PASS field name/type compatibility field_s20_home_tab_contactdirect
+PASS field name/type compatibility field_s20_home_contact_direct_enabled
+PASS field name/type compatibility field_s20_home_contact_direct_heading
+PASS field name/type compatibility field_s20_home_contact_direct_description
+PASS field name/type compatibility field_s20_home_contact_direct_name
+PASS field name/type compatibility field_s20_home_contact_direct_phone_text
+PASS field name/type compatibility field_s20_home_contact_direct_phone
+PASS field name/type compatibility field_s20_home_contact_direct_whatsapp
+PASS field name/type compatibility field_s20_home_contact_direct_image
+PASS field name/type compatibility field_s20_home_contact_direct_button_text
+PASS field name/type compatibility field_s20_home_contact_direct_button_url
+PASS field name/type compatibility field_s20_home_contact_direct_note
+PASS field name/type compatibility field_s20_home_tab_contactus
+PASS field name/type compatibility field_s20_home_contact_us_enabled
+PASS field name/type compatibility field_s20_home_contact_us_heading
+PASS field name/type compatibility field_s20_home_contact_us_description
+PASS field name/type compatibility field_s20_home_contact_us_name
+PASS field name/type compatibility field_s20_home_contact_us_phone_text
+PASS field name/type compatibility field_s20_home_contact_us_phone
+PASS field name/type compatibility field_s20_home_contact_us_whatsapp
+PASS field name/type compatibility field_s20_home_contact_us_image
+PASS field name/type compatibility field_s20_home_contact_us_whatsapp_button_text
+PASS field name/type compatibility field_s20_home_contact_us_call_button_text
+PASS field name/type compatibility field_s20_home_contact_us_note
+PASS field name/type compatibility field_s20_home_tab_blog
+PASS field name/type compatibility field_s20_home_blog_enabled
+PASS field name/type compatibility field_s20_home_blog_heading
+PASS field name/type compatibility field_s20_home_blog_description
+PASS field name/type compatibility field_s20_home_blog_posts_count
+PASS field name/type compatibility field_s20_home_blog_layout
+PASS field name/type compatibility field_s20_home_blog_columns
+PASS field name/type compatibility field_s20_home_blog_category
+PASS field name/type compatibility field_s20_home_blog_show_image
+PASS field name/type compatibility field_s20_home_blog_show_date
+PASS field name/type compatibility field_s20_home_blog_show_excerpt
+PASS field name/type compatibility field_s20_home_blog_show_category
+PASS field name/type compatibility field_s20_home_blog_button_text
+PASS field name/type compatibility field_s20_home_blog_button_url
+PASS field name/type compatibility field_s20_home_tab_faq
+PASS field name/type compatibility field_s20_home_faq_enabled
+PASS field name/type compatibility field_s20_home_faq_home_heading
+PASS field name/type compatibility field_s20_home_faq_home_description
+PASS field name/type compatibility field_s20_home_faq_home_limit
+PASS field name/type compatibility field_s20_home_faq_msg
+PASS field name/type compatibility field_s20_results_intro
+PASS field name/type compatibility field_s20_results_results_heading_result_chart
+PASS field name/type compatibility field_s20_results_results_heading_today
+PASS field name/type compatibility field_s20_results_results_heading_yesterday
+PASS field name/type compatibility field_s20_results_results_heading_current_month
+PASS field name/type compatibility field_s20_results_results_heading_previous_month
+PASS field name/type compatibility field_s20_results_results_intro
+PASS field name/type compatibility field_s20_results_results_container_width
+PASS field name/type compatibility field_s20_results_results_scroll_hint
+PASS field name/type compatibility field_s20_results_results_scroll_hint_text
+PASS field name/type compatibility field_s20_contact_tab_getintouch
+PASS field name/type compatibility field_s20_contact_contact_page_heading
+PASS field name/type compatibility field_s20_contact_contact_page_intro
+PASS field name/type compatibility field_s20_contact_contact_details
+PASS field name/type compatibility field_s20_contactd_icon
+PASS field name/type compatibility field_s20_contactd_label
+PASS field name/type compatibility field_s20_contactd_value
+PASS field name/type compatibility field_s20_contactd_url
+PASS field name/type compatibility field_s20_contact_contact_show_whatsapp_button
+PASS field name/type compatibility field_s20_contact_tab_form
+PASS field name/type compatibility field_s20_contact_contact_form_heading
+PASS field name/type compatibility field_s20_contact_contact_form_intro
+PASS field name/type compatibility field_s20_contact_contact_form_shortcode
+PASS field name/type compatibility field_s20_contact_contact_form_recipient
+PASS field name/type compatibility field_s20_contact_contact_form_button_text
+PASS field name/type compatibility field_s20_contact_contact_form_success
+PASS field name/type compatibility field_s20_contact_contact_form_error
+PASS field name/type compatibility field_s20_payment_payment_enabled
+PASS field name/type compatibility field_s20_payment_payment_heading
+PASS field name/type compatibility field_s20_payment_payment_show_icons
+PASS field name/type compatibility field_s20_payment_payment_methods
+PASS field name/type compatibility field_s20_paym_image
+PASS field name/type compatibility field_s20_paym_name
+PASS field name/type compatibility field_s20_paym_description
+PASS field name/type compatibility field_s20_paym_active
+PASS field name/type compatibility field_s20_payment_payment_text
+PASS field name/type compatibility field_s20_payment_payment_phone
+PASS field name/type compatibility field_s20_payment_payment_tagline
+PASS field name/type compatibility field_s20_payment_payment_closing_heading
+PASS field name/type compatibility field_s20_payment_payment_image
+PASS field name/type compatibility field_s20_payment_payment_button_text
+PASS field name/type compatibility field_s20_payment_payment_button_url
+PASS field name/type compatibility field_s20_faq_faq_heading
+PASS field name/type compatibility field_s20_faq_faq_description
+PASS field name/type compatibility field_s20_faq_faq_first_open
+PASS field name/type compatibility field_s20_faq_faq_single_open
+PASS field name/type compatibility field_s20_faq_faq_items
+PASS field name/type compatibility field_s20_faqi_question
+PASS field name/type compatibility field_s20_faqi_answer
+PASS field name/type compatibility field_s20_faqi_active
+PASS field name/type compatibility field_s20_footer_tab_brand
+PASS field name/type compatibility field_s20_footer_footer_logo
+PASS field name/type compatibility field_s20_footer_footer_tagline
+PASS field name/type compatibility field_s20_footer_footer_description
+PASS field name/type compatibility field_s20_footer_footer_background
+PASS field name/type compatibility field_s20_footer_tab_linkcolumns
+PASS field name/type compatibility field_s20_footer_footer_columns
+PASS field name/type compatibility field_s20_footc_heading
+PASS field name/type compatibility field_s20_footc_links
+PASS field name/type compatibility field_s20_footl_label
+PASS field name/type compatibility field_s20_footl_url
+PASS field name/type compatibility field_s20_footl_new_tab
+PASS field name/type compatibility field_s20_footer_footer_show_social
+PASS field name/type compatibility field_s20_footer_tab_disclaimer
+PASS field name/type compatibility field_s20_footer_footer_disclaimer_enabled
+PASS field name/type compatibility field_s20_footer_footer_disclaimer_icon
+PASS field name/type compatibility field_s20_footer_footer_disclaimer_title
+PASS field name/type compatibility field_s20_footer_footer_disclaimer_text
+PASS field name/type compatibility field_s20_footer_footer_age_badge
+PASS field name/type compatibility field_s20_footer_footer_age_text
+PASS field name/type compatibility field_s20_footer_tab_copyright
+PASS field name/type compatibility field_s20_footer_copyright_text
+PASS field name/type compatibility field_s20_footer_footer_extra_text
+PASS field name/type compatibility field_s20_social_social_links
+PASS field name/type compatibility field_s20_soc_icon
+PASS field name/type compatibility field_s20_soc_custom_icon
+PASS field name/type compatibility field_s20_soc_label
+PASS field name/type compatibility field_s20_soc_url
+PASS field name/type compatibility field_s20_social_social_show_header
+PASS field name/type compatibility field_s20_sc_intro
+PASS field name/type compatibility field_s20_sc_tab_games
+PASS field name/type compatibility field_s20_sc_games_shortcode
+PASS field name/type compatibility field_s20_sc_live_status_shortcode
+PASS field name/type compatibility field_s20_sc_tab_today
+PASS field name/type compatibility field_s20_sc_today_results_shortcode
+PASS field name/type compatibility field_s20_sc_tab_yesterday
+PASS field name/type compatibility field_s20_sc_yesterday_results_shortcode
+PASS field name/type compatibility field_s20_sc_today_yesterday_shortcode
+PASS field name/type compatibility field_s20_sc_tab_currentmonth
+PASS field name/type compatibility field_s20_sc_current_month_results_shortcode
+PASS field name/type compatibility field_s20_sc_tab_previousmonth
+PASS field name/type compatibility field_s20_sc_previous_month_results_shortcode
+PASS field name/type compatibility field_s20_sc_tab_resultchart
+PASS field name/type compatibility field_s20_sc_result_chart_shortcode
+PASS field name/type compatibility field_s20_sc_tab_other
+PASS field name/type compatibility field_s20_sc_additional_shortcode_1
+PASS field name/type compatibility field_s20_sc_additional_shortcode_2
+PASS field name/type compatibility field_s20_sc_additional_shortcode_3
+PASS field name/type compatibility field_s20_sc_tab_fallback
+PASS field name/type compatibility field_s20_sc_shortcode_empty_behavior
+PASS field name/type compatibility field_s20_sc_shortcode_empty_message
+PASS field name/type compatibility field_s20_page_page_heading
+PASS field name/type compatibility field_s20_page_page_intro
+PASS field name/type compatibility field_s20_page_result_chart_shortcode
+PASS field name/type compatibility field_s20_page_today_results_shortcode
+PASS field name/type compatibility field_s20_page_yesterday_results_shortcode
+PASS field name/type compatibility field_s20_page_current_month_results_shortcode
+PASS field name/type compatibility field_s20_page_previous_month_results_shortcode
+PASS field name/type compatibility field_s20_page_page_extra_shortcode
+PASS field name/type compatibility field_s20_page_page_show_title
+PASS field name/type compatibility field_s20_page_page_hide_notice
+PASS field name/type compatibility field_s20_page_page_content_shortcode
+PASS field name/type compatibility field_s20_page_page_sections
+PASS field name/type compatibility layout_s20_page_full_content
+PASS field name/type compatibility field_s20_pagefull_active
+PASS field name/type compatibility field_s20_pagefull_heading
+PASS field name/type compatibility field_s20_pagefull_content
+PASS field name/type compatibility layout_s20_page_image_left
+PASS field name/type compatibility field_s20_pageimageleft_active
+PASS field name/type compatibility field_s20_pageimageleft_image
+PASS field name/type compatibility field_s20_pageimageleft_heading
+PASS field name/type compatibility field_s20_pageimageleft_content
+PASS field name/type compatibility layout_s20_page_content_left
+PASS field name/type compatibility field_s20_pagecontentleft_active
+PASS field name/type compatibility field_s20_pagecontentleft_heading
+PASS field name/type compatibility field_s20_pagecontentleft_content
+PASS field name/type compatibility field_s20_pagecontentleft_image
+PASS all original field groups retained
+PASS ACF page registration s20-general
+PASS ACF page registration s20-header
+PASS ACF page registration s20-results
+PASS ACF page registration s20-contact
+PASS ACF page registration s20-payment
+PASS ACF page registration s20-faq
+PASS ACF page registration s20-footer
+PASS ACF page registration s20-social
+PASS ACF page registration s20-shortcodes
+PASS ACF page registration s20-homepage
+PASS ACF page registration s20-styles
+PASS Homepage options target existing front-page post ID
+PASS comprehensive Theme Styles controls registered
+PASS style color injection rejected
+PASS style width clamped
+PASS font uses allowlist
+PASS saved style value reaches frontend CSS
+PASS deliberately empty field stays empty
+PASS cleared repeater never reseeded by rendering
+PASS informational payment restriction enforced
+PASS plugin styling validates and reaches CSS
+PASS uninstall erasure cannot be enabled
+PASS dashboard stats adapter works
+PASS restored admin view dashboard
+PASS restored admin view events
+PASS restored admin view results
+PASS restored admin view monthly
+PASS restored admin view settings
+PASS restored admin view import_export
+PASS combined current/next panels
+PASS next-game setting honored
+PASS current-game setting honored
+PASS assigned operator can submit assigned draft
+PASS assigned operator cannot write another game
+PASS operator private query restricted to assignments
+PASS editing lock enforced by repository
+PASS original alphanumeric option honored safely
+PASS numeric-only option enforced
+PASS original time-format option honored
+RESTORATION: 319 contract/integration assertions passed. ACF PRO UI is NOT tested by these capture functions.
+
+PASS original two-column game table / 14 games
+PASS one combined four-column daily table / 14 rows
+PASS current month Date x 14 games through today
+PASS previous month includes all days
+PASS previous filter initialized and schedule time per game
+PASS current filter cannot silently alter previous chart
+PASS fixed game cannot widen via URL or All games
+PASS invalid month handled
+PASS array filter rejected
+PASS multiple charts have unique filter IDs
+PASS setup creates all 24 page routes including 14 game pages
+PASS 14 stable game-to-page mappings
+PASS Hindi about content stored in editable flexible sections
+PASS repeat setup creates no duplicate pages/posts
+PASS repeat setup preserves edited content
+PASS setup menu uses existing static front page even when slug is not home
+PASS linked game directory resolves published pages
+PASS new shortcode flexible section renders plugin output
+PASS batch approval requires explicit confirmation
+PASS tampered selection rejected
+PASS batch capped at 40 records
+PASS stale snapshot rejected without publishing
+PASS anonymous user denied approval and content setup
+PASS explicit signed batch approves QA fixture only
+PASS monthly result visible with provenance absent
+PASS archive has no source column/link
+PASS public API excludes private provenance too
+PASS admin retains provenance after publishing
+PASS protected bundle decodes byte-identical original CSV
+PASS bundled unchanged history imports all 523 rows
+PASS bundled history repeat is duplicate-safe
+PASS genuine history remains private awaiting human approval
+STRUCTURE: 32 assertions passed. Delivered history was NEVER approved.
+
+PASS starter route /missing-records-and-corrections/
+PASS starter route /understanding-game-times/
+PASS starter route /how-to-read-charts/
+PASS starter route /game-dishavar/
+PASS starter route /game-gali/
+PASS starter route /game-huda-city/
+PASS starter route /game-gaziabad/
+PASS starter route /game-hr-matka/
+PASS starter route /game-alwar/
+PASS starter route /game-faridabad/
+PASS starter route /game-agra/
+PASS starter route /game-shri-ganesh/
+PASS starter route /game-punjab-matka/
+PASS starter route /game-delhi-bazar/
+PASS starter route /game-gwalior/
+PASS starter route /game-sadar-bazar/
+PASS starter route /game-model-town/
+PASS starter route /yesterday-results/
+PASS starter route /today-results/
+PASS starter route /contact/
+PASS starter route /chart/
+PASS starter route /results/
+PASS starter route /faq/
+PASS starter route /blog/
+PASS starter route /about/
+PASS starter route /games/
+PASS starter route /archives/
+PASS starter route /
+PASS assigned WordPress posts page renders ACF sections
+PASS template request /qa-blog-all-posts/
+PASS template request /qa-contact-page/
+PASS template request /qa-faq-page/
+PASS template request /qa-results-single-game-chart/
+PASS template request /qa-results-monthly-current-previous/
+PASS template request /qa-results-result-chart/
+PASS template request /qa-results-today/
+PASS template request /qa-results-yesterday/
+PASS template request /qa-informational-article/
+PASS template request /category/uncategorized/
+PASS template request /
+PASS template request /wp-sitemap.xml
+PASS saved ACF-compatible homepage order and visibility controls (without PRO UI)
+PASS theme works when results plugin disabled
+PASS no PHP errors in template requests or WordPress debug log
+WordPress preview listening at https://preview.invalid
