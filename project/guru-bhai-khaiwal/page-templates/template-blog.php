@@ -71,6 +71,7 @@ while ( have_posts() ) :
 			<?php endif; ?>
 			<?php wp_reset_postdata(); ?>
 		</div>
+	<?php s20_render_page_sections(get_the_ID()); ?>
 	</article>
 	<?php
 endwhile;

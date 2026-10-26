@@ -1,5 +1,13 @@
 # Migration and rollback — 2.1.0
 
+## 2.1 → 2.2 (27 October 2026)
+
+No result-table schema change or automatic content/history import. Replace both packages, keep PRO active, and use Appearance → Hindi content setup for missing pages. Existing pages/options/menus/front-page selection are preserved; saved 2.1 styles can override the new defaults. ACF adds a shortcode section and public-language/hero-eyebrow fields without replacing original keys. Page Sections now render on FAQ/Blog/Contact.
+
+Public shortcode markup deliberately changes from 2.1 cards/separate tables to the supplied `srm-*` table contracts. Update any custom CSS targeting only `.gbk-game` or generic `.gbk-table`. Original table styling defaults to plugin settings. Public API removes `source_url`, `original_game_name`, `verification_status`; private admin/export retains them. Integrations relying on public provenance must adapt.
+
+Historical setup imports the unchanged 523 records as drafts, never publishes on activation/import. Explicit approvals are limited to selected signed snapshots; no missing values are invented. See HINDI-SITE-SETUP.md. Roll back files and database together if starter pages/history were added; this release does not provide a destructive “reset” button.
+
 ## Before replacing files
 
 Back up the complete database, uploads, themes and plugins; record PHP/WP/database versions and test the backup restoration on staging. Never run both copies of Scheduled Results Manager. **Do not uninstall the original plugin first:** its original destructive option may erase data.

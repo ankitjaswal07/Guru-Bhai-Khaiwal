@@ -14,3 +14,9 @@ add_filter( 'emoji_svg_url', '__return_false' );
 add_filter('document_title_parts',function($parts){
     if(is_front_page()){$parts['title']=gbk_brand();unset($parts['site']);}else{$parts['site']=gbk_brand();}return $parts;
 });
+
+add_filter('language_attributes',function($attributes){
+    $language=(string)s20_get_option('site_language','hi-IN');
+    if(!preg_match('/^[a-zA-Z]{2,3}(?:-[a-zA-Z0-9]{2,8})*$/D',$language))return $attributes;
+    return preg_replace('/(?<![a-z-])lang="[^"]*"/', 'lang="'.esc_attr($language).'"',$attributes);
+});

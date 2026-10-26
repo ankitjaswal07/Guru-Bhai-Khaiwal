@@ -1,5 +1,7 @@
 # ACF PRO administration and staging checklist — 2.1
 
+**2.2 addition:** Read [Hindi site setup](HINDI-SITE-SETUP.md) for creating the complete Hindi page set, four flexible layouts, historical draft import and explicit approval. The tables now match the supplied structures; surrounding homepage design is intentionally different. Existing saved fields are not overwritten.
+
 The owner confirmed licensed ACF PRO is already installed on their website. The sandbox does not contain that paid plugin; the following **real editor acceptance checks remain required**.
 
 ## Configure in this order

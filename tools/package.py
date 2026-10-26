@@ -10,7 +10,7 @@ for folder,name in [('guru-bhai-khaiwal','guru-bhai-khaiwal-theme.zip'),('schedu
     for document in ['README.md','CHANGELOG.md','TESTING-REPORT.md','LICENSE']:
         shutil.copyfile(root/document,source/document)
     (source/'docs').mkdir(exist_ok=True)
-    for document in ['MIGRATION.md','HISTORICAL-SOURCES.md','ACF-ADMIN-GUIDE.md']:
+    for document in ['MIGRATION.md','HISTORICAL-SOURCES.md','ACF-ADMIN-GUIDE.md','HINDI-SITE-SETUP.md']:
         shutil.copyfile(root/'docs'/document,source/'docs'/document)
     with zipfile.ZipFile(release/name,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as archive:
         for file in sorted(source.rglob('*')):

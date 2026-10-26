@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Guru Bhai Khaiwal Results Manager
  * Description: Informational schedules and source-reviewed historical archives. Compatible upgrade of Scheduled Results Manager.
- * Version: 2.1.0
+ * Version: 2.2.0
  * Author: Guru Bhai Khaiwal
  * License: GPL-2.0-or-later
  * Text Domain: scheduled-results-manager
@@ -15,11 +15,11 @@ if ( ! function_exists( 'mb_check_encoding' ) ) {
     register_activation_hook( __FILE__, function () { wp_die( 'Enable the PHP mbstring extension before activating Guru Bhai Khaiwal Results Manager.' ); } );
     return;
 }
-define( 'SRM_VERSION', '2.1.0' );
+define( 'SRM_VERSION', '2.2.0' );
 define( 'SRM_PLUGIN_FILE', __FILE__ );
 define( 'SRM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SRM_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-foreach ( array( 'settings', 'access', 'database', 'events', 'seed', 'results', 'import-export', 'current-event', 'shortcodes', 'api' ) as $srm_file ) {
+foreach ( array( 'settings', 'access', 'database', 'events', 'seed', 'results', 'import-export', 'current-event', 'reference-tables', 'shortcodes', 'api' ) as $srm_file ) {
     require_once SRM_PLUGIN_DIR . 'includes/class-' . $srm_file . '.php';
 }
 require_once SRM_PLUGIN_DIR . 'admin/class-admin.php';
@@ -38,12 +38,15 @@ add_action( 'init', function () {
 add_action( 'rest_api_init', array( 'SRM_API', 'register_routes' ) );
 add_action( 'wp_enqueue_scripts', function () {
     wp_enqueue_style( 'gbk-records', SRM_PLUGIN_URL . 'public/records.css', array(), SRM_VERSION );
-    wp_add_inline_style('gbk-records',SRM_Settings::get_css_vars());
+    wp_enqueue_style('srm-reference',SRM_PLUGIN_URL.'public/reference-tables.css',array('gbk-records'),SRM_VERSION);
+    wp_add_inline_style('srm-reference',SRM_Settings::get_css_vars());
     wp_enqueue_script('srm-live',SRM_PLUGIN_URL.'public/live.js',array(),SRM_VERSION,true);
     wp_localize_script('srm-live','srmLive',array('interval'=>max(10,min(300,(int)get_option('srm_ajax_interval',30))),'serverTs'=>time(),'url'=>rest_url('srm/v1/current')));
 } );
 (new SRM_Admin())->init();
 SRM_Review_Desk::init();
+require_once SRM_PLUGIN_DIR.'admin/class-history-setup.php';
+SRM_History_Setup::init();
 
 add_action( 'admin_notices', function () {
     if ( current_user_can( 'manage_options' ) && get_option( 'gbk_schema_error' ) ) { echo '<div class="notice notice-error"><p>' . esc_html( get_option( 'gbk_schema_error' ) ) . '</p></div>'; }

@@ -45,6 +45,6 @@ class SRM_API {
         return array_map( static fn( $game ) => array( 'id' => (int) $game->id, 'name' => $game->event_name, 'name_secondary' => $game->event_name_secondary ?? '', 'time' => SRM_Games::format_time( $game->scheduled_time ), 'time_24' => $game->scheduled_time, 'display_order' => (int) $game->display_order ), SRM_Games::get_active_games() );
     }
     public static function public_rows( array $rows ): array {
-        return array_map( static fn( $r ) => array( 'game_id' => (int) $r->event_id, 'game_name' => $r->event_name, 'date' => $r->result_date, 'result' => $r->result_value, 'status' => 'published', 'scheduled_time' => SRM_Games::format_time( $r->scheduled_time ), 'source_url' => $r->source_url, 'original_game_name' => $r->original_game_name, 'verification_status' => $r->verification_status, 'updated_at' => $r->updated_at, 'updated_timezone' => 'UTC' ), $rows );
+        return array_map( static fn( $r ) => array( 'game_id' => (int) $r->event_id, 'game_name' => $r->event_name, 'date' => $r->result_date, 'result' => $r->result_value, 'status' => 'published', 'scheduled_time' => SRM_Games::format_time( $r->scheduled_time ), 'updated_at' => $r->updated_at, 'updated_timezone' => 'UTC' ), $rows );
     }
 }

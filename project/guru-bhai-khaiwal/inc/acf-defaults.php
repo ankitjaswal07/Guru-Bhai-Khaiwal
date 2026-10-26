@@ -33,14 +33,14 @@ function s20_default_faq_items() {
 }
 
 function s20_default_footer_columns() {
-    $quick=array(array('label'=>'Home','url'=>'/','new_tab'=>0),array('label'=>'Daily schedule','url'=>'/#s20-games','new_tab'=>0),array('label'=>'FAQ','url'=>'/#s20-faq','new_tab'=>0));
+    $quick=array(array('label'=>'होम','url'=>'/','new_tab'=>0),array('label'=>'गेम का समय','url'=>'/#s20-games','new_tab'=>0),array('label'=>'सवाल-जवाब','url'=>'/#s20-faq','new_tab'=>0));
     $charts=array();$info=array();
     foreach(get_pages(array('post_status'=>'publish','number'=>100,'sort_column'=>'menu_order,post_title')) as $page){
         $link=array('label'=>get_the_title($page),'url'=>get_permalink($page),'new_tab'=>0);
         if(preg_match('/(?:results?|archives?|charts?)$/',$page->post_name))$charts[]=$link;
         elseif(in_array($page->post_name,array('about','about-us','privacy-policy','disclaimer','terms-and-conditions','contact'),true))$info[]=$link;
     }
-    return array(array('heading'=>'Quick Links','links'=>$quick),array('heading'=>'Result Chart','links'=>$charts),array('heading'=>'Information','links'=>$info));
+    return array(array('heading'=>'ज़रूरी लिंक','links'=>$quick),array('heading'=>'रिज़ल्ट चार्ट','links'=>$charts),array('heading'=>'जानकारी','links'=>$info));
 }
 
 function s20_default_contact_details() {

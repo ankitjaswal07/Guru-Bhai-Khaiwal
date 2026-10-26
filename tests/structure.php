@@ -1,0 +1,40 @@
+<?php
+/** Revision-specific contracts under real WordPress. Never approve delivered history. */
+$n22=0;function structure_assert($pass,$label){global $n22;if(!$pass)throw new Exception('FAIL '.$label);$n22++;echo 'PASS '.$label."\n";}
+wp_set_current_user(1);$_GET=array();
+$s=do_shortcode('[srm_active_games]');structure_assert(substr_count($s,'scope="col"')===2&&substr_count($s,'srm-event-primary')===14,'original two-column game table / 14 games');
+$s=do_shortcode('[srm_today_yesterday_results]');structure_assert(substr_count($s,'<table ')===1&&substr_count($s,'scope="col"')===4&&substr_count($s,'scope="row"')===14,'one combined four-column daily table / 14 rows');
+$s=do_shortcode('[srm_full_month_results]');structure_assert(substr_count($s,'scope="col"')===15&&substr_count($s,'scope="row"')===(int)wp_date('j'),'current month Date x 14 games through today');
+$s=do_shortcode('[srm_previous_month_results]');$previous=current_datetime()->modify('first day of this month')->modify('-1 month');structure_assert(substr_count($s,'scope="row"')===(int)$previous->format('t'),'previous month includes all days');
+structure_assert(str_contains($s,'name="srm_previous_month"')&&substr_count($s,'srm-event-time-th')===14,'previous filter initialized and schedule time per game');
+$_GET=array('srm_month'=>8,'srm_year'=>2026);$s=do_shortcode('[srm_previous_month_results]');structure_assert(str_contains($s,SRM_Reference_Tables::month_name((int)$previous->format('n'))),'current filter cannot silently alter previous chart');
+$_GET=array('srm_game_id'=>0,'srm_month'=>8,'srm_year'=>2026);$s=do_shortcode('[srm_monthly_results game_id="1"]');structure_assert(substr_count($s,'scope="col"')===2&&!str_contains($s,'value="0"'),'fixed game cannot widen via URL or All games');
+$_GET=array('srm_month'=>13);structure_assert(str_contains(do_shortcode('[srm_monthly_results]'),'role="alert"'),'invalid month handled');$_GET=array('srm_month'=>array(8));structure_assert(str_contains(do_shortcode('[srm_monthly_results]'),'role="alert"'),'array filter rejected');$_GET=array();
+$s=do_shortcode('[srm_monthly_results][srm_monthly_results]');preg_match_all('/ id="([^"]+)"/',$s,$ids);structure_assert(count($ids[1])===count(array_unique($ids[1])),'multiple charts have unique filter IDs');
+$r=gbk_install_starter_pages();structure_assert(!is_wp_error($r)&&count($r['pages'])===24&&$r['failed']===0,'setup creates all 24 page routes including 14 game pages');
+$map=get_option('gbk_game_pages');structure_assert(count($map)===14,'14 stable game-to-page mappings');
+$about=$r['pages']['about'];$sections=s20_get_field('page_sections',$about);structure_assert(count($sections)===4&&str_contains($sections[0]['content'],'गुरु भाई'),'Hindi about content stored in editable flexible sections');
+update_post_meta($about,'page_sections',array(array('acf_fc_layout'=>'full_content','active'=>1,'heading'=>'EDITOR KEPT','content'=>'Preserved')));$second=gbk_install_starter_pages();structure_assert($second['created']===0&&$second['failed']===0,'repeat setup creates no duplicate pages/posts');structure_assert(get_post_meta($about,'page_sections',true)[0]['heading']==='EDITOR KEPT','repeat setup preserves edited content');gbk_seed_page_meta($about,'page_sections',$sections);
+$front=get_option('page_on_front');update_option('page_on_front',$about);$alternate=gbk_install_starter_pages();structure_assert($alternate['pages']['home']===$about&&$alternate['created']===0,'setup menu uses existing static front page even when slug is not home');update_option('page_on_front',$front);
+structure_assert(str_contains(do_shortcode('[gbk_game_directory]'),'game-model-town'),'linked game directory resolves published pages');
+$test=wp_insert_post(array('post_type'=>'page','post_status'=>'draft','post_title'=>'QA sections'));
+update_post_meta($test,'page_sections',array(array('acf_fc_layout'=>'shortcode_section','active'=>1,'heading'=>'Custom chart','shortcode'=>'[srm_active_games]')));ob_start();s20_render_page_sections($test);$s=ob_get_clean();structure_assert(str_contains($s,'srm-active-games')&&str_contains($s,'Custom chart'),'new shortcode flexible section renders plugin output');wp_delete_post($test,true);
+$fixture=array('result_value'=>'07','original_game_name'=>'QA FIXTURE ONLY','source_url'=>'https://example.com/qa-only','verification_status'=>'unverified','result_status'=>'pending');
+SRM_Results::save_result(1,'2026-08-26',$fixture);$row=SRM_Results::get_result(1,'2026-08-26',true);$token=SRM_History_Setup::token($row);
+structure_assert(is_wp_error(SRM_History_Setup::approve(array($token),false)),'batch approval requires explicit confirmation');
+structure_assert(is_wp_error(SRM_History_Setup::approve(array($token.'tampered'),true)),'tampered selection rejected');
+structure_assert(is_wp_error(SRM_History_Setup::approve(array_fill(0,41,$token),true)),'batch capped at 40 records');
+$fixture['result_value']='08';SRM_Results::save_result(1,'2026-08-26',$fixture);structure_assert(is_wp_error(SRM_History_Setup::approve(array($token),true)),'stale snapshot rejected without publishing');
+$row=SRM_Results::get_result(1,'2026-08-26',true);$token=SRM_History_Setup::token($row);wp_set_current_user(0);structure_assert(is_wp_error(SRM_History_Setup::approve(array($token),true))&&is_wp_error(gbk_install_starter_pages()),'anonymous user denied approval and content setup');wp_set_current_user(1);
+$r=SRM_History_Setup::approve(array($token),true);structure_assert($r['published']===1&&$r['failed']===0,'explicit signed batch approves QA fixture only');
+$_GET=array('srm_month'=>8,'srm_year'=>2026);$s=do_shortcode('[srm_monthly_results]');structure_assert(str_contains($s,'>08</span>')&&!str_contains($s,'example.com')&&!str_contains($s,'source_url'),'monthly result visible with provenance absent');
+$s=do_shortcode('[gbk_archive]');structure_assert(!str_contains($s,'example.com')&&!str_contains($s,'Source &amp;'),'archive has no source column/link');
+$rows=SRM_Results::query()['rows'];$api=SRM_API::public_rows($rows);structure_assert(!isset($api[0]['source_url'])&&!isset($api[0]['original_game_name']),'public API excludes private provenance too');
+structure_assert(SRM_Results::get_result(1,'2026-08-26',true)->source_url==='https://example.com/qa-only','admin retains provenance after publishing');
+global $wpdb;$wpdb->query('DELETE FROM '.SRM_Database::results_table());$_GET=array();
+structure_assert(hash('sha256',require SRM_PLUGIN_DIR.'data/history.php')===hash_file('sha256','/historical-data-import.csv'),'protected bundle decodes byte-identical original CSV');
+$import=SRM_History_Setup::import_bundled();structure_assert($import['imported']===523&&$import['invalid']===0,'bundled unchanged history imports all 523 rows');
+$import=SRM_History_Setup::import_bundled();structure_assert($import['duplicate']===523,'bundled history repeat is duplicate-safe');
+structure_assert(SRM_Results::query()['total']===0,'genuine history remains private awaiting human approval');
+$wpdb->query('DELETE FROM '.SRM_Database::results_table());
+echo "STRUCTURE: $n22 assertions passed. Delivered history was NEVER approved.\n";

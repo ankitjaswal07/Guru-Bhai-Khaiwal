@@ -12,7 +12,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'S20_VERSION', '2.1.0' );
+define( 'S20_VERSION', '2.2.0' );
 define( 'S20_DIR', get_template_directory() );
 define( 'S20_URI', get_template_directory_uri() );
 
@@ -31,6 +31,7 @@ $s20_includes = array(
 	'seo',
 	'compatibility',       // One-time seeding of repeater defaults (live-site content).
 	'template-functions', // Template output helpers (sections, headings, buttons, notices).
+	'site-setup',
 	'blog',               // Blog query helpers.
 	'contact-form',       // Built-in fallback contact form handler.
 );

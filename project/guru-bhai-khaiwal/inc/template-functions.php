@@ -102,7 +102,10 @@ function s20_render_page_sections( $post_id = 0, $section_number = 0 ) {
 		if ( isset( $section['active'] ) && ! $section['active'] ) {
 			continue;
 		}
-		$layout  = isset( $section['acf_fc_layout'] ) ? sanitize_key( $section['acf_fc_layout'] ) : '';
+		if('shortcode_section'===($section['acf_fc_layout']??'')){
+            s20_shortcode_section(array('id'=>'s20-custom-'.$post_id.'-'.($section_index+1),'heading'=>$section['heading']??'','shortcode'=>$section['shortcode']??''));continue;
+        }
+        $layout  = isset( $section['acf_fc_layout'] ) ? sanitize_key( $section['acf_fc_layout'] ) : '';
 		$heading = isset( $section['heading'] ) ? $section['heading'] : '';
 		$content = isset( $section['content'] ) ? $section['content'] : '';
 		$image   = isset( $section['image'] ) ? $section['image'] : '';
@@ -119,7 +122,7 @@ function s20_render_page_sections( $post_id = 0, $section_number = 0 ) {
 				<?php endif; ?>
 				<div class="s20-page-builder-content s20-entry-content">
 					<?php if ( $heading ) : ?><h2><?php s20_text( $heading ); ?></h2><?php endif; ?>
-					<?php if ( $content ) { s20_rich_text( $content ); } ?>
+					<?php if ( $content ) { echo do_shortcode(wp_kses_post(wpautop((string)$content))); } ?>
 				</div>
 			</div>
 		</section>

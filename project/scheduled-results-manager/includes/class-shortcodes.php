@@ -18,17 +18,10 @@ class SRM_Shortcodes {
         }
     }
     public static function empty_message(): string {
-        return '<div class="gbk-empty"><span aria-hidden="true">—</span><strong>' . esc_html__( 'No verified records available', 'scheduled-results-manager' ) . '</strong><p>' . esc_html__( 'Missing records are left blank. Only source-reviewed, published records appear here.', 'scheduled-results-manager' ) . '</p></div>';
+        return '<div class="gbk-empty"><span aria-hidden="true">—</span><strong>' . esc_html__( 'अभी रिज़ल्ट उपलब्ध नहीं हैं', 'scheduled-results-manager' ) . '</strong><p>' . esc_html__( 'उपलब्ध रिज़ल्ट प्रकाशित होने पर यहाँ दिखेंगे। खाली स्थान का अर्थ शून्य नहीं है।', 'scheduled-results-manager' ) . '</p></div>';
     }
     public static function schedule( array $atts = array(), string $tag = '' ): string {
-        ob_start();
-        $games = SRM_Games::get_active_games();
-        echo '<div class="gbk-schedule">';
-        foreach ( $games as $game ) {
-            echo '<article class="gbk-game"><div><h3>' . esc_html( $game->event_name ) . '</h3><span lang="hi">' . esc_html( $game->event_name_secondary ?? '' ) . '</span></div><time datetime="' . esc_attr( $game->scheduled_time ) . '">' . esc_html( SRM_Games::format_time( $game->scheduled_time ) ) . '</time></article>';
-        }
-        echo '</div><p class="gbk-table-note">' . esc_html( 'Daily local times · ' . wp_timezone_string() . '. After-midnight entries belong to their actual calendar date.' ) . '</p>';
-        return (string) ob_get_clean();
+        return SRM_Reference_Tables::schedule($atts);
     }
     public static function next( array $atts = array(), string $tag = '' ): string {
         if('srm_live_status'===$tag){return '<div class="gbk-live-panels">'.self::next(array(),'srm_current_game').self::next(array(),'srm_next_game').'</div>';}
@@ -38,43 +31,24 @@ class SRM_Shortcodes {
         if ( ! $next ) { return '<p>No active schedule entries.</p>'; }
         if ( 'srm_current_game_name' === $tag && $next ) { return esc_html( $next['game']->event_name ); }
         if ( 'srm_current_game_time' === $tag && $next ) { return esc_html( SRM_Games::format_time( $next['game']->scheduled_time ) ); }
-        return '<div class="gbk-next" data-srm-panel="'.($current?'current_game':'next_game').'"><span class="eyebrow">' . ( $current ? 'Most recent scheduled entry' : 'Next scheduled entry' ) . '</span><h3>' . esc_html( $next['game']->event_name ) . '</h3><p lang="hi">' . esc_html( $next['game']->event_name_secondary ?? '' ) . '</p><strong>' . esc_html( SRM_Games::format_time( $next['game']->scheduled_time ) ) . '</strong><p class="srm-occurrence-date">' . esc_html( wp_date( 'D, j M Y', $next['at']->getTimestamp() ) . ' · ' . wp_timezone_string() ) . '</p>' . (!$current && get_option('srm_countdown_enabled','1') ? '<p class="srm-countdown" data-srm-until="'.esc_attr($next['at']->getTimestamp()).'" aria-label="Time until next scheduled entry"></p>' : '') . '<small>Schedule information only. Publication times may differ.</small></div>';
+        return '<div class="gbk-next" data-srm-panel="'.($current?'current_game':'next_game').'"><span class="eyebrow">' . ( $current ? 'पिछला निर्धारित गेम' : 'अगला निर्धारित गेम' ) . '</span><h3>' . esc_html( $next['game']->event_name ) . '</h3><p lang="hi">' . esc_html( $next['game']->event_name_secondary ?? '' ) . '</p><strong>' . esc_html( SRM_Games::format_time( $next['game']->scheduled_time ) ) . '</strong><p class="srm-occurrence-date">' . esc_html( wp_date( 'D, j M Y', $next['at']->getTimestamp() ) . ' · ' . wp_timezone_string() ) . '</p>' . (!$current && get_option('srm_countdown_enabled','1') ? '<p class="srm-countdown" data-srm-until="'.esc_attr($next['at']->getTimestamp()).'" aria-label="Time until next scheduled entry"></p>' : '') . '<small>निर्धारित समय है; प्रकाशन समय अलग हो सकता है।</small></div>';
     }
     public static function table( array $rows ): string {
         if ( ! $rows ) { return self::empty_message(); }
         ob_start(); ?>
-        <div class="gbk-table-wrap" role="region" aria-label="Historical records" tabindex="0"><table class="gbk-table"><caption>Source-reviewed historical records</caption><thead><tr><th scope="col">Date</th><th scope="col">Game</th><th scope="col">Record</th><th scope="col">Source & update</th></tr></thead><tbody>
+        <div class="gbk-table-wrap" role="region" aria-label="Historical records" tabindex="0"><table class="gbk-table"><caption>पुराने रिज़ल्ट</caption><thead><tr><th scope="col">Date</th><th scope="col">Game</th><th scope="col">Record</th></tr></thead><tbody>
         <?php foreach ( $rows as $r ) : ?>
-            <tr><td><time datetime="<?php echo esc_attr( $r->result_date ); ?>"><?php echo esc_html( wp_date( get_option( 'srm_date_format', get_option('date_format') ), ( new DateTimeImmutable( $r->result_date, wp_timezone() ) )->getTimestamp() ) ); ?></time></td><th scope="row"><?php echo esc_html( $r->event_name ); ?><small lang="hi"><?php echo esc_html( $r->event_name_secondary ?? '' ); ?></small></th><td><strong class="gbk-result"><?php echo esc_html( $r->result_value ); ?></strong></td><td><a href="<?php echo esc_url( $r->source_url ); ?>" rel="nofollow noopener noreferrer" target="_blank">Source record ↗<span class="screen-reader-text"> (opens in new tab)</span></a><small><?php echo esc_html( 'Updated ' . get_date_from_gmt( $r->updated_at, 'Y-m-d H:i:s' ) . ' · ' . wp_timezone_string() ); ?></small></td></tr>
+            <tr><td><time datetime="<?php echo esc_attr( $r->result_date ); ?>"><?php echo esc_html( wp_date( get_option( 'srm_date_format', get_option('date_format') ), ( new DateTimeImmutable( $r->result_date, wp_timezone() ) )->getTimestamp() ) ); ?></time></td><th scope="row"><?php echo esc_html( $r->event_name ); ?><small lang="hi"><?php echo esc_html( $r->event_name_secondary ?? '' ); ?></small></th><td><strong class="gbk-result"><?php echo esc_html( $r->result_value ); ?></strong></td></tr>
         <?php endforeach; ?>
         </tbody></table></div>
         <?php return (string) ob_get_clean();
     }
     public static function daily( array $atts = array(), string $tag = '' ): string {
-        $today = current_datetime();
-        $dates = 'srm_today_yesterday_results' === $tag ? array( $today, $today->modify( '-1 day' ) ) : array( 'srm_yesterday_results' === $tag ? $today->modify( '-1 day' ) : $today );
-        $html = '';
-        foreach ( $dates as $date ) { $html .= '<h3>' . esc_html( wp_date( 'j F Y', $date->getTimestamp() ) ) . '</h3>' . self::table( SRM_Results::get_results_for_date( $date->format( 'Y-m-d' ) ) ); }
-        return $html;
+        return SRM_Reference_Tables::daily($atts,$tag);
     }
     public static function latest( array $atts = array(), string $tag = '' ): string { return self::table( SRM_Results::query( array( 'limit' => 6 ) )['rows'] ); }
     public static function monthly( array $atts = array(), string $tag = '' ): string {
-        $base = current_datetime()->modify( 'first day of this month' );
-        if ( str_contains( $tag, 'previous' ) ) { $base = $base->modify( '-1 month' ); }
-        $year = (int) ( $atts['year'] ?? $base->format( 'Y' ) );
-        $month = (int) ( $atts['month'] ?? $base->format( 'n' ) );
-        if ( $year < 1900 || $year > 2100 || $month < 1 || $month > 12 ) { return '<p>Invalid month.</p>'; }
-        $date = new DateTimeImmutable( sprintf( '%04d-%02d-01', $year, $month ), wp_timezone() );
-        $data = SRM_Results::get_monthly_results( $year, $month );
-        if ( ! $data ) { return '<h3>' . esc_html( wp_date( 'F Y', $date->getTimestamp() ) ) . '</h3>' . self::empty_message(); }
-        $games = SRM_Games::get_active_games();
-        if ( ! empty( $atts['game_id'] ) ) { $games = array_filter( $games, static fn( $g ) => (int) $g->id === absint( $atts['game_id'] ) ); }
-        ob_start(); ?>
-        <div class="gbk-table-wrap" role="region" tabindex="0" aria-label="Monthly archive"><table class="gbk-table gbk-month"><caption><?php echo esc_html( wp_date( 'F Y', $date->getTimestamp() ) ); ?> · — means no verified record. Select a value to view its source.</caption><thead><tr><th scope="col">Date</th><?php foreach ( $games as $game ) : ?><th scope="col"><?php echo esc_html( $game->event_name ); ?></th><?php endforeach; ?></tr></thead><tbody>
-        <?php for ( $d = 1; $d <= (int) $date->format( 't' ); ++$d ) : $key = sprintf( '%04d-%02d-%02d', $year, $month, $d ); ?>
-        <tr><th scope="row"><?php echo esc_html( $key ); ?></th><?php foreach ( $games as $game ) : $r = $data[ $key ][ $game->id ] ?? null; ?><td><?php if ( $r ) : ?><a href="<?php echo esc_url( $r->source_url ); ?>" rel="nofollow noopener" title="<?php echo esc_attr( 'Source: ' . $r->original_game_name . ' · Updated ' . get_date_from_gmt( $r->updated_at, 'Y-m-d H:i:s' ) . ' · ' . wp_timezone_string() ); ?>"><?php echo esc_html( $r->result_value ); ?></a><?php else : ?><span aria-label="No verified record">—</span><?php endif; ?></td><?php endforeach; ?></tr>
-        <?php endfor; ?></tbody></table></div>
-        <?php return (string) ob_get_clean();
+        return SRM_Reference_Tables::monthly($atts,$tag);
     }
     public static function filters(): array {
         $args = array( 'game_id' => absint( $_GET['gbk_game'] ?? $_GET['srm_game_id'] ?? 0 ), 'page' => max( 1, absint( $_GET['gbk_page'] ?? 1 ) ) );
@@ -105,7 +79,7 @@ class SRM_Shortcodes {
             <label>Month<input type="month" name="gbk_month" value="<?php echo esc_attr( sanitize_text_field( wp_unslash( $_GET['gbk_month'] ?? '' ) ) ); ?>"></label>
             <label>Exact date<input type="date" name="gbk_date" value="<?php echo esc_attr( sanitize_text_field( wp_unslash( $_GET['gbk_date'] ?? '' ) ) ); ?>"></label>
             <button type="submit">Find records</button><a href="<?php echo esc_url( get_permalink() ?: home_url( '/' ) ); ?>">Reset</a>
-        </form><p class="gbk-table-note">An exact date takes priority over month. Dates follow the source’s calendar label; times use the website timezone.</p>
+        </form><p class="gbk-table-note">An exact date takes priority over month. Times use the website timezone.</p>
         <?php
         if ( isset( $args['error'] ) ) { echo '<p role="alert">' . esc_html( $args['error'] ) . '</p>'; }
         else {

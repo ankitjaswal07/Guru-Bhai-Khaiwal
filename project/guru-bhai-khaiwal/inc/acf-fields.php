@@ -175,6 +175,7 @@ function s20_register_acf_fields() {
 			'fields'   => array(
 				s20_acf_tab( $g, 'Branding' ),
 				s20_acf_text( $g, 'site_title', 'Site Title', 'Guru Bhai Khaiwal' ),
+                s20_acf_text($g,'site_language','Public content language (BCP-47)','hi-IN'),
 				s20_acf_textarea( $g, 'seo_description', 'Default SEO Description' ),
 				s20_acf_image( $g, 'site_logo', __( 'Site Logo', 'guru-bhai-khaiwal' ), __( 'Used in header and footer unless overridden there.', 'guru-bhai-khaiwal' ) ),
 				s20_acf_number( $g, 'site_logo_width', __( 'Header Logo Max Width', 'guru-bhai-khaiwal' ), 290, 'px', 40 ),
@@ -283,6 +284,7 @@ function s20_register_acf_fields() {
 					)
 				),
 				s20_acf_tab( $g, 'Hero' ),
+				s20_acf_text( $g, 'hero_eyebrow', 'Hero Eyebrow' ),
 				s20_acf_toggle( $g, 'hero_enabled', __( 'Show Hero', 'guru-bhai-khaiwal' ), 1 ),
 				s20_acf_text( $g, 'hero_heading', __( 'Strip Heading', 'guru-bhai-khaiwal' ), 'Guru Bhai Khaiwal' ),
 				s20_acf_image( $g, 'hero_strip_image', __( 'Strip Background Image (optional, e.g. strip-bg.png)', 'guru-bhai-khaiwal' ) ),
@@ -720,6 +722,11 @@ add_filter( 'acf/load_field/key=field_s20_homeorder_section', 's20_load_homepage
 
 /** Public rendering may use defaults without ACF, but no fake admin editor is registered. */
 function s20_add_field_group($group) {
+    if('group_s20_page_generic'===$group['key']){
+        foreach($group['fields'] as &$f){if('page_sections'===($f['name']??''))$f['layouts']['shortcode_section']=array('key'=>'layout_s20_page_shortcode_section','name'=>'shortcode_section','label'=>'Shortcode / result chart section','display'=>'block','sub_fields'=>array(s20_acf_toggle('pageshortcode','active','Active',1),s20_acf_text('pageshortcode','heading','Heading'),s20_acf_shortcode('pageshortcode','shortcode','Shortcode')));}
+        unset($f);
+    }
+
     if('group_s20_page_generic'===$group['key'])$group['location'][]=array(array('param'=>'options_page','operator'=>'==','value'=>'s20-homepage'));
     $GLOBALS['s20_field_groups'][$group['key']]=$group;
     if(function_exists('acf_add_local_field_group'))acf_add_local_field_group($group);

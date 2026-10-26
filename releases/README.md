@@ -1,10 +1,16 @@
 # Guru Bhai Khaiwal — ACF PRO edition
 
-**Version 2.1.0 · 27 October 2026**
+**Version 2.2.0 · 27 October 2026**
 
 An installable classic WordPress theme based on the **supplied Satta20 templates, styles and ACF definitions**, with the supplied Scheduled Results Manager's admin organization restored. Guru Bhai Khaiwal branding, the client schedule, and source-reviewed informational records remain in place.
 
 This revision supersedes the native-Customizer design in 2.0. **Licensed ACF PRO is required for theme content administration; the owner has confirmed it is installed on their website.** ACF PRO and license keys are not bundled. The private live Satta20 dashboard has not been inspected: compatibility refers to the supplied ZIP, not a claim of pixel-identical live-site parity.
+
+## New in 2.2 — table parity and Hindi pages
+
+The supplied Game/Time table, combined Today–Yesterday table and monthly matrices now replace the 2.1 cards/separate tables. Their original table styling is retained inside a distinct maroon/ivory Hindi-first homepage. Public source columns/links are removed; provenance stays in admin and is omitted from public REST output too.
+
+**Start with [Hindi site setup](docs/HINDI-SITE-SETUP.md):** Appearance → Hindi content setup creates missing pages (24 with the initial games), 14 game charts, menus and three Hindi articles. Original ACF groups remain; an additional shortcode layout and consistent extra-section rendering are included. Scheduled Results → Historical setup imports the unchanged 523-row dataset as drafts, then supports explicit signed, bounded editorial approvals. No synthetic numbers or automatic publication.
 
 ## Deliverables
 
@@ -23,7 +29,7 @@ The original `satta20.zip` and `scheduled-results-manager.zip` remain unchanged.
 3. Keep your licensed **ACF PRO** active. Do not install unofficial copies. PHP-registered field groups load automatically; no JSON import is needed.
 4. Upload and activate the results-manager plugin ZIP, then the theme ZIP. For upgrades, choose **Replace current with uploaded**. Never activate two plugin copies; never delete the old plugin first, because its original uninstall option may erase data.
 5. Set the site timezone in **Settings → General** (normally `Asia/Kolkata`). Set a published Home page as the static front page in **Settings → Reading**, before configuring Homepage options.
-6. Create an Archives page containing `[gbk_archive]`, or use the **Results: Result Chart** template. Optional templates cover Today, Yesterday, Monthly, Single Game, FAQ, Contact and Blog. Set a single-game page's shortcode explicitly, for example `[srm_game_history game_id="1"]` using a real game ID.
+6. Use **Appearance → Hindi content setup** to create missing pages and articles. Existing content is preserved. For manual setup use the supplied page templates; single-game charts use `[srm_monthly_results game_id="1"]` with a real game ID. `[gbk_archive]` remains an optional searchable archive.
 7. Assign menus under **Appearance → Menus**. Configure the site icon in Site Identity. Save permalinks and check your hosting rewrite rules.
 8. Open **Guru Bhai Khaiwal** to edit ACF content; open **Scheduled Results** to manage schedules, entries and plugin settings. The plugin menu label can be renamed in its Settings.
 9. Complete `docs/ACF-ADMIN-GUIDE.md` and the staging acceptance checklist before launch.
@@ -46,9 +52,9 @@ The original `s20-settings` parent and nine option-page slugs remain:
 | Social | Editable links, icons/custom images and header visibility |
 | Shortcodes | Plugin shortcode assignments and fallback behavior; no result data stored in the theme |
 
-Two additional pages:
+Additional theme management: **Appearance → Hindi content setup**, plus two ACF pages:
 
-- **Homepage**: edits the existing front-page post's ACF fields—hero, images, schedule, daily/monthly blocks, editorial cards, contacts, blog, FAQ and drag-to-reorder section list. **Page Sections** flexible content supports full content, image-left and image-right layouts. Add these to the homepage order list. The same fields remain available in the page editor. If no static front page is configured, Homepage uses options storage; configure Reading before editing for predictable storage.
+- **Homepage**: edits the existing front-page post's ACF fields—hero, images, schedule, daily/monthly blocks, editorial cards, contacts, blog, FAQ and drag-to-reorder section list. **Page Sections** flexible content supports full content, image-left, image-right and shortcode/result layouts. Add these to the homepage order list. The same fields remain available in the page editor. If no static front page is configured, Homepage uses options storage; configure Reading before editing for predictable storage.
 - **Theme Styles**: palette/light surfaces, body and heading font/size/line height, content width, gutters, section spacing, grid gap, header/footer/nav colors and spacing, card color/padding/radius/shadow, button colors/padding/radius, tables and mobile typography/gutters. Values are allowlisted/clamped on save and output. Changes apply after saving; no arbitrary CSS or JavaScript injection field is provided.
 
 **Style precedence:** Theme Styles → Table Source selects theme table styling or plugin table styling. Plugin card colors remain under Scheduled Results → Settings. The default fonts include a locally hosted Devanagari font; Google Fonts are off unless enabled in General. System/serif choices work without external requests. Recheck contrast after customization.
@@ -69,11 +75,11 @@ Full results managers (`manage_scheduled_results`) and administrators can publis
 
 ## Publication and time rules
 
-Publication requires **Published + Verified + source URL + original source name + explicit reviewer confirmation**, and records must belong to an active game and a non-future source date. Public tables and REST never reveal draft values or private notes/reviewer identity. Revisions require fresh review; stale forms are rejected. Concurrent writes are not a fully transactional locking system.
+Publication requires **Published + Verified + source URL + original source name + explicit reviewer confirmation**, and records must belong to an active game and a non-future source date. Public tables and REST never reveal draft values, source URLs, original-source names or private notes/reviewer identity. Revisions require fresh review; stale forms are rejected. Concurrent writes are not a fully transactional locking system.
 
 Numeric mode accepts digits and grouped numeric separators (`-`, space, `/`), preserving zeroes. Alphanumeric mode allows a limited letter/digit-led string; formulas and markup are rejected. Values are limited to 50 bytes. Date labels belong to the source's actual calendar date; overnight schedules do not silently move them to yesterday.
 
-The plugin seeds the **14 client schedules only into an empty games table**. No historical values are seeded. Disawar remains at 01:00; timezone-aware next/previous occurrences are independent of display order. Schedules are not promises that results will appear at a given time.
+The plugin seeds the **14 client schedules only into an empty games table**. No historical values are automatically seeded; the explicit Historical setup import creates drafts only. Disawar remains at 01:00; timezone-aware next/previous occurrences are independent of display order. Schedules are not promises that results will appear at a given time.
 
 ## CSV workflow
 

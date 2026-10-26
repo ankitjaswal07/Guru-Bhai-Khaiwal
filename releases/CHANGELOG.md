@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.2.0 — 27 October 2026
+
+- Restore supplied public Game/Time, combined Today–Yesterday and Date × Game monthly table structures/classes/styles. Fix prior-month filter initialization, independent filter parameters, duplicate control IDs and fixed-game URL widening. Keyboard-scroll regions and scoped headers added.
+- Distinct Hindi-first maroon/ivory homepage, locally hosted Hindi-first font stack; retained all 278 original ACF field/layout keys and original admin screens.
+- Explicit idempotent Hindi setup: 24 pages including 14 game charts, 3 articles and menus, preserving existing content/settings. Add shortcode flexible layout; extra sections now work on FAQ/Blog/Contact. Editable public language added.
+- Remove public table sources and public API provenance; retain private review/export data. Bundle byte-identical 523-row CSV behind a PHP guard. Import only on explicit admin action, always as drafts.
+- Signed per-user snapshot approvals, explicit review, 40-row cap, stale-selection rejection, nonce/POST/capability protection. No automatic publication or fabricated results.
+- New structure/content/security tests, real-form browser checks and refreshed installable ZIPs. Licensed ACF PRO UI and production-host acceptance remain required.
+
 ## 2.1.0 — 2026-10-27
 
 - Replaced the simplified native theme configuration with the supplied Satta20 ACF PRO groups/options, original field and flexible-layout identities, front-page editing and reference templates/assets, rebranded to Guru Bhai Khaiwal. Licensed PRO confirmed installed remotely; not redistributed or claimed tested locally.

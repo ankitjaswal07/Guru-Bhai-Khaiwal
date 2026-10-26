@@ -2,7 +2,7 @@
 /** Lightweight defaults. Defer head metadata to a recognized SEO plugin. */
 defined( 'ABSPATH' ) || exit;
 function gbk_filtered_request(): bool {
-    foreach ( array( 'gbk_game', 'gbk_date', 'gbk_month', 'gbk_page', 'srm_game_id', 'srm_month', 'srm_year' ) as $key ) { if ( isset( $_GET[ $key ] ) ) { return true; } }
+    foreach ( array( 'gbk_game', 'gbk_date', 'gbk_month', 'gbk_page', 'srm_game_id', 'srm_month', 'srm_year', 'srm_previous_month', 'srm_previous_year', 'srm_previous_game_id' ) as $key ) { if ( isset( $_GET[ $key ] ) ) { return true; } }
     return is_search();
 }
 add_filter( 'wp_robots', function ( $robots ) {

@@ -35,6 +35,7 @@ get_header();
 			<p class="s20-empty"><?php esc_html_e( 'Nothing found.', 'guru-bhai-khaiwal' ); ?></p>
 			<?php get_search_form(); ?>
 		<?php endif; ?>
+	<?php if(is_home()&&($blog_page=(int)get_option('page_for_posts')))s20_render_page_sections($blog_page); ?>
 	</div>
 </section>
 <?php

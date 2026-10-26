@@ -22,7 +22,7 @@ $args = wp_parse_args( isset( $args ) ? $args : array(), array( 'show_image' => 
 	<?php endif; ?>
 	<div class="s20-post-card-body">
 		<?php s20_post_meta( $args['show_date'], $args['show_category'] ); ?>
-		<h5 class="s20-post-card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
+		<h3 class="s20-post-card-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
 		<?php if ( $args['show_excerpt'] ) : ?><p class="s20-post-card-excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p><?php endif; ?>
 	</div>
 </article>

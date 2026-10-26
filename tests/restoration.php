@@ -19,7 +19,7 @@ restored_assert(!array_diff($original_groups,array_keys($GLOBALS['captured_group
 foreach(array('general','header','results','contact','payment','faq','footer','social','shortcodes','homepage','styles') as $page)restored_assert(isset($GLOBALS['captured_pages']['s20-'.$page]),'ACF page registration s20-'.$page);
 restored_assert($GLOBALS['captured_pages']['s20-homepage']['post_id']==get_option('page_on_front'),'Homepage options target existing front-page post ID');
 restored_assert(count(s20_style_schema())>=50,'comprehensive Theme Styles controls registered');
-restored_assert(s20_style_value('accent','red;}</style><script>bad</script>')==='#f5c62f','style color injection rejected');
+restored_assert(s20_style_value('accent','red;}</style><script>bad</script>')===s20_style_schema()['accent']['default'],'style color injection rejected');
 restored_assert(s20_style_value('container_width',99999)===1920,'style width clamped');
 restored_assert(s20_style_value('body_font','url(javascript:x)')==='system','font uses allowlist');
 update_option('options_style_accent','#123456');restored_assert(str_contains(s20_style_css(),'--gbk-style-accent:#123456'),'saved style value reaches frontend CSS');delete_option('options_style_accent');

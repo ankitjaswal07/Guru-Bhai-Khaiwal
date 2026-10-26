@@ -12,7 +12,7 @@ $block=wp_parse_args($block,array('page_field'=>'','option_field'=>'','heading_o
 $shortcode=s20_resolve_shortcode($block['page_field'],$block['option_field']);
 if(!$shortcode && str_contains($args['class'],'game-results')){
  $game=absint(get_post_meta($post_id,'_gbk_game_id',true));
- if($game)$shortcode='[srm_game_history game_id="'.$game.'"]';
+ if($game)$shortcode='[srm_monthly_results game_id="'.$game.'"]';
 }
 $output=s20_shortcode_output($shortcode);if(!$output)$output=s20_shortcode_fallback();
 $heading=0===$index&&$override?$override:($block['heading']?:($block['heading_option']?s20_get_option($block['heading_option'],get_the_title()):get_the_title()));

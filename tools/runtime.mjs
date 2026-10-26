@@ -43,7 +43,7 @@ update_option('blogname','Guru Bhai Khaiwal'); update_option('blogdescription','
 update_site_option('can_compress_scripts',0);update_option('date_format','j M Y'); update_option('time_format','g:i A');
 $r=activate_plugin('scheduled-results-manager/scheduled-results-manager.php'); if(is_wp_error($r)){throw new Exception($r->get_error_message());}
 switch_theme('guru-bhai-khaiwal');
-$home=wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>'Home','post_name'=>'home']);
+$home=wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>'होम','post_name'=>'home']);
 $archive=wp_insert_post(['post_type'=>'page','post_status'=>'publish','post_title'=>'Historical archives','post_name'=>'archives','post_content'=>'[gbk_archive]']);
 update_option('show_on_front','page');update_option('page_on_front',$home);set_theme_mod('gbk_archive_page',$archive);
 update_option('permalink_structure','/%postname%/');flush_rewrite_rules();
@@ -55,7 +55,13 @@ if(fs.existsSync('tests/integration.php')){
  const result=await run("<?php require '/wordpress/wp-load.php'; require '/gbk-tests/integration.php';");
  console.log(result.text); fs.writeFileSync(`.runtime/tests-php-${version}.txt`,result.text);
  const restored=await run("<?php require '/wordpress/wp-load.php'; require '/gbk-tests/restoration.php';");console.log(restored.text);
+ const structure=await run("<?php require '/wordpress/wp-load.php'; require '/gbk-tests/structure.php';");console.log(structure.text);
 }
+const starter=await run("<?php require '/wordpress/wp-load.php'; echo wp_json_encode(array_map('get_permalink',get_posts(['post_type'=>['page','post'],'post_status'=>'publish','numberposts'=>100,'fields'=>'ids'])));");
+for(const url of JSON.parse(starter.text)){const r=await handler.request({url});if(r.httpStatusCode!==200||r.errors||r.text.includes('critical error'))throw Error('Starter page failed '+url);console.log('PASS starter route '+new URL(url).pathname);}
+const blogIndex=await run("<?php require '/wordpress/wp-load.php'; $blog=get_page_by_path('blog');update_option('page_for_posts',$blog->ID);echo get_permalink($blog->ID);");
+const blogResponse=await handler.request({url:blogIndex.text});if(blogResponse.httpStatusCode!==200||!blogResponse.text.includes('s20-page-builder-section'))throw Error('Assigned posts page lost ACF sections');console.log('PASS assigned WordPress posts page renders ACF sections');
+await run("<?php require '/wordpress/wp-load.php';update_option('page_for_posts',0);");
 // Exercise the real WordPress template loader, not standalone PHP includes.
 const fixture=await run(`<?php require '/wordpress/wp-load.php'; wp_set_current_user(1);
 $ids=[];$urls=[];
@@ -73,6 +79,10 @@ await run(`<?php require '/wordpress/wp-load.php';require_once ABSPATH.'wp-admin
 if(php.fileExists('/wordpress/wp-content/debug.log')){const log=php.readFileAsText('/wordpress/wp-content/debug.log');fs.writeFileSync('.runtime/php-debug-'+version+'.log',log);if(log.trim())throw Error('Nonempty WordPress debug log: '+log);}
 console.log('PASS no PHP errors in template requests or WordPress debug log');
 if(!serve){process.exit(0);}
+if(process.argv.includes('--with-history')){
+ const drafts=await run("<?php require '/wordpress/wp-load.php';wp_set_current_user(1);$r=SRM_History_Setup::import_bundled();if($r['imported']!==523||SRM_Results::query()['total']!==0)throw new Exception('Preview draft import failed');echo 'Preview contains 523 genuine historical drafts; none published.';");console.log(drafts.text);
+}
+
 // Serialize requests to the single PHP runtime; use relative browser URLs via WP_HOME.
 let queue=Promise.resolve();
 http.createServer((req,res)=>{

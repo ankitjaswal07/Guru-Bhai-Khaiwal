@@ -50,6 +50,7 @@ while ( have_posts() ) :
 			</div>
 			<?php s20_page_notice(); ?>
 		</div>
+	<?php s20_render_page_sections(get_the_ID()); ?>
 	</article>
 	<?php
 endwhile;

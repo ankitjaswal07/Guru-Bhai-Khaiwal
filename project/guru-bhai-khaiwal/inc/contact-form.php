@@ -29,9 +29,9 @@ function s20_contact_form() {
 		<input type="hidden" name="s20_redirect" value="<?php echo esc_url( get_permalink() ); ?>" />
 		<?php wp_nonce_field( 's20_contact_form', 's20_contact_nonce' ); ?>
 		<p class="s20-form-hp"><label>Website<input type="text" name="s20_website" tabindex="-1" autocomplete="off" /></label></p>
-		<p><label class="screen-reader-text" for="s20-name"><?php esc_html_e( 'Name', 'guru-bhai-khaiwal' ); ?></label><input id="s20-name" type="text" name="s20_name" placeholder="<?php esc_attr_e( 'Name', 'guru-bhai-khaiwal' ); ?>" required /></p>
-		<p><label class="screen-reader-text" for="s20-email"><?php esc_html_e( 'Email', 'guru-bhai-khaiwal' ); ?></label><input id="s20-email" type="email" name="s20_email" placeholder="<?php esc_attr_e( 'Email', 'guru-bhai-khaiwal' ); ?>" required /></p>
-		<p><label class="screen-reader-text" for="s20-message"><?php esc_html_e( 'Message', 'guru-bhai-khaiwal' ); ?></label><textarea id="s20-message" name="s20_message" rows="5" placeholder="<?php esc_attr_e( 'Message', 'guru-bhai-khaiwal' ); ?>" required></textarea></p>
+		<p><label class="screen-reader-text" for="s20-name"><?php esc_html_e( 'आपका नाम', 'guru-bhai-khaiwal' ); ?></label><input id="s20-name" type="text" name="s20_name" placeholder="<?php esc_attr_e( 'आपका नाम', 'guru-bhai-khaiwal' ); ?>" required /></p>
+		<p><label class="screen-reader-text" for="s20-email"><?php esc_html_e( 'ईमेल', 'guru-bhai-khaiwal' ); ?></label><input id="s20-email" type="email" name="s20_email" placeholder="<?php esc_attr_e( 'ईमेल', 'guru-bhai-khaiwal' ); ?>" required /></p>
+		<p><label class="screen-reader-text" for="s20-message"><?php esc_html_e( 'आपका संदेश', 'guru-bhai-khaiwal' ); ?></label><textarea id="s20-message" name="s20_message" rows="5" placeholder="<?php esc_attr_e( 'आपका संदेश', 'guru-bhai-khaiwal' ); ?>" required></textarea></p>
 		<p><button type="submit" class="s20-btn s20-btn--block"><?php echo esc_html( s20_get_option( 'contact_form_button_text', 'Send' ) ); ?></button></p>
 	</form>
 	<?php
